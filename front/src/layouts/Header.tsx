@@ -5,9 +5,9 @@ import SFiveIMG from "../assets/images/sfive_icone.png"
 
 const navigation = [
   { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
+  { name: "Réservations", href: "#", current: false },
+  { name: "Terrains", href: "#", current: false },
+  { name: "Clients", href: "#", current: false },
 ]
 
 function classNames(...classes: string[]) {
