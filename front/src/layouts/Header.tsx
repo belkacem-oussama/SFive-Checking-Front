@@ -5,10 +5,10 @@ import SFiveIMG from "../assets/images/sfive_icone.png"
 import { Link } from "react-router-dom"
 
 const navigation = [
-  { name: "Dashboard", href: "/", current: true },
-  { name: "Réservations", href: "/booking", current: false },
-  { name: "Terrains", href: "/fields", current: false },
-  { name: "Clients", href: "/customers", current: false },
+  { id: 1, name: "Dashboard", href: "/", current: true },
+  { id: 2, name: "Réservations", href: "/booking", current: false },
+  { id: 3, name: "Terrains", href: "/fields", current: false },
+  { id: 4, name: "Clients", href: "/customers", current: false },
 ]
 
 function classNames(...classes: string[]) {
@@ -155,7 +155,7 @@ export default function Header() {
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
               {navigation.map((item) => (
-                <Link to={item.href}>
+                <Link to={item.href} key={item.id}>
                   <Disclosure.Button
                     key={item.name}
                     as="a"
