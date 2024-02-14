@@ -1,6 +1,6 @@
 import { PaperClipIcon } from "@heroicons/react/20/solid"
 
-export default function BookingDetails() {
+export default function ItemsDetails() {
   return (
     <div>
       <div className="px-4 sm:px-2 py-2 ">
