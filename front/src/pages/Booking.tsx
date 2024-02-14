@@ -62,7 +62,7 @@ export default function Booking() {
         <Link to="/booking/:id">
           <li
             key={person.email}
-            className="flex justify-between gap-x-6 px-4 py-5 border-solid border-b-2 "
+            className="flex justify-between gap-x-6 px-4 py-5 border-solid border-b-2 hover:bg-gray-100 "
           >
             <div className="flex min-w-0 gap-x-4">
               <img
