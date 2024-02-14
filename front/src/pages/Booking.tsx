@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 
 const people = [
   {
+    ref: "#580911",
     name: "Leslie Alexander",
     tel: "0606060606",
     date: "Mercredi 14 Février 2024",
@@ -10,6 +11,7 @@ const people = [
     price: "70€",
   },
   {
+    ref: "#580911",
     name: "Leslie Alexander",
     tel: "0606060606",
     date: "Mercredi 14 Février 2024",
@@ -18,6 +20,7 @@ const people = [
     price: "70€",
   },
   {
+    ref: "#580911",
     name: "Leslie Alexander",
     tel: "0606060606",
     date: "Mercredi 14 Février 2024",
@@ -26,6 +29,7 @@ const people = [
     price: "70€",
   },
   {
+    ref: "#580911",
     name: "Leslie Alexander",
     tel: "0606060606",
     date: "Mercredi 14 Février 2024",
@@ -34,6 +38,7 @@ const people = [
     price: "70€",
   },
   {
+    ref: "#580911",
     name: "Leslie Alexander",
     tel: "0606060606",
     date: "Mercredi 14 Février 2024",
@@ -42,6 +47,7 @@ const people = [
     price: "70€",
   },
   {
+    ref: "#580911",
     name: "Leslie Alexander",
     tel: "0606060606",
     date: "Mercredi 14 Février 2024",
@@ -63,7 +69,7 @@ export default function Booking() {
             <div className="flex flex-col sm:flex-row gap-x-4 items-start sm:items-center w-full">
               <div className="min-w-0 flex-auto">
                 <p className="text-sm font-semibold leading-6 text-gray-800">
-                  {person.name}
+                  {person.ref} - {person.name}
                 </p>
                 <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                   <span className="font-bold">Tél : </span>
@@ -96,6 +102,9 @@ export default function Booking() {
                 )}
               </div>
             </div>
+            <button className="bg-gray-800 w-24 h-10 ml-auto hover:bg-gray-900 text-white font-semibold py-2 px-4 mt-auto rounded-md sm:w-auto">
+              Annuler
+            </button>
           </li>
         </Link>
       ))}
