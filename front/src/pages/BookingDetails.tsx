@@ -3,7 +3,7 @@ import { PaperClipIcon } from "@heroicons/react/20/solid"
 export default function BookingDetails() {
   return (
     <div>
-      <div className="px-4 sm:px-0">
+      <div className="px-4 sm:px-2 py-2 ">
         <h3 className="text-base font-semibold leading-7 text-gray-900">
           Applicant Information
         </h3>
@@ -13,8 +13,8 @@ export default function BookingDetails() {
       </div>
       <div className="mt-6 border-t border-gray-100">
         <dl className="divide-y divide-gray-100">
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 ">
+            <dt className="text-sm font-medium leading-6 text-gray-900 sm:px-2">
               Full name
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -22,7 +22,7 @@ export default function BookingDetails() {
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
+            <dt className="text-sm font-medium leading-6 text-gray-900 sm:px-2">
               Application for
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -30,7 +30,7 @@ export default function BookingDetails() {
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
+            <dt className="text-sm font-medium leading-6 text-gray-900 sm:px-2">
               Email address
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -38,7 +38,7 @@ export default function BookingDetails() {
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
+            <dt className="text-sm font-medium leading-6 text-gray-900 sm:px-2">
               Salary expectation
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -46,7 +46,7 @@ export default function BookingDetails() {
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
+            <dt className="text-sm font-medium leading-6 text-gray-900 sm:px-2">
               About
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -57,8 +57,8 @@ export default function BookingDetails() {
               reprehenderit deserunt qui eu.
             </dd>
           </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
+          <div className=" px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:mr-4">
+            <dt className="text-sm font-medium leading-6 text-gray-900 sm:px-2">
               Attachments
             </dt>
             <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">

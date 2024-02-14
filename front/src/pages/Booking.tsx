@@ -60,7 +60,10 @@ export default function Booking() {
     <ul role="list" className="divide-y divide-gray-100">
       {people.map((person) => (
         <Link to="/booking/:id">
-          <li key={person.email} className="flex justify-between gap-x-6 py-5">
+          <li
+            key={person.email}
+            className="flex justify-between gap-x-6 px-4 py-5 border-solid border-b-2 "
+          >
             <div className="flex min-w-0 gap-x-4">
               <img
                 className="h-12 w-12 flex-none rounded-full bg-gray-50"
