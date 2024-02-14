@@ -3,99 +3,98 @@ import { Link } from "react-router-dom"
 const people = [
   {
     name: "Leslie Alexander",
-    email: "leslie.alexander@example.com",
-    role: "Co-Founder / CEO",
-    imageUrl:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: "3h ago",
-    lastSeenDateTime: "2023-01-23T13:23Z",
+    tel: "0606060606",
+    date: "Mercredi 14 Février 2024",
+    time: "18h - 20h",
+    field: "Terrain 2",
+    price: "70€",
   },
   {
-    name: "Michael Foster",
-    email: "michael.foster@example.com",
-    role: "Co-Founder / CTO",
-    imageUrl:
-      "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: "3h ago",
-    lastSeenDateTime: "2023-01-23T13:23Z",
+    name: "Leslie Alexander",
+    tel: "0606060606",
+    date: "Mercredi 14 Février 2024",
+    time: "18h - 20h",
+    field: "Terrain 2",
+    price: "70€",
   },
   {
-    name: "Dries Vincent",
-    email: "dries.vincent@example.com",
-    role: "Business Relations",
-    imageUrl:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: null,
+    name: "Leslie Alexander",
+    tel: "0606060606",
+    date: "Mercredi 14 Février 2024",
+    time: "18h - 20h",
+    field: "Terrain 2",
+    price: "70€",
   },
   {
-    name: "Lindsay Walton",
-    email: "lindsay.walton@example.com",
-    role: "Front-end Developer",
-    imageUrl:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: "3h ago",
-    lastSeenDateTime: "2023-01-23T13:23Z",
+    name: "Leslie Alexander",
+    tel: "0606060606",
+    date: "Mercredi 14 Février 2024",
+    time: "18h - 20h",
+    field: "Terrain 2",
+    price: "70€",
   },
   {
-    name: "Courtney Henry",
-    email: "courtney.henry@example.com",
-    role: "Designer",
-    imageUrl:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: "3h ago",
-    lastSeenDateTime: "2023-01-23T13:23Z",
+    name: "Leslie Alexander",
+    tel: "0606060606",
+    date: "Mercredi 14 Février 2024",
+    time: "18h - 20h",
+    field: "Terrain 2",
+    price: "70€",
   },
   {
-    name: "Tom Cook",
-    email: "tom.cook@example.com",
-    role: "Director of Product",
-    imageUrl:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: null,
+    name: "Leslie Alexander",
+    tel: "0606060606",
+    date: "Mercredi 14 Février 2024",
+    time: "18h - 20h",
+    field: "Terrain 2",
+    price: "70€",
   },
 ]
 
 export default function Booking() {
   return (
     <ul role="list" className="divide-y divide-gray-100">
-      {people.map((person) => (
-        <Link to="/booking/:id">
+      {people.map((person, index) => (
+        <Link key={index} to={`/booking/${index}`}>
           <li
-            key={person.email}
-            className="flex justify-between gap-x-6 px-4 py-5 border-solid border-b-2 hover:bg-gray-100 "
+            key={person.tel}
+            className="flex flex-col sm:flex-row justify-between gap-x-6 px-4 py-5 border-solid border-b-2 hover:bg-gray-100"
           >
-            <div className="flex min-w-0 gap-x-4">
-              <img
-                className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                src={person.imageUrl}
-                alt=""
-              />
+            <div className="flex flex-col sm:flex-row gap-x-4 items-start sm:items-center w-full">
               <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-900">
+                <p className="text-sm font-semibold leading-6 text-gray-800">
                   {person.name}
                 </p>
                 <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                  {person.email}
+                  <span className="font-bold">Tél : </span>
+                  {person.tel}
                 </p>
+                <br />
+                {person.date && (
+                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <span className="font-bold">Date : </span>
+                    {person.date}
+                  </p>
+                )}
+                {person.time && (
+                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <span className="font-bold">Créneau : </span>
+                    {person.time}
+                  </p>
+                )}
+                {person.field && (
+                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <span className="font-bold">Terrain : </span>
+                    {person.field}
+                  </p>
+                )}
+                {person.price && (
+                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <span className="font-bold">Prix : </span>
+                    {person.price}
+                  </p>
+                )}
               </div>
-            </div>
-            <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-              <p className="text-sm leading-6 text-gray-900">{person.role}</p>
-              {person.lastSeen ? (
-                <p className="mt-1 text-xs leading-5 text-gray-500">
-                  Last seen{" "}
-                  <time dateTime={person.lastSeenDateTime}>
-                    {person.lastSeen}
-                  </time>
-                </p>
-              ) : (
-                <div className="mt-1 flex items-center gap-x-1.5">
-                  <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  </div>
-                  <p className="text-xs leading-5 text-gray-500">Online</p>
-                </div>
-              )}
             </div>
           </li>
         </Link>
