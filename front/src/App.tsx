@@ -14,8 +14,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/booking" element={<Booking />} />
-        <Route path="/booking/:id" element={<ItemsDetails />} />
         <Route path="/customers" element={<Customers />} />
+        <Route path="/customers/:id" element={<ItemsDetails />} />
       </Routes>
     </React.Fragment>
   )
