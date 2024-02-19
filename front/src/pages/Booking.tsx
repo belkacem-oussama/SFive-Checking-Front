@@ -1,3 +1,5 @@
+import Button from "../components/Button.tsx"
+
 const people = [
   {
     ref: "#580911",
@@ -99,9 +101,7 @@ export default function Booking() {
               )}
             </div>
           </div>
-          <button className="bg-gray-800 w-24 h-10 ml-auto hover:bg-gray-900 text-white font-semibold py-2 px-4 mt-auto rounded-md sm:w-auto">
-            Annuler
-          </button>
+          <Button text={"Annuler"} />
         </li>
       ))}
     </ul>
