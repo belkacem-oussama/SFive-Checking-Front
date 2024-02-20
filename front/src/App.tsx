@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom"
 import Booking from "./pages/Booking.tsx"
 import ItemsDetails from "./pages/ItemsDetails.tsx"
 import Customers from "./pages/Customers.tsx"
+import Profile from "./pages/Profile.tsx"
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="/customers" element={<Customers />} />
         <Route path="/customers/:id" element={<ItemsDetails />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </React.Fragment>
   )
