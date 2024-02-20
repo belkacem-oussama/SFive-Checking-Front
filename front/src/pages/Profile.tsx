@@ -1,3 +1,5 @@
+import Forms from "../components/Form.tsx"
+
 const users = [
   {
     id: 1,
@@ -6,6 +8,13 @@ const users = [
     mail: "samir@gmail.com",
     datetime: "27 Octobre 2023",
     role: "Admin",
+    centre: "SFive",
+    centre_adress: "7 Avenue des Frères Peraux",
+    centre_city: "Nogent-Sur-Oise",
+    centre_zip_code: "60180",
+    centre_email: "sfive@gmail.com",
+    centre_tel: "0344093303",
+    centre_created: "20 Septembre 2019",
   },
 ]
 
@@ -21,7 +30,7 @@ export default function Profile() {
             Informations détaillées.
           </p>
         </div>
-        <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-y border-gray-200 p-2 sm:mt-16 sm:p-4 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+        <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-y border-gray-200 pt-4 pb-4 sm:mt-16 sm:pt-4 sm:pb-4 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {users.map((user) => (
             <article
               key={user.id}
@@ -33,7 +42,7 @@ export default function Profile() {
                 </span>
               </div>
               <div className="group relative">
-                <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                <h3 className="mt-3 text-base font-semibold leading-7 text-gray-900">
                   <span className="absolute inset-0" />
                   {user.name}
                 </h3>
@@ -53,6 +62,7 @@ export default function Profile() {
             </article>
           ))}
         </div>
+        <Forms />
       </div>
     </div>
   )
