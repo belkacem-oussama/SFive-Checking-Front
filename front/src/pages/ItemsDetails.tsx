@@ -1,4 +1,5 @@
 import { PaperClipIcon } from "@heroicons/react/20/solid"
+import { useParams } from "react-router-dom"
 
 const booking = [
   {
@@ -14,11 +15,14 @@ const booking = [
 ]
 
 export default function ItemsDetails() {
+  const params = useParams()
+  console.log(params)
+
   return (
     <div>
       <div className="px-4 sm:px-2 py-2 ">
         <h3 className="text-base font-semibold leading-7 text-gray-800">
-          Client #{booking[0].id}
+          Client #{params.id}
         </h3>
         <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
           Informations détaillées.
