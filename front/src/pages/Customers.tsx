@@ -1,5 +1,6 @@
 import { Avatar } from "@mui/material"
 import { Link } from "react-router-dom"
+import SearchBar from "../components/Search.tsx"
 
 const people = [
   {
@@ -70,38 +71,41 @@ function stringAvatar(name: string) {
 
 export default function Customers() {
   return (
-    <ul role="list" className="divide-y divide-gray-100">
-      {people.map((person) => (
-        <Link key={person.id} to={`/customers/${person.id}`}>
-          <li
-            key={person.email}
-            className="flex justify-between gap-x-6 py-2 hover:bg-gray-100 "
-          >
-            <div className="flex min-w-0 gap-x-4 p-2">
-              <Avatar
-                {...stringAvatar(`${person.firstname} ${person.surname}`)}
-                variant="rounded"
-              />
-              <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-900">
-                  {person.firstname} {person.surname}
-                </p>
-                <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                  <span className="font-bold">Mail : </span>
-                  {person.email}
-                </p>
-                <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                  <span className="font-bold">Tél : </span>
-                  {person.phone}
-                </p>
-                <p className="mt-1 truncate text-xs leading-5 text-gray-500 mb-2">
-                  Dernière réservation le {person.lastSeen}
-                </p>
+    <>
+      <SearchBar />
+      <ul role="list" className="divide-y divide-gray-100">
+        {people.map((person) => (
+          <Link key={person.id} to={`/customers/${person.id}`}>
+            <li
+              key={person.email}
+              className="flex justify-between gap-x-6 py-2 hover:bg-gray-100 "
+            >
+              <div className="flex min-w-0 gap-x-4 p-2">
+                <Avatar
+                  {...stringAvatar(`${person.firstname} ${person.surname}`)}
+                  variant="rounded"
+                />
+                <div className="min-w-0 flex-auto">
+                  <p className="text-sm font-semibold leading-6 text-gray-900">
+                    {person.firstname} {person.surname}
+                  </p>
+                  <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                    <span className="font-bold">Mail : </span>
+                    {person.email}
+                  </p>
+                  <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                    <span className="font-bold">Tél : </span>
+                    {person.phone}
+                  </p>
+                  <p className="mt-1 truncate text-xs leading-5 text-gray-500 mb-2">
+                    Dernière réservation le {person.lastSeen}
+                  </p>
+                </div>
               </div>
-            </div>
-          </li>
-        </Link>
-      ))}
-    </ul>
+            </li>
+          </Link>
+        ))}
+      </ul>
+    </>
   )
 }
