@@ -1,13 +1,13 @@
 import React from "react"
 import "./assets/styles/index.css"
-import Home from "./pages/Home.tsx"
-import Header from "./layouts/Header.tsx"
+import Home from "./pages/Home.jsx"
+import Header from "./layouts/Header.jsx"
 import { Route, Routes } from "react-router-dom"
-import Booking from "./pages/Booking.tsx"
-import ItemsDetails from "./pages/ItemsDetails.tsx"
-import Customers from "./pages/Customers.tsx"
-import Profile from "./pages/Profile.tsx"
-import BookingForm from "./pages/BookingForm.tsx"
+import Booking from "./pages/Booking.jsx"
+import ItemsDetails from "./pages/ItemsDetails.jsx"
+import Customers from "./pages/Customers.jsx"
+import Profile from "./pages/Profile.jsx"
+import BookingForm from "./pages/BookingForm.jsx"
 
 export default function App() {
   return (

@@ -2,15 +2,11 @@ import { Fragment, useState } from "react"
 import { Listbox, Transition } from "@headlessui/react"
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
 
-interface SelectInterface {
-  data: { id: number; name: string }[]
-}
-
-function classNames(...classes: string[]) {
+function classNames(...classes) {
   return classes.filter(Boolean).join(" ")
 }
 
-export default function Select({ data }: SelectInterface) {
+export default function Select({ data }) {
   const [selected, setSelected] = useState(data[0])
 
   return (

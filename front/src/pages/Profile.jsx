@@ -1,4 +1,4 @@
-import Forms from "../components/Form.tsx"
+import Forms from "../components/Form.jsx"
 
 const users = [
   {

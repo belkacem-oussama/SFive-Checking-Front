@@ -1,6 +1,6 @@
 import { Avatar } from "@mui/material"
 import { Link } from "react-router-dom"
-import SearchBar from "../components/Search.tsx"
+import SearchBar from "../components/Search.jsx"
 
 const people = [
   {
@@ -29,8 +29,8 @@ const people = [
   },
 ]
 
-function stringToColor(string: string) {
-  let hash: number = 0
+function stringToColor(string) {
+  let hash = 0
   let i
 
   for (i = 0; i < string.length; i += 1) {
@@ -39,7 +39,7 @@ function stringToColor(string: string) {
 
   let color = "#"
 
-  const palette: string[] = [
+  const palette = [
     "#1F2937", // Bleu foncé
     "#BEE427", // Jaune-vert lumineux
     "#FFFFFF", // Blanc
@@ -60,7 +60,7 @@ function stringToColor(string: string) {
   return color
 }
 
-function stringAvatar(name: string) {
+function stringAvatar(name) {
   return {
     sx: {
       bgcolor: stringToColor(name),

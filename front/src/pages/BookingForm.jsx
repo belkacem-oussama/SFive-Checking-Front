@@ -1,6 +1,6 @@
-import SearchInput from "../components/SearchInput.tsx"
-import Select from "../components/Select.tsx"
-import SmallCalendar from "../components/SmallCalendar.tsx"
+import SearchInput from "../components/SearchInput.jsx"
+import Select from "../components/Select.jsx"
+import SmallCalendar from "../components/SmallCalendar.jsx"
 
 export default function BookingForm() {
   const bookingType = [
