@@ -7,6 +7,7 @@ import Booking from "./pages/Booking.tsx"
 import ItemsDetails from "./pages/ItemsDetails.tsx"
 import Customers from "./pages/Customers.tsx"
 import Profile from "./pages/Profile.tsx"
+import BookingForm from "./pages/BookingForm.tsx"
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/customers" element={<Customers />} />
         <Route path="/customers/:id" element={<ItemsDetails />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/book" element={<BookingForm />} />
       </Routes>
     </React.Fragment>
   )
