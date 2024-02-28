@@ -1,4 +1,4 @@
-import Button from "../components/Button.tsx"
+import Button from "../components/Button.jsx"
 
 const people = [
   {
