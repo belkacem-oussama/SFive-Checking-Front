@@ -1,7 +1,7 @@
 import { Avatar } from "@mui/material"
 import { Link } from "react-router-dom"
 import SearchBar from "../components/Search.jsx"
-import NativeSelectComponent from "../components/NativeSelect.jsx"
+import PaginationComponent from "../components/Pagination.jsx"
 
 const people = [
   {
@@ -24,6 +24,62 @@ const people = [
     id: 3,
     firstname: "Oussama",
     surname: "Belkacem",
+    email: "oussama.belkacem@example.com",
+    phone: "0602060606",
+    lastSeen: "13 Octobre 1997",
+  },
+  {
+    id: 4,
+    firstname: "Ouss",
+    surname: "Belem",
+    email: "oussama.belkacem@example.com",
+    phone: "0602060606",
+    lastSeen: "13 Octobre 1997",
+  },
+  {
+    id: 5,
+    firstname: "Oss",
+    surname: "Blem",
+    email: "oussama.belkacem@example.com",
+    phone: "0602060606",
+    lastSeen: "13 Octobre 1997",
+  },
+  {
+    id: 5,
+    firstname: "Oss",
+    surname: "Blem",
+    email: "oussama.belkacem@example.com",
+    phone: "0602060606",
+    lastSeen: "13 Octobre 1997",
+  },
+  {
+    id: 5,
+    firstname: "Oss",
+    surname: "Blem",
+    email: "oussama.belkacem@example.com",
+    phone: "0602060606",
+    lastSeen: "13 Octobre 1997",
+  },
+  {
+    id: 5,
+    firstname: "Oss",
+    surname: "Blem",
+    email: "oussama.belkacem@example.com",
+    phone: "0602060606",
+    lastSeen: "13 Octobre 1997",
+  },
+  {
+    id: 5,
+    firstname: "Oss",
+    surname: "Blem",
+    email: "oussama.belkacem@example.com",
+    phone: "0602060606",
+    lastSeen: "13 Octobre 1997",
+  },
+  {
+    id: 5,
+    firstname: "Oss",
+    surname: "Blem",
     email: "oussama.belkacem@example.com",
     phone: "0602060606",
     lastSeen: "13 Octobre 1997",
@@ -73,12 +129,7 @@ function stringAvatar(name) {
 export default function Customers() {
   return (
     <>
-      <div className="flex justify-between items-center">
-        <span className="ml-2">
-          <NativeSelectComponent />
-        </span>
-        <SearchBar />
-      </div>
+      <SearchBar />
       <ul
         role="list"
         className="md:grid md:grid-rows-6 divide-y divide-gray-100"
@@ -113,6 +164,7 @@ export default function Customers() {
           </Link>
         ))}
       </ul>
+      <PaginationComponent />
     </>
   )
 }
