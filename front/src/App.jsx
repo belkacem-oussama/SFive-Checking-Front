@@ -8,6 +8,7 @@ import ItemsDetails from "./pages/ItemsDetails.jsx"
 import Customers from "./pages/Customers.jsx"
 import Profile from "./pages/Profile.jsx"
 import BookingForm from "./pages/BookingForm.jsx"
+import Fields from "./pages/Fields.jsx"
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/customers/:id" element={<ItemsDetails />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/book" element={<BookingForm />} />
+        <Route path="/fields" element={<Fields />} />
       </Routes>
     </React.Fragment>
   )
