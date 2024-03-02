@@ -1,6 +1,7 @@
 import { Avatar } from "@mui/material"
 import { Link } from "react-router-dom"
 import SearchBar from "../components/Search.jsx"
+import NativeSelectComponent from "../components/NativeSelect.jsx"
 
 const people = [
   {
@@ -72,7 +73,12 @@ function stringAvatar(name) {
 export default function Customers() {
   return (
     <>
-      <SearchBar />
+      <div className="flex justify-between items-center">
+        <span className="ml-2">
+          <NativeSelectComponent />
+        </span>
+        <SearchBar />
+      </div>
       <ul
         role="list"
         className="md:grid md:grid-rows-6 divide-y divide-gray-100"
