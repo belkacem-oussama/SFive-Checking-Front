@@ -1,6 +1,7 @@
 import { Avatar } from "@mui/material"
 import { Link } from "react-router-dom"
 import SearchBar from "../components/Search.jsx"
+import PaginationComponent from "../components/Pagination.jsx"
 
 const people = [
   {
@@ -23,6 +24,62 @@ const people = [
     id: 3,
     firstname: "Oussama",
     surname: "Belkacem",
+    email: "oussama.belkacem@example.com",
+    phone: "0602060606",
+    lastSeen: "13 Octobre 1997",
+  },
+  {
+    id: 4,
+    firstname: "Ouss",
+    surname: "Belem",
+    email: "oussama.belkacem@example.com",
+    phone: "0602060606",
+    lastSeen: "13 Octobre 1997",
+  },
+  {
+    id: 5,
+    firstname: "Oss",
+    surname: "Blem",
+    email: "oussama.belkacem@example.com",
+    phone: "0602060606",
+    lastSeen: "13 Octobre 1997",
+  },
+  {
+    id: 5,
+    firstname: "Oss",
+    surname: "Blem",
+    email: "oussama.belkacem@example.com",
+    phone: "0602060606",
+    lastSeen: "13 Octobre 1997",
+  },
+  {
+    id: 5,
+    firstname: "Oss",
+    surname: "Blem",
+    email: "oussama.belkacem@example.com",
+    phone: "0602060606",
+    lastSeen: "13 Octobre 1997",
+  },
+  {
+    id: 5,
+    firstname: "Oss",
+    surname: "Blem",
+    email: "oussama.belkacem@example.com",
+    phone: "0602060606",
+    lastSeen: "13 Octobre 1997",
+  },
+  {
+    id: 5,
+    firstname: "Oss",
+    surname: "Blem",
+    email: "oussama.belkacem@example.com",
+    phone: "0602060606",
+    lastSeen: "13 Octobre 1997",
+  },
+  {
+    id: 5,
+    firstname: "Oss",
+    surname: "Blem",
     email: "oussama.belkacem@example.com",
     phone: "0602060606",
     lastSeen: "13 Octobre 1997",
@@ -73,31 +130,32 @@ export default function Customers() {
   return (
     <>
       <SearchBar />
-      <ul role="list" className="divide-y divide-gray-100">
+      <ul
+        role="list"
+        className="md:grid md:grid-rows-6 divide-y divide-gray-100"
+      >
         {people.map((person) => (
           <Link key={person.id} to={`/customers/${person.id}`}>
             <li
               key={person.email}
-              className="flex justify-between gap-x-6 py-2 hover:bg-gray-100 "
+              className="flex flex-col md:flex-row py-2 hover:bg-gray-100"
             >
-              <div className="flex min-w-0 gap-x-4 p-2">
+              <div className="flex items-center gap-x-6 p-2 flex-grow">
                 <Avatar
                   {...stringAvatar(`${person.firstname} ${person.surname}`)}
                   variant="rounded"
                 />
-                <div className="min-w-0 flex-auto">
-                  <p className="text-sm font-semibold leading-6 text-gray-900">
+                <div className="grid grid-cols-1 md:grid-cols-4 md:gap-x-4 w-full">
+                  <p className="text-sm truncate font-semibold leading-6 text-gray-900 col-span-1">
                     {person.firstname} {person.surname}
                   </p>
-                  <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                    <span className="font-bold">Mail : </span>
+                  <p className="mt-1 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
                     {person.email}
                   </p>
-                  <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                    <span className="font-bold">Tél : </span>
+                  <p className="mt-1 md:ml-4 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
                     {person.phone}
                   </p>
-                  <p className="mt-1 truncate text-xs leading-5 text-gray-500 mb-2">
+                  <p className="mt-1 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
                     Dernière réservation le {person.lastSeen}
                   </p>
                 </div>
@@ -106,6 +164,7 @@ export default function Customers() {
           </Link>
         ))}
       </ul>
+      <PaginationComponent />
     </>
   )
 }
