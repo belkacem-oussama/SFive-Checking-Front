@@ -7,7 +7,6 @@ import { Link } from "react-router-dom"
 const navigation = [
   { id: 1, name: "Dashboard", href: "/", current: true },
   { id: 2, name: "Réservations", href: "/booking", current: false },
-  { id: 3, name: "Terrains", href: "/fields", current: false },
   { id: 4, name: "Clients", href: "/customers", current: false },
 ]
 
