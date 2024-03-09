@@ -2,19 +2,31 @@ import { Fragment } from "react"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 import SFiveIMG from "../assets/images/sfive_icone.png"
-import { Link } from "react-router-dom"
-
-const navigation = [
-  { id: 1, name: "Dashboard", href: "/", current: true },
-  { id: 2, name: "Réservations", href: "/booking", current: false },
-  { id: 4, name: "Clients", href: "/customers", current: false },
-]
+import { Link, useLocation } from "react-router-dom"
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ")
 }
 
 export default function Header() {
+  const location = useLocation()
+
+  const navigation = [
+    { id: 1, name: "Dashboard", href: "/", current: location.pathname === "/" },
+    {
+      id: 2,
+      name: "Réservations",
+      href: "/booking",
+      current: location.pathname === "/booking",
+    },
+    {
+      id: 4,
+      name: "Clients",
+      href: "/customers",
+      current: location.pathname === "/customers",
+    },
+  ]
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
