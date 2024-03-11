@@ -1,102 +1,46 @@
 import Button from "../components/Button.jsx"
-
-const people = [
-  {
-    ref: "#580911",
-    name: "Leslie Alexander",
-    tel: "0606060606",
-    date: "Mercredi 14 Février 2024",
-    time: "18h - 20h",
-    field: "Terrain 2",
-    price: "70€",
-  },
-  {
-    ref: "#580911",
-    name: "Leslie Alexander",
-    tel: "0606060606",
-    date: "Mercredi 14 Février 2024",
-    time: "18h - 20h",
-    field: "Terrain 2",
-    price: "70€",
-  },
-  {
-    ref: "#580911",
-    name: "Leslie Alexander",
-    tel: "0606060606",
-    date: "Mercredi 14 Février 2024",
-    time: "18h - 20h",
-    field: "Terrain 2",
-    price: "70€",
-  },
-  {
-    ref: "#580911",
-    name: "Leslie Alexander",
-    tel: "0606060606",
-    date: "Mercredi 14 Février 2024",
-    time: "18h - 20h",
-    field: "Terrain 2",
-    price: "70€",
-  },
-  {
-    ref: "#580911",
-    name: "Leslie Alexander",
-    tel: "0606060606",
-    date: "Mercredi 14 Février 2024",
-    time: "18h - 20h",
-    field: "Terrain 2",
-    price: "70€",
-  },
-  {
-    ref: "#580911",
-    name: "Leslie Alexander",
-    tel: "0606060606",
-    date: "Mercredi 14 Février 2024",
-    time: "18h - 20h",
-    field: "Terrain 2",
-    price: "70€",
-  },
-]
+import booking from "../assets/json/booking.json"
 
 export default function Booking() {
   return (
     <ul role="list" className="divide-y divide-gray-100">
-      {people.map((person) => (
+      {booking.map((book) => (
         <li
-          key={person.tel}
+          key={book.phone}
           className="flex flex-col sm:flex-row justify-between gap-x-6 px-4 py-5 border-solid border-b-2 hover:bg-gray-100"
         >
           <div className="flex flex-col sm:flex-row gap-x-4 items-start sm:items-center w-full">
             <div className="min-w-0 flex-auto">
               <p className="text-sm font-semibold leading-6 text-gray-800">
-                {person.ref} - {person.name}
+                #{book.id} - {book.firstname} {book.lastname}
               </p>
               <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                 <span className="font-bold">Tél : </span>
-                {person.tel}
+                {book.phone}
               </p>
               <br />
-              {person.date && (
+              {book.date && (
                 <p className="mt-1 text-xs leading-5 text-gray-500">
                   <span className="font-bold">Date : </span>
-                  {person.date}
+                  {book.date}
                 </p>
               )}
-              {person.time && (
+              {book.startedTime && book.endedTime && (
                 <p className="mt-1 text-xs leading-5 text-gray-500">
                   <span className="font-bold">Créneau : </span>
-                  {person.time}
+                  {book.startedTime}h - {book.endedTime}h
                 </p>
               )}
-              {person.field && (
+              {book.field && (
                 <p className="mt-1 text-xs leading-5 text-gray-500">
                   <span className="font-bold">Terrain : </span>
-                  {person.field}
+                  {book.field}
                 </p>
               )}
-              {person.price && (
+              {book.price && (
                 <p className="mt-1 text-xs leading-5 text-gray-500">
                   <span className="font-bold">Prix : </span>
-                  {person.price}
+                  {book.price} €
                 </p>
               )}
             </div>
