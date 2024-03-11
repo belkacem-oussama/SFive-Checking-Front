@@ -1,6 +1,7 @@
 import SearchInput from "../components/SearchInput.jsx"
 import Select from "../components/Select.jsx"
 import SmallCalendar from "../components/SmallCalendar.jsx"
+import customers from "../assets/json/customers.json"
 
 export default function BookingForm() {
   const bookingType = [
@@ -50,28 +51,6 @@ export default function BookingForm() {
     { available: 1, start: "01h30", end: "02h" },
     { available: 0, start: "02h00", end: "02h30" },
     { available: 0, start: "02h30", end: "03h00" },
-  ]
-
-  const clientArray = [
-    { id: 1, name: "Dupont", surname: "Jean", mail: "jean.dupont@example.com" },
-    {
-      id: 2,
-      name: "Durand",
-      surname: "Marie",
-      mail: "marie.durand@example.com",
-    },
-    {
-      id: 3,
-      name: "Martin",
-      surname: "Pierre",
-      mail: "pierre.martin@example.com",
-    },
-    {
-      id: 4,
-      name: "Ali",
-      surname: "Bou",
-      mail: "ali.bou@gmail.com",
-    },
   ]
 
   return (
@@ -136,7 +115,7 @@ export default function BookingForm() {
 
         <h1 className="ml-2 font-semibold mt-4">Organisateur</h1>
         <span className="p-2">
-          <SearchInput data={clientArray} />
+          <SearchInput data={customers} />
         </span>
         <div className="mt-4">
           <h1 className="ml-2 font-semibold">Notes</h1>

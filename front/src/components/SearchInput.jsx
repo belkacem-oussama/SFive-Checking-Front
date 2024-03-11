@@ -48,7 +48,7 @@ export default function SearchInput({ data }) {
                 >
                   <div className="grid grid-cols-2">
                     <span className="overflow-hidden whitespace-nowrap overflow-ellipsis">
-                      {client.name} {client.surname}
+                      {client.firstname} {client.surname}
                     </span>
                     <span className="text-gray-400 overflow-hidden whitespace-nowrap overflow-ellipsis">
                       {client.mail}
