@@ -1,4 +1,4 @@
-export default function SearchBar() {
+export default function SearchBar({ onChange, inputValue }) {
   return (
     <div className="relative mt-2 flex justify-center sm:justify-end sm:mr-6">
       <div className="relative">
@@ -6,6 +6,8 @@ export default function SearchBar() {
           type="text"
           placeholder="Search ..."
           className="rounded-md py-1.5 px-4 my-2 text-gray-900 ring-1 ring-inset ring-gray-300 focus:outline-none placeholder:text-gray-400 sm:text-sm sm:leading-6 pr-10"
+          onChange={onChange}
+          value={inputValue}
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"

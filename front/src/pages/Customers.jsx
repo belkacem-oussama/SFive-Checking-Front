@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import SearchBar from "../components/Search.jsx"
 import PaginationComponent from "../components/Pagination.jsx"
 import customers from "../assets/json/customers.json"
+import { useState } from "react"
 
 function stringToColor(string) {
   let hash = 0
@@ -45,14 +46,25 @@ function stringAvatar(name) {
 }
 
 export default function Customers() {
+  const [inputSearch, setInputSearch] = useState("")
+
+  const handleChange = (e) => {
+    setInputSearch(e.target.value)
+  }
+
+  const filteredCustomers = customers.filter((person) => {
+    const fullName = `${person.firstname} ${person.surname}`.toLowerCase()
+    return fullName.includes(inputSearch.toLowerCase())
+  })
+
   return (
     <>
-      <SearchBar />
+      <SearchBar inputValue={inputSearch} onChange={handleChange} />
       <ul
         role="list"
         className="md:grid md:grid-rows-6 divide-y divide-gray-100"
       >
-        {customers.map((person) => (
+        {filteredCustomers.map((person) => (
           <Link key={person.id} to={`/customers/${person.id}`}>
             <li
               key={person.email}
