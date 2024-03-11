@@ -2,41 +2,7 @@ import { Avatar } from "@mui/material"
 import { Link } from "react-router-dom"
 import SearchBar from "../components/Search.jsx"
 import PaginationComponent from "../components/Pagination.jsx"
-
-const people = [
-  {
-    id: 1,
-    firstname: "Leslie",
-    surname: "Alexander",
-    email: "leslie.alexander@example.com",
-    phone: "0606060606",
-    lastSeen: "28 Septembre 1997",
-  },
-  {
-    id: 2,
-    firstname: "Zinedine",
-    surname: "Zidane",
-    email: "zinedine.zidane@example.com",
-    phone: "0606069606",
-    lastSeen: "28 Novembre 1997",
-  },
-  {
-    id: 3,
-    firstname: "Oussama",
-    surname: "Belkacem",
-    email: "oussama.belkacem@example.com",
-    phone: "0602060606",
-    lastSeen: "13 Octobre 1997",
-  },
-  {
-    id: 4,
-    firstname: "Ouss",
-    surname: "Belem",
-    email: "oussama.belkacem@example.com",
-    phone: "0602060606",
-    lastSeen: "13 Octobre 1997",
-  },
-]
+import customers from "../assets/json/customers.json"
 
 function stringToColor(string) {
   let hash = 0
@@ -86,7 +52,7 @@ export default function Customers() {
         role="list"
         className="md:grid md:grid-rows-6 divide-y divide-gray-100"
       >
-        {people.map((person) => (
+        {customers.map((person) => (
           <Link key={person.id} to={`/customers/${person.id}`}>
             <li
               key={person.email}
@@ -102,13 +68,13 @@ export default function Customers() {
                     {person.firstname} {person.surname}
                   </p>
                   <p className="mt-1 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
-                    {person.email}
+                    {person.mail}
                   </p>
                   <p className="mt-1 md:ml-4 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
                     {person.phone}
                   </p>
                   <p className="mt-1 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
-                    Dernière réservation le {person.lastSeen}
+                    Dernière réservation le {person.lastBook}
                   </p>
                 </div>
               </div>
