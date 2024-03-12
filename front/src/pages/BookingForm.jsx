@@ -55,7 +55,7 @@ export default function BookingForm() {
 
   return (
     <div className="space-y-12">
-      <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10 pb-3">
+      <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10q pb-3">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:ml-2">
           Booking
         </h2>
