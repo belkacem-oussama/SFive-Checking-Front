@@ -58,6 +58,18 @@ export default function BookingForm() {
 
   const [selectedField, setSelectedField] = useState("Terrain 1")
 
+  // Obtention de la date du jour avec le même format que formattedDate
+  const options = { weekday: "long", day: "2-digit", month: "long" }
+  const currentDate = new Date().toLocaleDateString("fr-FR", options)
+
+  const handleDatePickerChange = (date) => {
+    const formattedDate = date.toLocaleDateString("fr-FR", options)
+    setSelectedDate(formattedDate)
+    console.log(formattedDate)
+  }
+
+  const [selectedDate, setSelectedDate] = useState(currentDate)
+
   return (
     <div className="space-y-12">
       <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10q pb-3">
@@ -92,7 +104,11 @@ export default function BookingForm() {
         <span className="">
           <h1 className="ml-2 font-semibold">Jour</h1>
           <span className="p-2">
-            <SmallCalendar />
+            <SmallCalendar
+              selectedDate={selectedDate}
+              setSelectedDate={selectedDate}
+              handleDatePickerChange={handleDatePickerChange}
+            />
           </span>
         </span>
         <h1 className="ml-2 font-semibold">Disponibilité</h1>
