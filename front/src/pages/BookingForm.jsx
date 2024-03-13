@@ -2,6 +2,7 @@ import SearchInput from "../components/SearchInput.jsx"
 import Select from "../components/Select.jsx"
 import SmallCalendar from "../components/SmallCalendar.jsx"
 import customers from "../assets/json/customers.json"
+import { useState } from "react"
 
 export default function BookingForm() {
   const bookingType = [
@@ -53,6 +54,10 @@ export default function BookingForm() {
     { available: 0, start: "02h30", end: "03h00" },
   ]
 
+  const [selectedType, setSelectedType] = useState("Classique")
+
+  const [selectedField, setSelectedField] = useState("Terrain 1")
+
   return (
     <div className="space-y-12">
       <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10q pb-3">
@@ -66,12 +71,22 @@ export default function BookingForm() {
       <div className="mt-6">
         <h1 className="ml-2 font-semibold">Type de réservation</h1>
         <span className="p-2">
-          <Select data={bookingType} />
+          <Select
+            selectedType={selectedType}
+            setSelectedType={setSelectedType}
+            data={bookingType}
+            isField={false}
+          />
         </span>
         <span className="p-2">
           <h1 className="ml-2 font-semibold">Emplacement</h1>
           <span className="p-2">
-            <Select data={fieldLocation} />
+            <Select
+              selectedField={selectedField}
+              setSelectedField={setSelectedField}
+              data={fieldLocation}
+              isField={true}
+            />
           </span>
         </span>
         <span className="">
