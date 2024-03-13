@@ -7,8 +7,6 @@ export default function SearchInput({ data, selectedUser, setSelectedUser }) {
   const [displayResults, setDisplayResults] = useState(false)
   const [filteredData, setFilteredData] = useState([])
 
-  console.log(selectedUser)
-
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (searchTerm) {
