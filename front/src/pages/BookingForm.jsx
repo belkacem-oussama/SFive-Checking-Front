@@ -69,17 +69,25 @@ export default function BookingForm() {
   const [selectedDate, setSelectedDate] = useState(currentDate)
   const [selectedUser, setSelectedUser] = useState(0)
   const [textValue, setTextValue] = useState("")
+  const [selectedHours, setSelectedHours] = useState([])
 
   let bookingData = [
     selectedType,
     selectedField,
     selectedDate,
+    selectedHours,
     selectedUser,
     textValue,
   ]
 
   const handleSendData = () => {
     console.log(bookingData)
+
+    if (selectedHours) {
+      let bookStart = selectedHours[0][0]
+      let bookEnd = selectedHours[selectedHours.length - 1][1]
+      console.log(`Début à ${bookStart} et fin à ${bookEnd}`)
+    }
   }
 
   return (
@@ -127,6 +135,12 @@ export default function BookingForm() {
         <span className="p-2 grid grid-cols-2 md:grid-cols-4 gap-4 ">
           {fieldAvailability.map((slot, index) => (
             <span
+              onClick={() => {
+                setSelectedHours((selectedHours) => [
+                  ...selectedHours,
+                  [slot.start, slot.end],
+                ])
+              }}
               key={index}
               className={`rounded-md p-2 border-2 text-center flex items-center justify-center focus-visible:outline-gray-900 ${
                 slot.available === 0
