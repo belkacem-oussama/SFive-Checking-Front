@@ -80,14 +80,23 @@ export default function BookingForm() {
     textValue,
   ]
 
+  const handleReset = () => {
+    setSelectedType("Classique")
+    setSelectedField("Terrain 1")
+    setSelectedDate(currentDate)
+    setSelectedUser(0)
+    setTextValue("")
+    setSelectedHours([])
+  }
+
   const handleSendData = () => {
     console.log(bookingData)
 
     if (selectedHours) {
       let bookStart = selectedHours[0][0]
       let bookEnd = selectedHours[selectedHours.length - 1][1]
-      console.log(`Début à ${bookStart} et fin à ${bookEnd}`)
     }
+    handleReset()
   }
 
   return (
