@@ -68,6 +68,19 @@ export default function BookingForm() {
   const [selectedField, setSelectedField] = useState("Terrain 1")
   const [selectedDate, setSelectedDate] = useState(currentDate)
   const [selectedUser, setSelectedUser] = useState(0)
+  const [textValue, setTextValue] = useState("")
+
+  let bookingData = [
+    selectedType,
+    selectedField,
+    selectedDate,
+    selectedUser,
+    textValue,
+  ]
+
+  const handleSendData = () => {
+    console.log(bookingData)
+  }
 
   return (
     <div className="space-y-12">
@@ -158,6 +171,10 @@ export default function BookingForm() {
               className="mt-6 p-2 block w-full rounded-md border border-gray-300 sm:text-sm focus:outline-none mx-2 resize-none"
               placeholder="Ajoutez des informations supplémentaires..."
               rows={3}
+              value={textValue}
+              onChange={(e) => {
+                setTextValue(e.target.value)
+              }}
             />
           </span>
         </div>
@@ -171,6 +188,7 @@ export default function BookingForm() {
           </button>
           <button
             type="submit"
+            onClick={handleSendData}
             className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
           >
             Valider
