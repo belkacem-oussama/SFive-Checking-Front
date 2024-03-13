@@ -2,11 +2,12 @@ import { useState, useEffect } from "react"
 import SelectedUser from "./SelectedUser.jsx"
 import customers from "../assets/json/customers.json"
 
-export default function SearchInput({ data }) {
+export default function SearchInput({ data, selectedUser, setSelectedUser }) {
   const [searchTerm, setSearchTerm] = useState("")
   const [displayResults, setDisplayResults] = useState(false)
   const [filteredData, setFilteredData] = useState([])
-  const [selectedUser, setSelectedUser] = useState(0)
+
+  console.log(selectedUser)
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {

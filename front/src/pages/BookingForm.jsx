@@ -54,10 +54,6 @@ export default function BookingForm() {
     { available: 0, start: "02h30", end: "03h00" },
   ]
 
-  const [selectedType, setSelectedType] = useState("Classique")
-
-  const [selectedField, setSelectedField] = useState("Terrain 1")
-
   // Obtention de la date du jour avec le même format que formattedDate
   const options = { weekday: "long", day: "2-digit", month: "long" }
   const currentDate = new Date().toLocaleDateString("fr-FR", options)
@@ -65,10 +61,13 @@ export default function BookingForm() {
   const handleDatePickerChange = (date) => {
     const formattedDate = date.toLocaleDateString("fr-FR", options)
     setSelectedDate(formattedDate)
-    console.log(formattedDate)
   }
 
+  //States for booking
+  const [selectedType, setSelectedType] = useState("Classique")
+  const [selectedField, setSelectedField] = useState("Terrain 1")
   const [selectedDate, setSelectedDate] = useState(currentDate)
+  const [selectedUser, setSelectedUser] = useState(0)
 
   return (
     <div className="space-y-12">
@@ -146,7 +145,11 @@ export default function BookingForm() {
 
         <h1 className="ml-2 font-semibold mt-4">Organisateur</h1>
         <span className="p-2">
-          <SearchInput data={customers} />
+          <SearchInput
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
+            data={customers}
+          />
         </span>
         <div className="mt-4">
           <h1 className="ml-2 font-semibold">Notes</h1>
