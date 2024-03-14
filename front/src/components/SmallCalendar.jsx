@@ -1,9 +1,13 @@
 import { Datepicker } from "flowbite-react"
+import { useLocation } from "react-router-dom"
 
 export default function SmallCalendar({
   selectedDate,
   handleDatePickerChange,
+  selectedDateHome,
 }) {
+  const location = useLocation()
+
   return (
     <div className="p-2">
       <Datepicker
@@ -14,7 +18,7 @@ export default function SmallCalendar({
         labelClearButton="Fermer"
         language="fr-FR"
         onSelectedDateChanged={handleDatePickerChange}
-        value={selectedDate}
+        value={location.pathname === "/" ? selectedDateHome : selectedDate}
       />
     </div>
   )
