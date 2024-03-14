@@ -71,7 +71,7 @@ export default function BookingForm() {
   const [selectedUser, setSelectedUser] = useState(0)
   const [textValue, setTextValue] = useState("")
   const [selectedHours, setSelectedHours] = useState([])
-
+  console.log(selectedHours)
   let bookingData = [
     selectedType,
     selectedField,
@@ -141,15 +141,21 @@ export default function BookingForm() {
           {fieldAvailability.map((slot, index) => (
             <span
               onClick={() => {
-                setSelectedHours((selectedHours) => [
-                  ...selectedHours,
-                  [slot.start, slot.end],
-                ])
+                slot.available === 1
+                  ? setSelectedHours((selectedHours) => [
+                      ...selectedHours,
+                      [slot.start, slot.end],
+                    ])
+                  : null
               }}
               key={index}
               className={`rounded-md p-2 border-2 text-center flex items-center justify-center focus-visible:outline-gray-900 ${
                 slot.available === 0
                   ? "bg-gray-200 text-gray-400 "
+                  : selectedHours.some(
+                      ([start, end]) => start === slot.start && end === slot.end
+                    )
+                  ? "bg-gray-900 text-white"
                   : "hover:bg-gray-900 hover:text-white"
               }`}
             >
