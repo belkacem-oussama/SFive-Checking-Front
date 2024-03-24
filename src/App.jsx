@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import "./assets/styles/index.css"
 import Home from "./pages/Home.jsx"
 import Header from "./layouts/Header.jsx"
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useLocation } from "react-router-dom"
 import Booking from "./pages/Booking.jsx"
 import ItemsDetails from "./pages/ItemsDetails.jsx"
 import Customers from "./pages/Customers.jsx"
@@ -12,8 +12,11 @@ import Fields from "./pages/Fields.jsx"
 
 export default function App() {
   const [listCustomer, setListCustomer] = useState([])
+  const [listBooking, setListBooking] = useState([])
   const [page, setPage] = useState(1)
   const [totalPage, setTotalPage] = useState(0)
+
+  let currentUrl = useLocation().pathname
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,25 +24,50 @@ export default function App() {
         const headers = {
           Authorization: `Bearer ${import.meta.env.VITE_APP_API_KEY}`,
         }
-        const response = await fetch(
-          `${import.meta.env.VITE_APP_API_URL}/customers`,
-          { headers }
-        )
 
-        if (!response.ok) {
-          throw new Error("Erreur lors de la récupération des données")
+        let response
+        let data
+
+        switch (currentUrl) {
+          case "/customers":
+            response = await fetch(
+              `${import.meta.env.VITE_APP_API_URL}/customers`,
+              { headers }
+            )
+
+            if (!response.ok) {
+              throw new Error("Erreur lors de la récupération des données")
+            }
+
+            data = await response.json()
+            setListCustomer(data)
+            setTotalPage(Math.ceil(data.length / 10))
+            break
+
+          case "/booking":
+            response = await fetch(
+              `${import.meta.env.VITE_APP_API_URL}/checkings`,
+              { headers }
+            )
+            if (!response.ok) {
+              throw new Error("Erreur lors de la récupération des données")
+            }
+
+            data = await response.json()
+            console.log(data)
+            break
+
+          default:
+            break
         }
-
-        const data = await response.json()
-        setListCustomer(data)
-        setTotalPage(Math.ceil(data.length / 10))
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error)
       }
     }
 
     fetchData()
-  }, [])
+  }, [currentUrl])
+
   return (
     <React.Fragment>
       <Header />
