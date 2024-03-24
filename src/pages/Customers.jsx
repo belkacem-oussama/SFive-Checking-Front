@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import SearchBar from "../components/Search.jsx"
 import PaginationComponent from "../components/Pagination.jsx"
 import customers from "../assets/json/customers.json"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 function stringToColor(string) {
   let hash = 0
@@ -47,6 +47,31 @@ function stringAvatar(name) {
 
 export default function Customers() {
   const [inputSearch, setInputSearch] = useState("")
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const headers = {
+          Authorization: `Bearer ${import.meta.env.VITE_APP_API_KEY}`,
+        }
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_API_URL}/customers`,
+          { headers }
+        )
+
+        if (!response.ok) {
+          throw new Error("Erreur lors de la récupération des données")
+        }
+
+        const data = await response.json()
+        console.log(data)
+      } catch (error) {
+        console.error("Erreur lors de la récupération des données:", error)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   const handleChange = (e) => {
     setInputSearch(e.target.value)
