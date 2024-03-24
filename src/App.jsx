@@ -12,6 +12,8 @@ import Fields from "./pages/Fields.jsx"
 
 export default function App() {
   const [listCustomer, setListCustomer] = useState([])
+  const [page, setPage] = useState(1)
+  const [totalPage, setTotalPage] = useState(0)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +31,9 @@ export default function App() {
         }
 
         const data = await response.json()
+        console.log(data)
         setListCustomer(data)
+        setTotalPage(Math.ceil(data.length / 10))
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error)
       }
@@ -49,6 +53,10 @@ export default function App() {
             <Customers
               listCustomer={listCustomer}
               setListCustomer={setListCustomer}
+              page={page}
+              setPage={setPage}
+              totalPage={totalPage}
+              setTotalPage={setTotalPage}
             />
           }
         />

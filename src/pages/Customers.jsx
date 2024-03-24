@@ -1,18 +1,16 @@
-import { Avatar } from "@mui/material"
+import * as React from "react"
+import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import { Avatar } from "@mui/material"
 import SearchBar from "../components/Search.jsx"
 import PaginationComponent from "../components/Pagination.jsx"
-import { useState } from "react"
 
 function stringToColor(string) {
   let hash = 0
-
   for (let i = 0; i < string.length; i += 1) {
     hash = string.charCodeAt(i) + ((hash << 5) - hash)
   }
-
   let color = "#"
-
   const palette = [
     "#1F2937", // Bleu foncé
     "#BEE427", // Jaune-vert lumineux
@@ -26,10 +24,8 @@ function stringToColor(string) {
     "#A7F3D0", // Vert menthe
     "#60A5FA", // Bleu clair
   ]
-
   const index = Math.abs(hash % palette.length)
   color = palette[index]
-
   return color
 }
 
@@ -42,18 +38,28 @@ function stringAvatar(name) {
   }
 }
 
-export default function Customers({ listCustomer, setListCustomer }) {
+export default function Customers({
+  listCustomer,
+  setListCustomer,
+  page,
+  setPage,
+  totalPage,
+  setTotalPage,
+}) {
   const [inputSearch, setInputSearch] = useState("")
 
   const handleChange = (e) => {
     setInputSearch(e.target.value)
   }
 
-  const filteredCustomers = listCustomer.filter((customer) =>
-    `${customer.customer_firstname} ${customer.customer_surname}`
-      .toLowerCase()
-      .includes(inputSearch.toLowerCase())
-  )
+  // Fonction pour filtrer les clients en fonction de la recherche et de la pagination
+  const filteredCustomers = listCustomer
+    .filter((customer) =>
+      `${customer.customer_firstname} ${customer.customer_surname}`
+        .toLowerCase()
+        .includes(inputSearch.toLowerCase())
+    )
+    .slice((page - 1) * 10, page * 10) // Utiliser la pagination pour obtenir seulement 10 résultats par page
 
   return (
     <>
@@ -94,7 +100,12 @@ export default function Customers({ listCustomer, setListCustomer }) {
           </Link>
         ))}
       </ul>
-      <PaginationComponent />
+      <PaginationComponent
+        page={page}
+        setPage={setPage}
+        totalPage={totalPage}
+        setTotalPage={setTotalPage}
+      />
     </>
   )
 }
