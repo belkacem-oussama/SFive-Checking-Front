@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import Input from "../components/Input.jsx"
 import customers from "../assets/json/customers.json"
 
-export default function ItemsDetails() {
+export default function ItemsDetails({ listCustomer, setListCustomer }) {
   // State to manage showing inputs for each field
   const [showInput, setShowInput] = useState({
     firstname: false,
@@ -17,7 +17,7 @@ export default function ItemsDetails() {
 
   const { id } = useParams()
 
-  const booking = customers.find(
+  const booking = listCustomer.find(
     (customer) => parseInt(customer.id) === parseInt(id)
   )
 
@@ -39,16 +39,31 @@ export default function ItemsDetails() {
       <div className="mt-6 border-t border-gray-100">
         <dl className="divide-y divide-gray-100 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0 sm:ml-2">
           {Object.keys(booking).map((key) => {
-            if (key !== "id") {
-              // Exclure le champ "id"
+            if (key !== "id" && key !== "created_at") {
               return (
                 <div
                   className="px-4 py-6 flex justify-between items-center"
                   key={key}
                 >
                   <dt className="text-sm font-medium leading-6 text-gray-800 sm:px-2">
-                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                    {(() => {
+                      switch (key) {
+                        case "customer_surname":
+                          return "Prénom"
+                        case "customer_firstname":
+                          return "Nom"
+                        case "customer_phone":
+                          return "Téléphone"
+                        case "customer_mail":
+                          return "Email"
+                        case "customer_address":
+                          return "Adresse"
+                        default:
+                          return key.charAt(0).toUpperCase() + key.slice(1)
+                      }
+                    })()}
                   </dt>
+
                   {!showInput[key] ? (
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                       {booking[key]}

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import "./assets/styles/index.css"
 import Home from "./pages/Home.jsx"
 import Header from "./layouts/Header.jsx"
@@ -11,14 +11,56 @@ import BookingForm from "./pages/BookingForm.jsx"
 import Fields from "./pages/Fields.jsx"
 
 export default function App() {
+  const [listCustomer, setListCustomer] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const headers = {
+          Authorization: `Bearer ${import.meta.env.VITE_APP_API_KEY}`,
+        }
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_API_URL}/customers`,
+          { headers }
+        )
+
+        if (!response.ok) {
+          throw new Error("Erreur lors de la récupération des données")
+        }
+
+        const data = await response.json()
+        setListCustomer(data)
+      } catch (error) {
+        console.error("Erreur lors de la récupération des données:", error)
+      }
+    }
+
+    fetchData()
+  }, [])
   return (
     <React.Fragment>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/booking" element={<Booking />} />
-        <Route path="/customers" element={<Customers />} />
-        <Route path="/customers/:id" element={<ItemsDetails />} />
+        <Route
+          path="/customers"
+          element={
+            <Customers
+              listCustomer={listCustomer}
+              setListCustomer={setListCustomer}
+            />
+          }
+        />
+        <Route
+          path="/customers/:id"
+          element={
+            <ItemsDetails
+              listCustomer={listCustomer}
+              setListCustomer={setListCustomer}
+            />
+          }
+        />
         <Route path="/profile" element={<Profile />} />
         <Route path="/book" element={<BookingForm />} />
         <Route path="/fields" element={<Fields />} />
