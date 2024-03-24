@@ -2,7 +2,6 @@ import { PaperClipIcon } from "@heroicons/react/20/solid"
 import { useState } from "react"
 import { useParams } from "react-router-dom"
 import Input from "../components/Input.jsx"
-import customers from "../assets/json/customers.json"
 
 export default function ItemsDetails({ listCustomer, setListCustomer }) {
   // State to manage showing inputs for each field

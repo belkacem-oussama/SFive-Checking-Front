@@ -16,7 +16,6 @@ function stringToColor(string) {
   const palette = [
     "#1F2937", // Bleu foncé
     "#BEE427", // Jaune-vert lumineux
-    "#FFFFFF", // Blanc
     "#5A67D8", // Bleu violet
     "#EDE9FE", // Lavande clair
     "#FDE68A", // Jaune clair
@@ -50,6 +49,12 @@ export default function Customers({ listCustomer, setListCustomer }) {
     setInputSearch(e.target.value)
   }
 
+  const filteredCustomers = listCustomer.filter((customer) =>
+    `${customer.customer_firstname} ${customer.customer_surname}`
+      .toLowerCase()
+      .includes(inputSearch.toLowerCase())
+  )
+
   return (
     <>
       <SearchBar inputValue={inputSearch} onChange={handleChange} />
@@ -57,7 +62,7 @@ export default function Customers({ listCustomer, setListCustomer }) {
         role="list"
         className="md:grid md:grid-rows-6 divide-y divide-gray-100"
       >
-        {listCustomer.map((customer) => (
+        {filteredCustomers.map((customer) => (
           <Link key={customer.id} to={`/customers/${customer.id}`}>
             <li
               key={customer.customer_mail}
