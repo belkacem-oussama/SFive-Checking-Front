@@ -1,11 +1,10 @@
 import SearchInput from "../components/SearchInput.jsx"
 import Select from "../components/Select.jsx"
 import SmallCalendar from "../components/SmallCalendar.jsx"
-import customers from "../assets/json/customers.json"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
-export default function BookingForm() {
+export default function BookingForm({ listCustomer, setListCustomer }) {
   const bookingType = [
     { id: 1, name: "Classique" },
     { id: 2, name: "Anniversaire" },
@@ -186,7 +185,7 @@ export default function BookingForm() {
           <SearchInput
             selectedUser={selectedUser}
             setSelectedUser={setSelectedUser}
-            data={customers}
+            listCustomer={listCustomer}
           />
         </span>
         <div className="mt-4">

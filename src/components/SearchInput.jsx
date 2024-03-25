@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react"
 import SelectedUser from "./SelectedUser.jsx"
-import customers from "../assets/json/customers.json"
 
-export default function SearchInput({ data, selectedUser, setSelectedUser }) {
+export default function SearchInput({
+  selectedUser,
+  setSelectedUser,
+  listCustomer,
+}) {
   const [searchTerm, setSearchTerm] = useState("")
   const [displayResults, setDisplayResults] = useState(false)
   const [filteredData, setFilteredData] = useState([])
@@ -10,8 +13,8 @@ export default function SearchInput({ data, selectedUser, setSelectedUser }) {
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (searchTerm) {
-        const filtered = data.filter((client) =>
-          `${client.name} ${client.surname} ${client.mail}`
+        const filtered = listCustomer.filter((customer) =>
+          `${customer.customer_surname} ${customer.customer_firstname} ${customer.customer_mail}`
             .toLowerCase()
             .includes(searchTerm.toLowerCase())
         )
@@ -24,7 +27,7 @@ export default function SearchInput({ data, selectedUser, setSelectedUser }) {
     }, 300)
 
     return () => clearTimeout(delayDebounceFn)
-  }, [searchTerm, data])
+  }, [searchTerm, listCustomer])
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value)
@@ -34,7 +37,7 @@ export default function SearchInput({ data, selectedUser, setSelectedUser }) {
     setSelectedUser(0)
   }
 
-  const selectedUserData = customers.find(
+  const selectedUserData = listCustomer.find(
     (customer) => parseInt(customer.id) === parseInt(selectedUser)
   )
 
@@ -42,9 +45,9 @@ export default function SearchInput({ data, selectedUser, setSelectedUser }) {
     <div className="p-2">
       {selectedUser !== 0 && selectedUserData ? (
         <SelectedUser
-          name={selectedUserData.surname}
-          firstname={selectedUserData.firstname}
-          phone={selectedUserData.phone}
+          name={selectedUserData.customer_surname}
+          firstname={selectedUserData.customer_firstname}
+          phone={selectedUserData.customer_phone}
           onClick={handleDeleteChoice}
         />
       ) : (
@@ -59,20 +62,21 @@ export default function SearchInput({ data, selectedUser, setSelectedUser }) {
           {displayResults ? (
             filteredData.length > 0 ? (
               <ul className="mt-2">
-                {filteredData.map((client) => (
+                {filteredData.map((customer) => (
                   <li
-                    key={client.id}
+                    key={customer.id}
                     className="py-2 px-4 border-b border-gray-300 hover:bg-gray-900 hover:text-white"
                     onClick={() => {
-                      setSelectedUser(client.id)
+                      setSelectedUser(customer.id)
                     }}
                   >
                     <div className="grid grid-cols-2">
                       <span className="overflow-hidden whitespace-nowrap overflow-ellipsis">
-                        {client.firstname} {client.surname}
+                        {customer.customer_firstname}{" "}
+                        {customer.customer_surname}
                       </span>
                       <span className="text-gray-400 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                        {client.mail}
+                        {customer.customer_mail}
                       </span>
                     </div>
                   </li>

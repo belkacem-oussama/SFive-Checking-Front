@@ -57,6 +57,19 @@ export default function App() {
             setListBooking(data)
             break
 
+          case "/book":
+            response = await fetch(
+              `${import.meta.env.VITE_APP_API_URL}/customers`,
+              { headers }
+            )
+            if (!response.ok) {
+              throw new Error("Erreur lors de la récupération des données")
+            }
+
+            data = await response.json()
+            setListCustomer(data)
+            break
+
           default:
             break
         }
@@ -105,7 +118,15 @@ export default function App() {
           }
         />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/book" element={<BookingForm />} />
+        <Route
+          path="/book"
+          element={
+            <BookingForm
+              listCustomer={listCustomer}
+              setListCustomer={setListCustomer}
+            />
+          }
+        />
         <Route path="/fields" element={<Fields />} />
       </Routes>
     </React.Fragment>
