@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import { Avatar } from "@mui/material"
 import SearchBar from "../components/Search.jsx"
 import PaginationComponent from "../components/Pagination.jsx"
+import Button from "../components/Button.jsx"
 
 function stringToColor(string) {
   let hash = 0
@@ -63,7 +64,26 @@ export default function Customers({
 
   return (
     <>
-      <SearchBar inputValue={inputSearch} onChange={handleChange} />
+      <div className="flex justify-between items-center px-2 mt-2 ">
+        <button className="rounded-full p-2 text-white bg-gray-800 hover:bg-gray-900 focus:bg-gray-900 ">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            className="w-5 h-5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 4.5v15m7.5-7.5h-15"
+            />
+          </svg>
+        </button>
+
+        <SearchBar inputValue={inputSearch} onChange={handleChange} />
+      </div>
       <ul
         role="list"
         className="md:grid md:grid-rows-6 divide-y divide-gray-100"
