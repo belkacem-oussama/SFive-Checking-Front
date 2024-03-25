@@ -54,6 +54,7 @@ export default function App() {
             }
 
             data = await response.json()
+            setListBooking(data)
             console.log(data)
             break
 
@@ -73,7 +74,15 @@ export default function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/booking" element={<Booking />} />
+        <Route
+          path="/booking"
+          element={
+            <Booking
+              listBooking={listBooking}
+              setListBooking={setListBooking}
+            />
+          }
+        />
         <Route
           path="/customers"
           element={
