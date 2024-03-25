@@ -14,6 +14,8 @@ import LoginPage from "./pages/Login.jsx"
 export default function App() {
   const [inputLogin, setInputLogin] = useState("")
   const [inputPassword, setInputPassword] = useState("")
+  const [showLoader, setShowLoader] = useState(false)
+  const [showMessage, setShowMessage] = useState(false)
   const [isLogged, setIsLogged] = useState(false)
   const [listCustomer, setListCustomer] = useState([])
   const [listBooking, setListBooking] = useState([])
@@ -25,6 +27,8 @@ export default function App() {
 
   const handleAuth = async (e) => {
     e.preventDefault()
+    setShowLoader(true)
+    setShowMessage(false)
 
     try {
       const response = await fetch(
@@ -44,11 +48,16 @@ export default function App() {
       if (response.ok) {
         const jsonData = await response.json()
         console.log("JWT Token:", jsonData.token)
+        setShowLoader(false)
       } else {
         console.error("Erreur lors de la requête:", response.status)
+        setShowLoader(false)
+        setShowMessage(true)
       }
     } catch (error) {
       console.error("Erreur inattendue:", error)
+      setShowLoader(false)
+      setShowMessage(true)
     }
   }
 
@@ -195,6 +204,10 @@ export default function App() {
                 setInputLogin={setInputLogin}
                 setInputPassword={setInputPassword}
                 handleAuth={handleAuth}
+                showLoader={showLoader}
+                setShowLoader={setShowLoader}
+                showMessage={showMessage}
+                setShowMessage={setShowMessage}
               />
             }
           />

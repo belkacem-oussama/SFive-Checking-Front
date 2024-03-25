@@ -7,6 +7,10 @@ export default function LoginPage({
   setInputLogin,
   setInputPassword,
   handleAuth,
+  showLoader,
+  setShowLoader,
+  showMessage,
+  setShowMessage,
 }) {
   return (
     <>
@@ -76,8 +80,13 @@ export default function LoginPage({
                 className="flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 onClick={handleAuth}
               >
-                Se connecter
+                {showLoader ? <LoaderComponent /> : "Se connecter"}
               </button>
+              {showMessage && (
+                <p className="text-red-500 text-xs mt-2">
+                  Erreur de connexion. Veuillez vérifier vos informations.
+                </p>
+              )}
             </div>
           </form>
         </div>
