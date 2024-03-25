@@ -49,6 +49,11 @@ export default function Customers({
 }) {
   const [inputSearch, setInputSearch] = useState("")
   const [showCustomerForm, setShowCustomerForm] = useState(false)
+  const [inputName, setInputName] = useState("")
+  const [inputSurname, setInputSurname] = useState()
+  const [inputEmail, setInputEmail] = useState()
+  const [inputAddress, setInputAddress] = useState()
+  const [inputPhone, setInputPhone] = useState()
 
   const handleChange = (e) => {
     setInputSearch(e.target.value)
@@ -69,6 +74,16 @@ export default function Customers({
         <CustomerForm
           showCustomerForm={showCustomerForm}
           setShowCustomerForm={setShowCustomerForm}
+          inputName={inputName}
+          setInputName={setInputName}
+          inputSurname={inputSurname}
+          setInputSurname={setInputSurname}
+          inputAddress={inputAddress}
+          setInputAddress={setInputAddress}
+          inputPhone={inputPhone}
+          setInputPhone={setInputPhone}
+          inputEmail={inputEmail}
+          setInputEmail={setInputEmail}
         />
       ) : (
         <>
