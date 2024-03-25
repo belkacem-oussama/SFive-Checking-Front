@@ -21,6 +21,25 @@ export default function Booking({ listBooking, setListBooking }) {
     setShowPopUp(false)
   }
 
+  function formatDateFromString(dateString) {
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+    const date = new Date(dateString)
+    const formattedDate = date.toLocaleDateString("fr-FR", options)
+    return formattedDate.charAt(0) + formattedDate.slice(1)
+  }
+
+  function formatTimeFromString(dateString) {
+    const date = new Date(dateString)
+    const hours = date.getHours().toString().padStart(2, "0")
+    const minutes = date.getMinutes().toString().padStart(2, "0")
+    return `${hours}:${minutes}`
+  }
+
   return (
     <>
       {showPopUp && (
@@ -47,18 +66,17 @@ export default function Booking({ listBooking, setListBooking }) {
                   {checking.customer.customer_phone}
                 </p>
                 <br />
-                {checking.created_at && (
+                {checking.checking_start && (
                   <p className="mt-1 text-xs leading-5 text-gray-500">
                     <span className="font-bold">Date : </span>
-                    {checking.created_at}
+                    {formatDateFromString(checking.checking_start)}
                   </p>
                 )}
-                {checking.checking_started && checking.checking_end && (
-                  <p className="mt-1 text-xs leading-5 text-gray-500">
-                    <span className="font-bold">Créneau : </span>
-                    {checking.checking_start}h - {checking.checking_end}h
-                  </p>
-                )}
+                <p className="mt-1 text-xs leading-5 text-gray-500">
+                  <span className="font-bold">Créneau : </span>
+                  {formatTimeFromString(checking.checking_start)} -{" "}
+                  {formatTimeFromString(checking.checking_end)}
+                </p>
                 {checking.field && (
                   <p className="mt-1 text-xs leading-5 text-gray-500">
                     <span className="font-bold">Terrain : </span>
