@@ -12,6 +12,8 @@ import Fields from "./pages/Fields.jsx"
 import LoginPage from "./pages/Login.jsx"
 
 export default function App() {
+  const [inputLogin, setInputLogin] = useState("")
+  const [inputPassword, setInputPassword] = useState("")
   const [isLogged, setIsLogged] = useState(false)
   const [listCustomer, setListCustomer] = useState([])
   const [listBooking, setListBooking] = useState([])
@@ -20,6 +22,35 @@ export default function App() {
   const [totalPage, setTotalPage] = useState(0)
 
   let currentUrl = useLocation().pathname
+
+  const handleAuth = async (e) => {
+    e.preventDefault()
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: inputLogin,
+            password: inputPassword,
+          }),
+        }
+      )
+
+      if (response.ok) {
+        const jsonData = await response.json()
+        console.log("JWT Token:", jsonData.token)
+      } else {
+        console.error("Erreur lors de la requête:", response.status)
+      }
+    } catch (error) {
+      console.error("Erreur inattendue:", error)
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -155,7 +186,18 @@ export default function App() {
       ) : (
         <Routes>
           <Route path="*" element={<Navigate to="/login" replace />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/login"
+            element={
+              <LoginPage
+                inputLogin={inputLogin}
+                inputPassword={inputPassword}
+                setInputLogin={setInputLogin}
+                setInputPassword={setInputPassword}
+                handleAuth={handleAuth}
+              />
+            }
+          />
         </Routes>
       )}
     </React.Fragment>

@@ -1,9 +1,13 @@
 import { useState } from "react"
 import SFive from "../assets/images/sfive_icone.png"
 
-export default function LoginPage() {
-  const [inputLogin, setInputLogin] = useState("")
-  const [inputPassword, setInputPassword] = useState("")
+export default function LoginPage({
+  inputLogin,
+  inputPassword,
+  setInputLogin,
+  setInputPassword,
+  handleAuth,
+}) {
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -16,6 +20,8 @@ export default function LoginPage() {
             onSubmit={(e) => {
               console.log(inputLogin + " " + inputPassword)
               e.preventDefault()
+              setInputLogin("")
+              setInputPassword("")
             }}
           >
             <div>
@@ -66,7 +72,10 @@ export default function LoginPage() {
               </div>
             </div>
             <div>
-              <button className="flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              <button
+                className="flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={handleAuth}
+              >
                 Se connecter
               </button>
             </div>
