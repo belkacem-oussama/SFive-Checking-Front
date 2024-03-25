@@ -55,7 +55,6 @@ export default function App() {
 
             data = await response.json()
             setListBooking(data)
-            console.log(data)
             break
 
           default:
