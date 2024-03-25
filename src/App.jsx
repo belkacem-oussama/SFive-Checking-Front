@@ -60,8 +60,6 @@ export default function App() {
         token = jsonData.token
         Cookies.set("token", token, { expires: 7, secure: true })
         setShowLoader(false)
-        setIsLogged(true)
-        navigate("/")
       } else {
         console.error("Erreur lors de la requête:", response.status)
         setShowLoader(false)
@@ -73,6 +71,16 @@ export default function App() {
       setShowMessage(true)
     }
   }
+
+  useEffect(() => {
+    if (Cookies.get("token")) {
+      setIsLogged(true)
+      navigate("/")
+    } else {
+      setIsLogged(false)
+      navigate("/login")
+    }
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
