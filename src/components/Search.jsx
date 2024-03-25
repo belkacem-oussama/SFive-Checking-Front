@@ -1,6 +1,6 @@
 export default function SearchBar({ onChange, inputValue }) {
   return (
-    <div className="relative mt-2 flex justify-center sm:justify-end sm:mr-6">
+    <div className="relative flex justify-center sm:justify-end sm:mr-6">
       <div className="relative">
         <input
           type="text"
