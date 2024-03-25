@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import "./assets/styles/index.css"
 import Home from "./pages/Home.jsx"
 import Header from "./layouts/Header.jsx"
-import { Route, Routes, useLocation } from "react-router-dom"
+import { Navigate, Route, Routes, useLocation } from "react-router-dom"
 import Booking from "./pages/Booking.jsx"
 import ItemsDetails from "./pages/ItemsDetails.jsx"
 import Customers from "./pages/Customers.jsx"
@@ -12,6 +12,7 @@ import Fields from "./pages/Fields.jsx"
 import LoginPage from "./pages/Login.jsx"
 
 export default function App() {
+  const [isLogged, setIsLogged] = useState(false)
   const [listCustomer, setListCustomer] = useState([])
   const [listBooking, setListBooking] = useState([])
   const [listFields, setListFields] = useState([])
@@ -100,55 +101,63 @@ export default function App() {
 
   return (
     <React.Fragment>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/booking"
-          element={
-            <Booking
-              listBooking={listBooking}
-              setListBooking={setListBooking}
+      {isLogged ? (
+        <>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/booking"
+              element={
+                <Booking
+                  listBooking={listBooking}
+                  setListBooking={setListBooking}
+                />
+              }
             />
-          }
-        />
-        <Route
-          path="/customers"
-          element={
-            <Customers
-              listCustomer={listCustomer}
-              setListCustomer={setListCustomer}
-              page={page}
-              setPage={setPage}
-              totalPage={totalPage}
-              setTotalPage={setTotalPage}
+            <Route
+              path="/customers"
+              element={
+                <Customers
+                  listCustomer={listCustomer}
+                  setListCustomer={setListCustomer}
+                  page={page}
+                  setPage={setPage}
+                  totalPage={totalPage}
+                  setTotalPage={setTotalPage}
+                />
+              }
             />
-          }
-        />
-        <Route
-          path="/customers/:id"
-          element={
-            <ItemsDetails
-              listCustomer={listCustomer}
-              setListCustomer={setListCustomer}
+            <Route
+              path="/customers/:id"
+              element={
+                <ItemsDetails
+                  listCustomer={listCustomer}
+                  setListCustomer={setListCustomer}
+                />
+              }
             />
-          }
-        />
-        <Route path="/profile" element={<Profile />} />
-        <Route
-          path="/book"
-          element={
-            <BookingForm
-              listCustomer={listCustomer}
-              setListCustomer={setListCustomer}
-              listFields={listFields}
-              setListFields={setListFields}
+            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/book"
+              element={
+                <BookingForm
+                  listCustomer={listCustomer}
+                  setListCustomer={setListCustomer}
+                  listFields={listFields}
+                  setListFields={setListFields}
+                />
+              }
             />
-          }
-        />
-        <Route path="/fields" element={<Fields />} />
-      </Routes>
+            <Route path="/fields" element={<Fields />} />
+          </Routes>
+        </>
+      ) : (
+        <Routes>
+          <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      )}
     </React.Fragment>
   )
 }
