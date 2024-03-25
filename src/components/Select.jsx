@@ -75,7 +75,7 @@ export default function Select({
                             "ml-3 block truncate"
                           )}
                         >
-                          {element.name}
+                          {isField ? element.field_name : element.name}
                         </span>
                       </div>
 

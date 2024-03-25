@@ -4,7 +4,12 @@ import SmallCalendar from "../components/SmallCalendar.jsx"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
-export default function BookingForm({ listCustomer, setListCustomer }) {
+export default function BookingForm({
+  listCustomer,
+  setListCustomer,
+  listFields,
+  setListFields,
+}) {
   const bookingType = [
     { id: 1, name: "Classique" },
     { id: 2, name: "Anniversaire" },
@@ -120,7 +125,7 @@ export default function BookingForm({ listCustomer, setListCustomer }) {
             <Select
               selectedField={selectedField}
               setSelectedField={setSelectedField}
-              data={fieldLocation}
+              data={listFields}
               isField={true}
             />
           </span>

@@ -13,6 +13,7 @@ import Fields from "./pages/Fields.jsx"
 export default function App() {
   const [listCustomer, setListCustomer] = useState([])
   const [listBooking, setListBooking] = useState([])
+  const [listFields, setListFields] = useState([])
   const [page, setPage] = useState(1)
   const [totalPage, setTotalPage] = useState(0)
 
@@ -68,6 +69,21 @@ export default function App() {
 
             data = await response.json()
             setListCustomer(data)
+
+            // Récupérer les champs
+            response = await fetch(
+              `${import.meta.env.VITE_APP_API_URL}/fields`,
+              { headers }
+            )
+
+            if (!response.ok) {
+              throw new Error(
+                "Erreur lors de la récupération des données des champs"
+              )
+            }
+
+            const fieldsData = await response.json()
+            setListFields(fieldsData)
             break
 
           default:
@@ -124,6 +140,8 @@ export default function App() {
             <BookingForm
               listCustomer={listCustomer}
               setListCustomer={setListCustomer}
+              listFields={listFields}
+              setListFields={setListFields}
             />
           }
         />
