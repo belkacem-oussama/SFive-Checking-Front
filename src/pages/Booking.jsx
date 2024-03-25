@@ -3,7 +3,7 @@ import booking from "../assets/json/booking.json"
 import { useState } from "react"
 import Popup from "../components/Popup.jsx"
 
-export default function Booking() {
+export default function Booking({ listBooking, setListBooking }) {
   const [showPopUp, setShowPopUp] = useState(false)
   const [bookingId, setBookingId] = useState(null)
 
@@ -21,6 +21,25 @@ export default function Booking() {
     setShowPopUp(false)
   }
 
+  function formatDateFromString(dateString) {
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+    const date = new Date(dateString)
+    const formattedDate = date.toLocaleDateString("fr-FR", options)
+    return formattedDate.charAt(0) + formattedDate.slice(1)
+  }
+
+  function formatTimeFromString(dateString) {
+    const date = new Date(dateString)
+    const hours = date.getHours().toString().padStart(2, "0")
+    const minutes = date.getMinutes().toString().padStart(2, "0")
+    return `${hours}:${minutes}`
+  }
+
   return (
     <>
       {showPopUp && (
@@ -31,50 +50,50 @@ export default function Booking() {
         />
       )}
       <ul role="list" className="divide-y divide-gray-100">
-        {booking.map((book) => (
+        {listBooking.map((checking) => (
           <li
-            key={book.phone}
+            key={checking.id}
             className="flex flex-col sm:flex-row justify-between gap-x-6 px-4 py-5 border-solid border-b-2 hover:bg-gray-100"
           >
             <div className="flex flex-col sm:flex-row gap-x-4 items-start sm:items-center w-full">
               <div className="min-w-0 flex-auto">
                 <p className="text-sm font-semibold leading-6 text-gray-800">
-                  #{book.id} - {book.firstname} {book.lastname}
+                  #{checking.id} - {checking.customer.customer_surname}{" "}
+                  {checking.customer.customer_firstname}
                 </p>
                 <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                   <span className="font-bold">Tél : </span>
-                  {book.phone}
+                  {checking.customer.customer_phone}
                 </p>
                 <br />
-                {book.date && (
+                {checking.checking_start && (
                   <p className="mt-1 text-xs leading-5 text-gray-500">
                     <span className="font-bold">Date : </span>
-                    {book.date}
+                    {formatDateFromString(checking.checking_start)}
                   </p>
                 )}
-                {book.startedTime && book.endedTime && (
-                  <p className="mt-1 text-xs leading-5 text-gray-500">
-                    <span className="font-bold">Créneau : </span>
-                    {book.startedTime}h - {book.endedTime}h
-                  </p>
-                )}
-                {book.field && (
+                <p className="mt-1 text-xs leading-5 text-gray-500">
+                  <span className="font-bold">Créneau : </span>
+                  {formatTimeFromString(checking.checking_start)} -{" "}
+                  {formatTimeFromString(checking.checking_end)}
+                </p>
+                {checking.field && (
                   <p className="mt-1 text-xs leading-5 text-gray-500">
                     <span className="font-bold">Terrain : </span>
-                    {book.field}
+                    {checking.field.id}
                   </p>
                 )}
-                {book.price && (
+                {checking.checking_price && (
                   <p className="mt-1 text-xs leading-5 text-gray-500">
                     <span className="font-bold">Prix : </span>
-                    {book.price} €
+                    {checking.checking_price} €
                   </p>
                 )}
               </div>
             </div>
             <Button
               text={"Annuler"}
-              onClick={() => handleDropBooking(book.id)}
+              onClick={() => handleDropBooking(checking.id)}
             />
           </li>
         ))}
