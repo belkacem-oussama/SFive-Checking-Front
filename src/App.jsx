@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react"
 import "./assets/styles/index.css"
 import Home from "./pages/Home.jsx"
 import Header from "./layouts/Header.jsx"
-import { Navigate, Route, Routes, useLocation } from "react-router-dom"
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom"
 import Booking from "./pages/Booking.jsx"
 import ItemsDetails from "./pages/ItemsDetails.jsx"
 import Customers from "./pages/Customers.jsx"
@@ -10,6 +16,7 @@ import Profile from "./pages/Profile.jsx"
 import BookingForm from "./pages/BookingForm.jsx"
 import Fields from "./pages/Fields.jsx"
 import LoginPage from "./pages/Login.jsx"
+import Cookies from "js-cookie"
 
 export default function App() {
   const [inputLogin, setInputLogin] = useState("")
@@ -24,11 +31,14 @@ export default function App() {
   const [totalPage, setTotalPage] = useState(0)
 
   let currentUrl = useLocation().pathname
+  const navigate = useNavigate()
 
   const handleAuth = async (e) => {
     e.preventDefault()
     setShowLoader(true)
     setShowMessage(false)
+
+    let token
 
     try {
       const response = await fetch(
@@ -47,8 +57,11 @@ export default function App() {
 
       if (response.ok) {
         const jsonData = await response.json()
-        console.log("JWT Token:", jsonData.token)
+        token = jsonData.token
+        Cookies.set("token", token, { expires: 7, secure: true })
         setShowLoader(false)
+        setIsLogged(true)
+        navigate("/")
       } else {
         console.error("Erreur lors de la requête:", response.status)
         setShowLoader(false)
@@ -65,7 +78,7 @@ export default function App() {
     const fetchData = async () => {
       try {
         const headers = {
-          Authorization: `Bearer ${import.meta.env.VITE_APP_API_KEY}`,
+          Authorization: `Bearer ${Cookies.get("token")}`,
         }
 
         let response
