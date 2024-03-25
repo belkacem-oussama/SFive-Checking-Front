@@ -9,6 +9,7 @@ import Customers from "./pages/Customers.jsx"
 import Profile from "./pages/Profile.jsx"
 import BookingForm from "./pages/BookingForm.jsx"
 import Fields from "./pages/Fields.jsx"
+import LoginPage from "./pages/Login.jsx"
 
 export default function App() {
   const [listCustomer, setListCustomer] = useState([])
@@ -102,6 +103,7 @@ export default function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route
           path="/booking"
           element={
