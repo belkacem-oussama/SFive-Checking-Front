@@ -17,6 +17,7 @@ import BookingForm from "./pages/BookingForm.jsx"
 import Fields from "./pages/Fields.jsx"
 import LoginPage from "./pages/Login.jsx"
 import Cookies from "js-cookie"
+import { jwtDecode } from "jwt-decode"
 
 export default function App() {
   const [inputLogin, setInputLogin] = useState("")
@@ -38,8 +39,6 @@ export default function App() {
     setShowLoader(true)
     setShowMessage(false)
 
-    let token
-
     try {
       const response = await fetch(
         `${import.meta.env.VITE_APP_API_URL}/login`,
@@ -57,9 +56,11 @@ export default function App() {
 
       if (response.ok) {
         const jsonData = await response.json()
-        token = jsonData.token
+        const token = jsonData.token
         Cookies.set("token", token, { expires: 7, secure: true })
         setShowLoader(false)
+        setIsLogged(true)
+        navigate("/")
       } else {
         console.error("Erreur lors de la requête:", response.status)
         setShowLoader(false)
@@ -73,9 +74,17 @@ export default function App() {
   }
 
   useEffect(() => {
-    if (Cookies.get("token")) {
-      setIsLogged(true)
-      navigate("/")
+    const token = Cookies.get("token")
+    if (token) {
+      const decodedToken = jwtDecode(token)
+      if (decodedToken.exp < Date.now() / 1000) {
+        setIsLogged(false)
+        Cookies.remove("token")
+        navigate("/login")
+      } else {
+        setIsLogged(true)
+        navigate("/")
+      }
     } else {
       setIsLogged(false)
       navigate("/login")
@@ -85,72 +94,84 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const headers = {
-          Authorization: `Bearer ${Cookies.get("token")}`,
-        }
+        const token = Cookies.get("token")
+        if (token) {
+          const decodedToken = jwtDecode(token)
+          if (decodedToken.exp < Date.now() / 1000) {
+            // Si le token est expiré, déconnecter l'utilisateur
+            setIsLogged(false)
+            Cookies.remove("token")
+            navigate("/login")
+            return
+          }
 
-        let response
-        let data
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          }
 
-        switch (currentUrl) {
-          case "/customers":
-            response = await fetch(
-              `${import.meta.env.VITE_APP_API_URL}/customers`,
-              { headers }
-            )
+          let response
+          let data
 
-            if (!response.ok) {
-              throw new Error("Erreur lors de la récupération des données")
-            }
-
-            data = await response.json()
-            setListCustomer(data)
-            setTotalPage(Math.ceil(data.length / 10))
-            break
-
-          case "/booking":
-            response = await fetch(
-              `${import.meta.env.VITE_APP_API_URL}/checkings`,
-              { headers }
-            )
-            if (!response.ok) {
-              throw new Error("Erreur lors de la récupération des données")
-            }
-
-            data = await response.json()
-            setListBooking(data)
-            break
-
-          case "/book":
-            response = await fetch(
-              `${import.meta.env.VITE_APP_API_URL}/customers`,
-              { headers }
-            )
-            if (!response.ok) {
-              throw new Error("Erreur lors de la récupération des données")
-            }
-
-            data = await response.json()
-            setListCustomer(data)
-
-            // Récupérer les champs
-            response = await fetch(
-              `${import.meta.env.VITE_APP_API_URL}/fields`,
-              { headers }
-            )
-
-            if (!response.ok) {
-              throw new Error(
-                "Erreur lors de la récupération des données des champs"
+          switch (currentUrl) {
+            case "/customers":
+              response = await fetch(
+                `${import.meta.env.VITE_APP_API_URL}/customers`,
+                { headers }
               )
-            }
 
-            const fieldsData = await response.json()
-            setListFields(fieldsData)
-            break
+              if (!response.ok) {
+                throw new Error("Erreur lors de la récupération des données")
+              }
 
-          default:
-            break
+              data = await response.json()
+              setListCustomer(data)
+              setTotalPage(Math.ceil(data.length / 10))
+              break
+
+            case "/booking":
+              response = await fetch(
+                `${import.meta.env.VITE_APP_API_URL}/checkings`,
+                { headers }
+              )
+              if (!response.ok) {
+                throw new Error("Erreur lors de la récupération des données")
+              }
+
+              data = await response.json()
+              setListBooking(data)
+              break
+
+            case "/book":
+              response = await fetch(
+                `${import.meta.env.VITE_APP_API_URL}/customers`,
+                { headers }
+              )
+              if (!response.ok) {
+                throw new Error("Erreur lors de la récupération des données")
+              }
+
+              data = await response.json()
+              setListCustomer(data)
+
+              // Récupérer les champs
+              response = await fetch(
+                `${import.meta.env.VITE_APP_API_URL}/fields`,
+                { headers }
+              )
+
+              if (!response.ok) {
+                throw new Error(
+                  "Erreur lors de la récupération des données des champs"
+                )
+              }
+
+              const fieldsData = await response.json()
+              setListFields(fieldsData)
+              break
+
+            default:
+              break
+          }
         }
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error)
