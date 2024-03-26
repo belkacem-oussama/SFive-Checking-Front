@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import SelectedUser from "./SelectedUser.jsx"
+import { Link } from "react-router-dom"
 
 export default function SearchInput({
   selectedUser,
@@ -51,7 +52,12 @@ export default function SearchInput({
           onClick={handleDeleteChoice}
         />
       ) : (
-        <form className="w-full">
+        <form
+          className="w-full"
+          onSubmit={(e) => {
+            e.preventDefault()
+          }}
+        >
           <div className="flex ">
             <input
               type="text"
@@ -60,22 +66,24 @@ export default function SearchInput({
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none"
             />
-            <button className='className="absolute inset-y-0 right-0 px-4 py-2 bg-white hover:bg-gray-300 text-gray-700 focus:outline-none border border-gray-300 rounded-md ml-2 "'>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="2.5"
-                stroke="currentColor"
-                className="w-4 h-4"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
-                />
-              </svg>
-            </button>
+            <Link to="/customers">
+              <button className="right-0 px-4 py-4 bg-white hover:bg-gray-300 text-gray-700 focus:outline-none border border-gray-300 rounded-md ml-2 ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2.5"
+                  stroke="currentColor"
+                  className="w-4 h-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
+                </svg>
+              </button>
+            </Link>
           </div>
           {displayResults ? (
             filteredData.length > 0 ? (
