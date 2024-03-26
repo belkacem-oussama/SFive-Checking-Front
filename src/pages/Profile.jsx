@@ -1,22 +1,28 @@
+import Cookies from "js-cookie"
 import Forms from "../components/Form.jsx"
+import { jwtDecode } from "jwt-decode"
 
-const users = [
-  {
-    id: 1,
-    name: "Samir Noui",
-    phone: "0606060608",
-    mail: "samir@gmail.com",
-    datetime: "27 Octobre 2023",
-    role: "Admin",
-    centre: "SFive",
-    centre_adress: "7 Avenue des Frères Peraux",
-    centre_city: "Nogent-Sur-Oise",
-    centre_zip_code: "60180",
-    centre_email: "sfive@gmail.com",
-    centre_tel: "0344093303",
-    centre_created: "20 Septembre 2019",
-  },
-]
+let userDataRole
+let userDataName
+let userDataEmail
+
+if (Cookies.get("token")) {
+  userDataRole =
+    jwtDecode(Cookies.get("token")).roles[0].charAt(0).toUpperCase() +
+    jwtDecode(Cookies.get("token")).roles[0].slice(1).toLowerCase()
+
+  userDataName = jwtDecode(Cookies.get("token"))
+    .username.split("@")[0]
+    .split(".")
+    .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+    .join(" ")
+
+  userDataEmail = jwtDecode(Cookies.get("token")).username
+} else {
+  userDataRole = null
+  userDataName = null
+  userDataEmail = null
+}
 
 export default function Profile() {
   return (
@@ -31,36 +37,23 @@ export default function Profile() {
           </p>
         </div>
         <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-y border-gray-200 pt-4 pb-4 sm:mt-16 sm:pt-4 sm:pb-4 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-          {users.map((user) => (
-            <article
-              key={user.id}
-              className="flex max-w-xl flex-col items-start justify-between"
-            >
-              <div className="flex items-center gap-x-4 text-xs">
-                <span className="relative z-10 rounded-full bg-gray-100 px-3 py-1.5 font-medium text-gray-600">
-                  {user.role}
-                </span>
-              </div>
-              <div className="group relative">
-                <h3 className="mt-3 text-base font-semibold leading-7 text-gray-900">
-                  <span className="absolute inset-0" />
-                  {user.name}
-                </h3>
-                <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
-                  <span className="font-bold">Mail : </span>
-                  {user.mail}
-                </p>
-                <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
-                  <span className="font-bold">Tel : </span>
-                  {user.phone}
-                </p>
-                <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
-                  <span className="font-bold">Crée le : </span>
-                  {user.datetime}
-                </p>
-              </div>
-            </article>
-          ))}
+          <article className="flex max-w-xl flex-col items-start justify-between">
+            <div className="flex items-center gap-x-4 text-xs">
+              <span className="relative z-10 rounded-full bg-gray-100 px-3 py-1.5 font-medium text-gray-600">
+                {userDataRole}
+              </span>
+            </div>
+            <div className="group relative">
+              <h3 className="mt-3 text-base font-semibold leading-7 text-gray-900">
+                <span className="absolute inset-0" />
+                {userDataName}
+              </h3>
+              <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
+                <span className="font-bold">Mail : </span>
+                {userDataEmail}
+              </p>
+            </div>
+          </article>
         </div>
         <Forms />
       </div>

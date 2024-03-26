@@ -1,6 +1,17 @@
+import LoaderComponent from "../components/Loader.jsx"
 import SFive from "../assets/images/sfive_icone.png"
 
-export default function LoginPage() {
+export default function LoginPage({
+  inputLogin,
+  inputPassword,
+  setInputLogin,
+  setInputPassword,
+  handleAuth,
+  showLoader,
+  setShowLoader,
+  showMessage,
+  setShowMessage,
+}) {
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -8,7 +19,15 @@ export default function LoginPage() {
           <img className="mx-auto h-10 w-auto" src={SFive} alt="Your Company" />
         </div>
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form
+            className="space-y-6"
+            onSubmit={(e) => {
+              console.log(inputLogin + " " + inputPassword)
+              e.preventDefault()
+              setInputLogin("")
+              setInputPassword("")
+            }}
+          >
             <div>
               <label
                 htmlFor="email"
@@ -21,6 +40,10 @@ export default function LoginPage() {
                   id="email"
                   name="email"
                   type="email"
+                  value={inputLogin}
+                  onChange={(e) => {
+                    setInputLogin(e.target.value)
+                  }}
                   autoComplete="email"
                   required
                   className="block w-full rounded-md border-0 p-1.5 outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:shadow-md "
@@ -42,6 +65,10 @@ export default function LoginPage() {
                   id="password"
                   name="password"
                   type="password"
+                  value={inputPassword}
+                  onChange={(e) => {
+                    setInputPassword(e.target.value)
+                  }}
                   autoComplete="current-password"
                   required
                   className="block w-full rounded-md border-0 p-1.5 outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6 focus:shadow-md "
@@ -50,11 +77,16 @@ export default function LoginPage() {
             </div>
             <div>
               <button
-                type="submit"
                 className="flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={handleAuth}
               >
-                Se connecter
+                {showLoader ? <LoaderComponent /> : "Se connecter"}
               </button>
+              {showMessage && (
+                <p className="text-red-500 text-xs mt-2">
+                  Erreur de connexion. Veuillez vérifier vos informations.
+                </p>
+              )}
             </div>
           </form>
         </div>
