@@ -140,8 +140,8 @@ export default function Customers({
                       <p className="mt-1 md:ml-4 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
                         {customer.customer_phone}
                       </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
-                        Dernière réservation le {customer.lastBook}
+                      <p className="mt-1 md:ml-4 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
+                        {customer.customer_mail}
                       </p>
                     </div>
                   </div>
