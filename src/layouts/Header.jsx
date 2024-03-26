@@ -12,7 +12,7 @@ export default function Header({ handeLogOut }) {
   const location = useLocation()
 
   const navigation = [
-    { id: 1, name: "Dashboard", href: "/", current: location.pathname === "/" },
+    { id: 1, name: "Accueil", href: "/", current: location.pathname === "/" },
     {
       id: 2,
       name: "Réservations",
