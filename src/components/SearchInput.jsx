@@ -42,7 +42,7 @@ export default function SearchInput({
   )
 
   return (
-    <div className="p-2">
+    <div className="p-2 relative ">
       {selectedUser !== 0 && selectedUserData ? (
         <SelectedUser
           name={selectedUserData.customer_surname}
@@ -52,13 +52,31 @@ export default function SearchInput({
         />
       ) : (
         <form className="w-full">
-          <input
-            type="text"
-            placeholder="Rechercher un client..."
-            value={searchTerm}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none"
-          />
+          <div className="flex ">
+            <input
+              type="text"
+              placeholder="Rechercher un client..."
+              value={searchTerm}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none"
+            />
+            <button className='className="absolute inset-y-0 right-0 px-4 py-2 bg-white hover:bg-gray-300 text-gray-700 focus:outline-none border border-gray-300 rounded-md ml-2 "'>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2.5"
+                stroke="currentColor"
+                className="w-4 h-4"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+            </button>
+          </div>
           {displayResults ? (
             filteredData.length > 0 ? (
               <ul className="mt-2">
