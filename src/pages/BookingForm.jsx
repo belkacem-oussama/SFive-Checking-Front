@@ -1,8 +1,9 @@
+import { useState } from "react"
+import { Link } from "react-router-dom"
+
 import SearchInput from "../components/SearchInput.jsx"
 import Select from "../components/Select.jsx"
 import SmallCalendar from "../components/SmallCalendar.jsx"
-import { useState } from "react"
-import { Link } from "react-router-dom"
 
 export default function BookingForm({
   listCustomer,
@@ -13,11 +14,6 @@ export default function BookingForm({
   const bookingType = [
     { id: 1, name: "Classique" },
     { id: 2, name: "Anniversaire" },
-  ]
-
-  const fieldLocation = [
-    { id: 1, name: "Terrain 1" },
-    { id: 2, name: "Terrain 2" },
   ]
 
   const fieldAvailability = [
@@ -207,7 +203,6 @@ export default function BookingForm({
             />
           </span>
         </div>
-
         <div className="mt-6 mb-4 flex items-center justify-end gap-x-6 mr-2 sm:col-span-6">
           <button
             type="button"
@@ -217,7 +212,6 @@ export default function BookingForm({
           </button>
           <Link to="/">
             <button
-              type="submit"
               onClick={handleSendData}
               className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
             >

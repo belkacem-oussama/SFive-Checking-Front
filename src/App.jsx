@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react"
-import "./assets/styles/index.css"
-import Home from "./pages/Home.jsx"
-import Header from "./layouts/Header.jsx"
 import {
   Navigate,
   Route,
@@ -9,6 +6,11 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom"
+
+import "./assets/styles/index.css"
+
+import Home from "./pages/Home.jsx"
+import Header from "./layouts/Header.jsx"
 import Booking from "./pages/Booking.jsx"
 import ItemsDetails from "./pages/ItemsDetails.jsx"
 import Customers from "./pages/Customers.jsx"
@@ -16,6 +18,7 @@ import Profile from "./pages/Profile.jsx"
 import BookingForm from "./pages/BookingForm.jsx"
 import Fields from "./pages/Fields.jsx"
 import LoginPage from "./pages/Login.jsx"
+
 import Cookies from "js-cookie"
 import { jwtDecode } from "jwt-decode"
 

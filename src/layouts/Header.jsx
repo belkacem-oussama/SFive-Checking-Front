@@ -1,8 +1,10 @@
 import { Fragment } from "react"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
-import SFiveIMG from "../assets/images/sfive_icone.png"
 import { Link, useLocation } from "react-router-dom"
+
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
+
+import SFiveIMG from "../assets/images/sfive_icone.png"
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ")

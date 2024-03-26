@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
-import SelectedUser from "./SelectedUser.jsx"
 import { Link } from "react-router-dom"
+
+import SelectedUser from "./SelectedUser.jsx"
 
 export default function SearchInput({
   selectedUser,

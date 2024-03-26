@@ -1,6 +1,8 @@
-import { PaperClipIcon } from "@heroicons/react/20/solid"
 import { useState } from "react"
 import { useParams } from "react-router-dom"
+
+import { PaperClipIcon } from "@heroicons/react/20/solid"
+
 import Input from "../components/Input.jsx"
 
 export default function ItemsDetails({ listCustomer, setListCustomer }) {

@@ -1,7 +1,9 @@
 import * as React from "react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Link } from "react-router-dom"
+
 import { Avatar } from "@mui/material"
+
 import SearchBar from "../components/Search.jsx"
 import PaginationComponent from "../components/Pagination.jsx"
 import CustomerForm from "../components/CustomerForm.jsx"
