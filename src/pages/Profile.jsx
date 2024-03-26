@@ -2,15 +2,27 @@ import Cookies from "js-cookie"
 import Forms from "../components/Form.jsx"
 import { jwtDecode } from "jwt-decode"
 
-let userDataRole =
-  jwtDecode(Cookies.get("token")).roles[0].charAt(0).toUpperCase() +
-  jwtDecode(Cookies.get("token")).roles[0].slice(1).toLowerCase()
+let userDataRole
+let userDataName
+let userDataEmail
 
-let userDataName = jwtDecode(Cookies.get("token"))
-  .username.split("@")[0]
-  .split(".")[0]
+if (Cookies.get("token")) {
+  userDataRole =
+    jwtDecode(Cookies.get("token")).roles[0].charAt(0).toUpperCase() +
+    jwtDecode(Cookies.get("token")).roles[0].slice(1).toLowerCase()
 
-let userDataEmail = jwtDecode(Cookies.get("token")).username
+  userDataName = jwtDecode(Cookies.get("token"))
+    .username.split("@")[0]
+    .split(".")
+    .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+    .join(" ")
+
+  userDataEmail = jwtDecode(Cookies.get("token")).username
+} else {
+  userDataRole = null
+  userDataName = null
+  userDataEmail = null
+}
 
 export default function Profile() {
   return (

@@ -73,6 +73,10 @@ export default function App() {
     }
   }
 
+  const handeLogOut = () => {
+    Cookies.remove("token")
+  }
+
   useEffect(() => {
     const token = Cookies.get("token")
     if (token) {
@@ -185,7 +189,7 @@ export default function App() {
     <React.Fragment>
       {isLogged ? (
         <>
-          <Header />
+          <Header handeLogOut={handeLogOut} />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route
