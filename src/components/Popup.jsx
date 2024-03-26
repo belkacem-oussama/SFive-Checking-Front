@@ -3,16 +3,21 @@ import React from "react"
 export default function Popup({
   handleCancel,
   bookingId,
+  checkButton,
   handleConfirmCancellation,
 }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-lg font-semibold mb-4">
-          Annuler la réservation #{bookingId}
+          {checkButton
+            ? `Clôturer la réservation #${bookingId} ?`
+            : `Annuler la réservation #${bookingId}`}
         </h2>
         <p className="text-gray-700 mb-6">
-          Êtes-vous sûr de vouloir annuler cette réservation ?
+          {checkButton
+            ? "Êtes-vous sûr de vouloir clôturer cette réservation ?"
+            : "Êtes-vous sûr de vouloir annuler cette réservation ?"}
         </p>
         <div className="flex justify-end">
           <button
