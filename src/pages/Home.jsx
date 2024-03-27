@@ -1,19 +1,67 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import FieldCalendar from "../components/FieldCalendar.jsx"
 import SmallCalendar from "../components/SmallCalendar.jsx"
+import Cookies from "js-cookie"
 
 export default function Home() {
-  //Date
-  const options = { weekday: "long", day: "2-digit", month: "long" }
+  //Date for HomePage
+  const options = {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }
   const currentDate = new Date().toLocaleDateString("fr-FR", options)
 
   const handleDatePickerChange = (date) => {
-    const formattedDate = date.toLocaleDateString("fr-FR", options)
-    setSelectedDateHome(formattedDate)
+    const homePageDate = date.toLocaleDateString("fr-FR", options)
+    setSelectedDateHome(homePageDate)
   }
 
   const [selectedDateHome, setSelectedDateHome] = useState(currentDate)
+
+  //Date for API
+  let dateApi = new Date(selectedDateHome)
+  const year = dateApi.getFullYear()
+  let month = dateApi.getMonth() + 1
+  month = month < 10 ? "0" + month : month
+  let day = dateApi.getDate()
+  day = day < 10 ? "0" + day : day
+
+  let backDate = `${year}-${month}-${day}`
+
+  console.log(backDate)
+
+  let tokenCookie = Cookies.get("token")
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let response
+      let data
+
+      try {
+        response = await fetch(
+          `${
+            import.meta.env.VITE_APP_API_URL
+          }/checkings?checking_start=${backDate}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${tokenCookie}`,
+            },
+          }
+        )
+        data = await response.json()
+        console.log(data)
+        console.log(backDate)
+      } catch (error) {
+        console.log("hehe")
+      }
+    }
+    fetchData()
+  }, [selectedDateHome])
 
   return (
     <div>
