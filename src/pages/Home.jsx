@@ -22,7 +22,7 @@ export default function Home() {
 
   const [selectedDateHome, setSelectedDateHome] = useState(currentDate)
 
-  //Date for API
+  //Date for API Call
   let dateApi = new Date(selectedDateHome)
   const year = dateApi.getFullYear()
   let month = dateApi.getMonth() + 1
