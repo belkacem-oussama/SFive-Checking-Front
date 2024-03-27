@@ -65,10 +65,10 @@ export default function BookingForm({
   }
 
   //States for booking
-  const [selectedType, setSelectedType] = useState("Classique")
-  const [selectedField, setSelectedField] = useState("Terrain 1")
+  const [selectedType, setSelectedType] = useState(1)
+  const [selectedField, setSelectedField] = useState(13)
   const [selectedDate, setSelectedDate] = useState(currentDate)
-  const [selectedUser, setSelectedUser] = useState(0)
+  const [selectedUser, setSelectedUser] = useState(null)
   const [textValue, setTextValue] = useState("")
   const [selectedHours, setSelectedHours] = useState([])
   console.log(selectedHours)
@@ -82,8 +82,8 @@ export default function BookingForm({
   ]
 
   const handleReset = () => {
-    setSelectedType("Classique")
-    setSelectedField("Terrain 1")
+    setSelectedType(1)
+    setSelectedField(13)
     setSelectedDate(currentDate)
     setSelectedUser(0)
     setTextValue("")
