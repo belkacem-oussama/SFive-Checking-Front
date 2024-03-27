@@ -84,7 +84,7 @@ export default function LoginPage({
               </button>
               {showMessage && (
                 <p className="text-red-500 text-xs mt-2">
-                  Erreur de connexion. Veuillez vérifier vos informations.
+                  Erreur de connexion.
                 </p>
               )}
             </div>
