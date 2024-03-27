@@ -38,7 +38,23 @@ const hoursData = [
   "02:00",
 ]
 
-export default function FieldCalendar() {
+export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
+  let field = []
+  let bookings = []
+
+  if (todaysBooking) {
+    todaysBooking.map((i) => {
+      bookings.push({
+        bookinField: i.field.field_name,
+        startTime: i.checking_start,
+        endTime: i.checking_end,
+      })
+    })
+  } else {
+    null
+  }
+
+  console.log(bookings)
   const [isBooked, setIsBooked] = useState([
     {
       field: "Terrain 1",

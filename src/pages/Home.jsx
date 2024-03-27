@@ -21,6 +21,7 @@ export default function Home() {
   }
 
   const [selectedDateHome, setSelectedDateHome] = useState(currentDate)
+  const [todaysBooking, setTodaysBookings] = useState()
 
   //Date for API Call
   let dateApi = new Date(selectedDateHome)
@@ -53,6 +54,7 @@ export default function Home() {
           }
         )
         data = await response.json()
+        setTodaysBookings(data)
       } catch (error) {
         console.log("hehe")
       }
@@ -70,7 +72,10 @@ export default function Home() {
         />
       </div>
       <div>
-        <FieldCalendar />
+        <FieldCalendar
+          todaysBooking={todaysBooking}
+          setTodaysBookings={setTodaysBookings}
+        />
       </div>
     </div>
   )
