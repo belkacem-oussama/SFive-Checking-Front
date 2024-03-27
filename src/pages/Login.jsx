@@ -14,9 +14,9 @@ export default function LoginPage({
 }) {
   return (
     <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img className="mx-auto h-10 w-auto" src={SFive} alt="Your Company" />
+          <img className="mx-auto h-10 w-auto" src={SFive} alt="SFive" />
         </div>
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form
@@ -84,7 +84,7 @@ export default function LoginPage({
               </button>
               {showMessage && (
                 <p className="text-red-500 text-xs mt-2">
-                  Erreur de connexion. Veuillez vérifier vos informations.
+                  Erreur de connexion.
                 </p>
               )}
             </div>

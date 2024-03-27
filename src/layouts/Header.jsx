@@ -1,8 +1,10 @@
 import { Fragment } from "react"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
-import SFiveIMG from "../assets/images/sfive_icone.png"
 import { Link, useLocation } from "react-router-dom"
+
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
+
+import SFiveIMG from "../assets/images/sfive_icone.png"
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ")
@@ -12,7 +14,7 @@ export default function Header({ handeLogOut }) {
   const location = useLocation()
 
   const navigation = [
-    { id: 1, name: "Dashboard", href: "/", current: location.pathname === "/" },
+    { id: 1, name: "Accueil", href: "/", current: location.pathname === "/" },
     {
       id: 2,
       name: "Réservations",

@@ -1,6 +1,8 @@
-import { PaperClipIcon } from "@heroicons/react/20/solid"
 import { useState } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
+
+import { PaperClipIcon } from "@heroicons/react/20/solid"
+
 import Input from "../components/Input.jsx"
 
 export default function ItemsDetails({ listCustomer, setListCustomer }) {
@@ -13,6 +15,7 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
     mail: false,
     phone: false,
   })
+  const [inputValue, setInputValue] = useState("")
 
   const { id } = useParams()
 
@@ -27,6 +30,24 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
 
   return (
     <div>
+      <Link to="/customers">
+        <button className="px-2 py-2 mt-2 bg-white hover:bg-gray-300 text-gray-700 focus:outline-none rounded-md ml-2 ">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
+            />
+          </svg>
+        </button>
+      </Link>
       <div className="px-4 sm:px-2 py-2 ">
         <h3 className="text-base font-semibold leading-7 text-gray-800">
           Client #{booking.id}
@@ -68,7 +89,13 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
                       {booking[key]}
                     </dd>
                   ) : (
-                    <Input inputValue={booking[key]} />
+                    <Input
+                      inputValue={inputValue}
+                      placeholder={booking[key]}
+                      onChange={(e) => {
+                        setInputValue(e.target.value)
+                      }}
+                    />
                   )}
                   {!showInput[key] ? (
                     <svg
@@ -95,7 +122,7 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
                       onClick={() => handleShowInput(key)}
                     >
                       <path
-                        stroke-linecap="round"
+                        strokeLinecap="round"
                         strokeLinejoin="round"
                         d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                       />

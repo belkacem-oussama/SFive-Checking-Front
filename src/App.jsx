@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react"
-import "./assets/styles/index.css"
-import Home from "./pages/Home.jsx"
-import Header from "./layouts/Header.jsx"
 import {
   Navigate,
   Route,
@@ -9,6 +6,11 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom"
+
+import "./assets/styles/index.css"
+
+import Home from "./pages/Home.jsx"
+import Header from "./layouts/Header.jsx"
 import Booking from "./pages/Booking.jsx"
 import ItemsDetails from "./pages/ItemsDetails.jsx"
 import Customers from "./pages/Customers.jsx"
@@ -16,12 +18,15 @@ import Profile from "./pages/Profile.jsx"
 import BookingForm from "./pages/BookingForm.jsx"
 import Fields from "./pages/Fields.jsx"
 import LoginPage from "./pages/Login.jsx"
+
 import Cookies from "js-cookie"
 import { jwtDecode } from "jwt-decode"
+import CustomerForm from "./components/CustomerForm.jsx"
 
 export default function App() {
   const [inputLogin, setInputLogin] = useState("")
   const [inputPassword, setInputPassword] = useState("")
+  const [tokenCookie, setTokenCookie] = useState(Cookies.get("token") || "")
   const [showLoader, setShowLoader] = useState(false)
   const [showMessage, setShowMessage] = useState(false)
   const [isLogged, setIsLogged] = useState(false)
@@ -57,6 +62,7 @@ export default function App() {
       if (response.ok) {
         const jsonData = await response.json()
         const token = jsonData.token
+        setTokenCookie(token)
         Cookies.set("token", token, { expires: 7, secure: true })
         setShowLoader(false)
         setIsLogged(true)
@@ -74,13 +80,15 @@ export default function App() {
   }
 
   const handeLogOut = () => {
+    setIsLogged(false)
+    setInputLogin("")
+    setInputPassword("")
     Cookies.remove("token")
   }
 
   useEffect(() => {
-    const token = Cookies.get("token")
-    if (token) {
-      const decodedToken = jwtDecode(token)
+    if (tokenCookie) {
+      const decodedToken = jwtDecode(tokenCookie)
       if (decodedToken.exp < Date.now() / 1000) {
         setIsLogged(false)
         Cookies.remove("token")
@@ -93,7 +101,7 @@ export default function App() {
       setIsLogged(false)
       navigate("/login")
     }
-  }, [])
+  }, [tokenCookie])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -214,6 +222,7 @@ export default function App() {
                 />
               }
             />
+            <Route path="/customers/add" element={<CustomerForm />} />
             <Route
               path="/customers/:id"
               element={
@@ -223,7 +232,16 @@ export default function App() {
                 />
               }
             />
-            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/profile"
+              element={
+                <Profile
+                  tokenCookie={tokenCookie}
+                  setTokenCookie={setTokenCookie}
+                  inputLogin={inputLogin}
+                />
+              }
+            />
             <Route
               path="/book"
               element={
@@ -245,7 +263,7 @@ export default function App() {
             path="/login"
             element={
               <LoginPage
-                inputLogin={inputLogin}
+                tokenCookie={tokenCookie}
                 inputPassword={inputPassword}
                 setInputLogin={setInputLogin}
                 setInputPassword={setInputPassword}

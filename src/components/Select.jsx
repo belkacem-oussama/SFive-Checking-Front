@@ -1,5 +1,6 @@
 import { Fragment } from "react"
 import { Listbox, Transition } from "@headlessui/react"
+
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
 
 function classNames(...classes) {
@@ -14,29 +15,28 @@ export default function Select({
   selectedField,
   setSelectedField,
 }) {
-  const handleBookChanging = () => {
+  const handleBookChanging = (e) => {
     if (isField) {
-      selectedField === "Terrain 1"
-        ? setSelectedField("Terrain 2")
-        : setSelectedField("Terrain 1")
+      setSelectedField(e.id)
     } else {
-      selectedType === "Classique"
-        ? setSelectedType("Anniversaire")
-        : setSelectedType("Classique")
+      setSelectedType(e.id)
     }
   }
 
   return (
-    <Listbox
-      value={isField ? selectedField : selectedType}
-      onChange={handleBookChanging}
-    >
+    <Listbox onChange={handleBookChanging}>
       {({ open }) => (
         <div className="relative mt-2 mx-2">
           <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-2 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none  sm:text-sm sm:leading-6">
             <span className="flex items-center">
               <span className="ml-3 block truncate">
-                {isField ? selectedField : selectedType}
+                {isField
+                  ? selectedField === 13
+                    ? "Terrain 1"
+                    : "Terrain 2"
+                  : selectedType === 1
+                  ? "Classique"
+                  : "Anniversaire"}
               </span>
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">

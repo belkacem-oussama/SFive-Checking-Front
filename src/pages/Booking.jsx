@@ -1,15 +1,22 @@
-import Button from "../components/Button.jsx"
-import booking from "../assets/json/booking.json"
 import { useState } from "react"
+
 import Popup from "../components/Popup.jsx"
 
 export default function Booking({ listBooking, setListBooking }) {
   const [showPopUp, setShowPopUp] = useState(false)
   const [bookingId, setBookingId] = useState(null)
+  const [checkButton, setCheckButton] = useState(true)
 
   const handleDropBooking = (id) => {
     setShowPopUp(true)
     setBookingId(id)
+    setCheckButton(false)
+  }
+
+  const handleCheckBooking = (id) => {
+    setShowPopUp(true)
+    setBookingId(id)
+    setCheckButton(true)
   }
 
   const handleConfirmCancellation = () => {
@@ -44,6 +51,7 @@ export default function Booking({ listBooking, setListBooking }) {
     <>
       {showPopUp && (
         <Popup
+          checkButton={checkButton}
           bookingId={bookingId}
           handleConfirmCancellation={handleConfirmCancellation}
           handleCancel={handleCancel}
@@ -91,10 +99,21 @@ export default function Booking({ listBooking, setListBooking }) {
                 )}
               </div>
             </div>
-            <Button
-              text={"Annuler"}
-              onClick={() => handleDropBooking(checking.id)}
-            />
+            <div className="flex justify-evenly w-auto md:items-center md:p-2 mt-6 md:flex-col md:w-26 ">
+              <button
+                value={checkButton}
+                onClick={() => handleCheckBooking(checking.id)}
+                className="font-bold px-4 py-2 bg-green-500 text-white rounded-md mr-4 hover:bg-green-600 md:mr-0 "
+              >
+                Terminer
+              </button>
+              <button
+                onClick={() => handleDropBooking(checking.id)}
+                className="font-bold px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+              >
+                Annuler
+              </button>
+            </div>
           </li>
         ))}
       </ul>
