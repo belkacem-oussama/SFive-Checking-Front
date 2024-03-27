@@ -1,30 +1,28 @@
-import Cookies from "js-cookie"
 import Forms from "../components/Form.jsx"
 import { jwtDecode } from "jwt-decode"
 
-let userDataRole
-let userDataName
-let userDataEmail
+export default function Profile({ tokenCookie, setTokenCookie }) {
+  let userDataRole
+  let userDataName
+  let userDataEmail
 
-if (Cookies.get("token")) {
-  userDataRole =
-    jwtDecode(Cookies.get("token")).roles[0].charAt(0).toUpperCase() +
-    jwtDecode(Cookies.get("token")).roles[0].slice(1).toLowerCase()
+  if (tokenCookie) {
+    userDataRole =
+      jwtDecode(tokenCookie).roles[0].charAt(0).toUpperCase() +
+      jwtDecode(tokenCookie).roles[0].slice(1).toLowerCase()
 
-  userDataName = jwtDecode(Cookies.get("token"))
-    .username.split("@")[0]
-    .split(".")
-    .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-    .join(" ")
+    userDataName = jwtDecode(tokenCookie)
+      .username.split("@")[0]
+      .split(".")
+      .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
+      .join(" ")
 
-  userDataEmail = jwtDecode(Cookies.get("token")).username
-} else {
-  userDataRole = null
-  userDataName = null
-  userDataEmail = null
-}
-
-export default function Profile() {
+    userDataEmail = jwtDecode(tokenCookie).username
+  } else {
+    userDataRole = null
+    userDataName = null
+    userDataEmail = null
+  }
   return (
     <div className="bg-white py-8 sm:py-8">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">

@@ -25,6 +25,7 @@ import { jwtDecode } from "jwt-decode"
 export default function App() {
   const [inputLogin, setInputLogin] = useState("")
   const [inputPassword, setInputPassword] = useState("")
+  const [tokenCookie, setTokenCookie] = useState("")
   const [showLoader, setShowLoader] = useState(false)
   const [showMessage, setShowMessage] = useState(false)
   const [isLogged, setIsLogged] = useState(false)
@@ -60,6 +61,7 @@ export default function App() {
       if (response.ok) {
         const jsonData = await response.json()
         const token = jsonData.token
+        setTokenCookie(token)
         Cookies.set("token", token, { expires: 7, secure: true })
         setShowLoader(false)
         setIsLogged(true)
@@ -78,13 +80,14 @@ export default function App() {
 
   const handeLogOut = () => {
     setIsLogged(false)
+    setInputLogin("")
+    setInputPassword("")
     Cookies.remove("token")
   }
 
   useEffect(() => {
-    const token = Cookies.get("token")
-    if (token) {
-      const decodedToken = jwtDecode(token)
+    if (tokenCookie) {
+      const decodedToken = jwtDecode(tokenCookie)
       if (decodedToken.exp < Date.now() / 1000) {
         setIsLogged(false)
         Cookies.remove("token")
@@ -97,7 +100,7 @@ export default function App() {
       setIsLogged(false)
       navigate("/login")
     }
-  }, [])
+  }, [tokenCookie])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -227,7 +230,16 @@ export default function App() {
                 />
               }
             />
-            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/profile"
+              element={
+                <Profile
+                  tokenCookie={tokenCookie}
+                  setTokenCookie={setTokenCookie}
+                  inputLogin={inputLogin}
+                />
+              }
+            />
             <Route
               path="/book"
               element={
@@ -249,7 +261,7 @@ export default function App() {
             path="/login"
             element={
               <LoginPage
-                inputLogin={inputLogin}
+                tokenCookie={tokenCookie}
                 inputPassword={inputPassword}
                 setInputLogin={setInputLogin}
                 setInputPassword={setInputPassword}
