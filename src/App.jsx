@@ -25,7 +25,7 @@ import { jwtDecode } from "jwt-decode"
 export default function App() {
   const [inputLogin, setInputLogin] = useState("")
   const [inputPassword, setInputPassword] = useState("")
-  const [tokenCookie, setTokenCookie] = useState("")
+  const [tokenCookie, setTokenCookie] = useState(Cookies.get("token") || "")
   const [showLoader, setShowLoader] = useState(false)
   const [showMessage, setShowMessage] = useState(false)
   const [isLogged, setIsLogged] = useState(false)
