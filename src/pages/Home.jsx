@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 
 import FieldCalendar from "../components/FieldCalendar.jsx"
 import SmallCalendar from "../components/SmallCalendar.jsx"
+
 import Cookies from "js-cookie"
 
 export default function Home() {
@@ -31,8 +32,6 @@ export default function Home() {
 
   let backDate = `${year}-${month}-${day}`
 
-  console.log(backDate)
-
   let tokenCookie = Cookies.get("token")
 
   useEffect(() => {
@@ -54,8 +53,6 @@ export default function Home() {
           }
         )
         data = await response.json()
-        console.log(data)
-        console.log(backDate)
       } catch (error) {
         console.log("hehe")
       }
