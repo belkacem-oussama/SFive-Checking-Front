@@ -12,7 +12,7 @@ export default function Input({
       name={name}
       placeholder={placeholder}
       type="text"
-      className="border-2 rounded-md outline-none text-center"
+      className=" mt-1 text-sm leading-6 text-gray-700 border rounded-md outline-none text-center"
       value={inputValue}
       onClick={onClick}
       onChange={onChange}
