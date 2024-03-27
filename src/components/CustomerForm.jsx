@@ -1,19 +1,7 @@
-import React from "react"
+import React, { useState } from "react"
+import { Link } from "react-router-dom"
 
-export default function CustomerForm({
-  showCustomerForm,
-  setShowCustomerForm,
-  inputName,
-  setInputName,
-  inputSurname,
-  setInputSurname,
-  inputEmail,
-  setInputEmail,
-  inputAddress,
-  setInputAddress,
-  inputPhone,
-  setInputPhone,
-}) {
+export default function CustomerForm() {
   const handleSubmit = () => {
     const newCustomer = {
       name: inputName,
@@ -23,13 +11,18 @@ export default function CustomerForm({
       phone: inputPhone,
     }
     console.log(newCustomer)
-    setShowCustomerForm(false)
+
     setInputName("")
     setInputSurname("")
     setInputEmail("")
     setInputAddress("")
     setInputPhone("")
   }
+  const [inputName, setInputName] = useState("")
+  const [inputSurname, setInputSurname] = useState("")
+  const [inputEmail, setInputEmail] = useState("")
+  const [inputAddress, setInputAddress] = useState("")
+  const [inputPhone, setInputPhone] = useState("")
 
   return (
     <>
@@ -139,23 +132,24 @@ export default function CustomerForm({
         </div>
       </div>
       <div className="mt-6 mb-4 flex items-center justify-end gap-x-6 mr-2 sm:col-span-6">
-        <button
-          onClick={() => {
-            setShowCustomerForm(false)
-          }}
-          type="button"
-          className="text-sm font-semibold leading-6 text-gray-900"
-        >
-          Annuler
-        </button>
-        <button
-          onClick={() => {
-            handleSubmit()
-          }}
-          className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-        >
-          Valider
-        </button>
+        <Link to="/customers">
+          <button
+            type="button"
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
+            Annuler
+          </button>
+        </Link>
+        <Link to="/customers">
+          <button
+            onClick={() => {
+              handleSubmit()
+            }}
+            className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+          >
+            Valider
+          </button>
+        </Link>
       </div>
     </>
   )

@@ -50,12 +50,6 @@ export default function Customers({
   setTotalPage,
 }) {
   const [inputSearch, setInputSearch] = useState("")
-  const [showCustomerForm, setShowCustomerForm] = useState(false)
-  const [inputName, setInputName] = useState("")
-  const [inputSurname, setInputSurname] = useState()
-  const [inputEmail, setInputEmail] = useState()
-  const [inputAddress, setInputAddress] = useState()
-  const [inputPhone, setInputPhone] = useState()
 
   const handleChange = (e) => {
     setInputSearch(e.target.value)
@@ -72,93 +66,69 @@ export default function Customers({
 
   return (
     <>
-      {showCustomerForm ? (
-        <CustomerForm
-          showCustomerForm={showCustomerForm}
-          setShowCustomerForm={setShowCustomerForm}
-          inputName={inputName}
-          setInputName={setInputName}
-          inputSurname={inputSurname}
-          setInputSurname={setInputSurname}
-          inputAddress={inputAddress}
-          setInputAddress={setInputAddress}
-          inputPhone={inputPhone}
-          setInputPhone={setInputPhone}
-          inputEmail={inputEmail}
-          setInputEmail={setInputEmail}
-        />
-      ) : (
-        <>
-          <div className="flex justify-between items-center px-2 mt-2 ">
-            <button
-              onClick={() => {
-                setShowCustomerForm(true)
-              }}
-              className="rounded-full p-2 text-white bg-gray-800 hover:bg-gray-900 focus:bg-gray-900 "
+      <div className="flex justify-between items-center px-2 mt-2 ">
+        <Link to="/customers/add">
+          <button className="rounded-full p-2 text-white bg-gray-800 hover:bg-gray-900 focus:bg-gray-900 ">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-5 h-5"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-5 h-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+          </button>
+        </Link>
+        <SearchBar inputValue={inputSearch} onChange={handleChange} />
+      </div>
+      <ul
+        role="list"
+        className="md:grid md:grid-rows-6 divide-y divide-gray-100"
+      >
+        {filteredCustomers.map((customer) => (
+          <Link key={customer.id} to={`/customers/${customer.id}`}>
+            <li
+              key={customer.customer_mail}
+              className="flex flex-col md:flex-row py-2 hover:bg-gray-100"
+            >
+              <div className="flex items-center gap-x-6 p-2 flex-grow">
+                <Avatar
+                  {...stringAvatar(
+                    `${customer.customer_firstname} ${customer.customer_surname}`
+                  )}
+                  variant="rounded"
                 />
-              </svg>
-            </button>
-
-            <SearchBar inputValue={inputSearch} onChange={handleChange} />
-          </div>
-          <ul
-            role="list"
-            className="md:grid md:grid-rows-6 divide-y divide-gray-100"
-          >
-            {filteredCustomers.map((customer) => (
-              <Link key={customer.id} to={`/customers/${customer.id}`}>
-                <li
-                  key={customer.customer_mail}
-                  className="flex flex-col md:flex-row py-2 hover:bg-gray-100"
-                >
-                  <div className="flex items-center gap-x-6 p-2 flex-grow">
-                    <Avatar
-                      {...stringAvatar(
-                        `${customer.customer_firstname} ${customer.customer_surname}`
-                      )}
-                      variant="rounded"
-                    />
-                    <div className="grid grid-cols-1 md:grid-cols-4 md:gap-x-4 w-full">
-                      <p className="text-sm truncate font-semibold leading-6 text-gray-900 col-span-1">
-                        {customer.customer_firstname}{" "}
-                        {customer.customer_surname}
-                      </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
-                        {customer.mail}
-                      </p>
-                      <p className="mt-1 md:ml-4 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
-                        {customer.customer_phone}
-                      </p>
-                      <p className="mt-1 md:ml-4 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
-                        {customer.customer_mail}
-                      </p>
-                    </div>
-                  </div>
-                </li>
-              </Link>
-            ))}
-          </ul>
-          <PaginationComponent
-            page={page}
-            setPage={setPage}
-            totalPage={totalPage}
-            setTotalPage={setTotalPage}
-          />
-        </>
-      )}
+                <div className="grid grid-cols-1 md:grid-cols-4 md:gap-x-4 w-full">
+                  <p className="text-sm truncate font-semibold leading-6 text-gray-900 col-span-1">
+                    {customer.customer_firstname} {customer.customer_surname}
+                  </p>
+                  <p className="mt-1 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
+                    {customer.mail}
+                  </p>
+                  <p className="mt-1 md:ml-4 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
+                    {customer.customer_phone}
+                  </p>
+                  <p className="mt-1 md:ml-4 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
+                    {customer.customer_mail}
+                  </p>
+                </div>
+              </div>
+            </li>
+          </Link>
+        ))}
+      </ul>
+      <PaginationComponent
+        page={page}
+        setPage={setPage}
+        totalPage={totalPage}
+        setTotalPage={setTotalPage}
+      />
     </>
   )
 }

@@ -21,6 +21,7 @@ import LoginPage from "./pages/Login.jsx"
 
 import Cookies from "js-cookie"
 import { jwtDecode } from "jwt-decode"
+import CustomerForm from "./components/CustomerForm.jsx"
 
 export default function App() {
   const [inputLogin, setInputLogin] = useState("")
@@ -221,6 +222,7 @@ export default function App() {
                 />
               }
             />
+            <Route path="/customers/add" element={<CustomerForm />} />
             <Route
               path="/customers/:id"
               element={
