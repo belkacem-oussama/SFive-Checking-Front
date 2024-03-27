@@ -39,7 +39,6 @@ const hoursData = [
 ]
 
 export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
-  let field = []
   let bookings = []
 
   if (todaysBooking) {
