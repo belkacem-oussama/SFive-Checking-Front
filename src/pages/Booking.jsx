@@ -8,7 +8,7 @@ export default function Booking({ listBooking, setListBooking }) {
   const [bookingId, setBookingId] = useState(null)
   const [checkButton, setCheckButton] = useState(true)
   const [inputSearch, setInputSearch] = useState("")
-  console.log(inputSearch)
+
   const handleDropBooking = (id) => {
     setShowPopUp(true)
     setBookingId(id)
