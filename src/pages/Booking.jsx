@@ -53,6 +53,13 @@ export default function Booking({ listBooking, setListBooking }) {
     setInputSearch(e.target.value)
   }
 
+  // Fonction pour filtrer les réservations en fonction de la recherche
+  const filteredBookings = listBooking.filter((booking) =>
+    `${booking.customer.customer_firstname} ${booking.customer.customer_surname}`
+      .toLowerCase()
+      .includes(inputSearch.toLowerCase())
+  )
+
   return (
     <>
       <SearchBar inputSearch={inputSearch} onChange={handleOnChange} />
@@ -65,7 +72,7 @@ export default function Booking({ listBooking, setListBooking }) {
         />
       )}
       <ul role="list" className="divide-y divide-gray-100">
-        {listBooking
+        {filteredBookings
           .sort((a, b) => b.id - a.id)
           .map((checking) => (
             <li
