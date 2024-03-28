@@ -53,6 +53,7 @@ export default function Customers({
 
   const handleChange = (e) => {
     setInputSearch(e.target.value)
+    setPage(1)
   }
 
   // Fonction pour filtrer les clients en fonction de la recherche et de la pagination
