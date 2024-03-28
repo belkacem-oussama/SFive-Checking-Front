@@ -46,14 +46,17 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
       const bookingsByField = todaysBooking.reduce((acc, booking) => {
         const fieldId = booking.field.id
         const fieldName = booking.field.field_name
+        console.log(booking.checking_start)
+        //Décalage horaire ici !!!
         const startDateTime = new Date(booking.checking_start)
+        console.log(startDateTime)
         const endDateTime = new Date(booking.checking_end)
 
-        const startTime = `${String(startDateTime.getHours()).padStart(
+        const startTime = `${String(startDateTime.getHours() - 1).padStart(
           2,
           "0"
         )}:${String(startDateTime.getMinutes()).padStart(2, "0")}`
-        const endTime = `${String(endDateTime.getHours()).padStart(
+        const endTime = `${String(endDateTime.getHours() - 1).padStart(
           2,
           "0"
         )}:${String(endDateTime.getMinutes()).padStart(2, "0")}`
@@ -147,7 +150,7 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
                               <div>
                                 {b.startTime} - {b.endTime}
                               </div>
-                              <div>{b.price}€</div>
+                              {/* <div>{b.price}€</div> */}
                             </div>
                           ))}
                     </div>
@@ -174,7 +177,7 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
                               <div>
                                 {b.startTime} - {b.endTime}
                               </div>
-                              <div>{b.price}€</div>
+                              {/* <div>{b.price}€</div> */}
                             </div>
                           ))}
                     </div>
