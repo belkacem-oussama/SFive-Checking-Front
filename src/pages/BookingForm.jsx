@@ -71,7 +71,7 @@ export default function BookingForm({
   const [selectedUser, setSelectedUser] = useState(null)
   const [textValue, setTextValue] = useState("")
   const [selectedHours, setSelectedHours] = useState([])
-  console.log(selectedHours)
+
   let bookingData = [
     selectedType,
     selectedField,

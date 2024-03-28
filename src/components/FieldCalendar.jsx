@@ -46,10 +46,8 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
       const bookingsByField = todaysBooking.reduce((acc, booking) => {
         const fieldId = booking.field.id
         const fieldName = booking.field.field_name
-        console.log(booking.checking_start)
         //Décalage horaire ici !!!
         const startDateTime = new Date(booking.checking_start)
-        console.log(startDateTime)
         const endDateTime = new Date(booking.checking_end)
 
         const startTime = `${String(startDateTime.getHours() - 1).padStart(
