@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const hoursData = [
   "09:00",
@@ -39,113 +39,71 @@ const hoursData = [
 ]
 
 export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
-  let bookings = []
+  const [isBooked, setIsBooked] = useState([])
 
-  if (todaysBooking) {
-    todaysBooking.map((i) => {
-      bookings.push({
-        bookinField: i.field.field_name,
-        startTime: i.checking_start,
-        endTime: i.checking_end,
-      })
-    })
-  } else {
-    null
-  }
+  useEffect(() => {
+    if (todaysBooking && Array.isArray(todaysBooking)) {
+      const bookingsByField = todaysBooking.reduce((acc, booking) => {
+        const fieldId = booking.field.id
+        const fieldName = booking.field.field_name
+        const startDateTime = new Date(booking.checking_start)
+        const endDateTime = new Date(booking.checking_end)
 
-  console.log(bookings)
-  const [isBooked, setIsBooked] = useState([
-    {
-      field: "Terrain 1",
-      bookings: [
-        {
-          startTime: "09:00",
-          endTime: "10:30",
-        },
-        {
-          startTime: "19:00",
-          endTime: "20:30",
-        },
-        {
-          startTime: "00:00",
-          endTime: "02:00",
-        },
-      ],
-    },
-    {
-      field: "Terrain 2",
-      bookings: [
-        {
-          startTime: "17:00",
-          endTime: "18:30",
-        },
-        {
-          startTime: "15:00",
-          endTime: "16:30",
-        },
-        {
-          startTime: "11:30",
-          endTime: "12:30",
-        },
-      ],
-    },
-  ])
+        const startTime = `${String(startDateTime.getHours()).padStart(
+          2,
+          "0"
+        )}:${String(startDateTime.getMinutes()).padStart(2, "0")}`
+        const endTime = `${String(endDateTime.getHours()).padStart(
+          2,
+          "0"
+        )}:${String(endDateTime.getMinutes()).padStart(2, "0")}`
+
+        if (!acc[fieldId]) {
+          acc[fieldId] = {
+            field: fieldName,
+            bookings: [],
+          }
+        }
+
+        acc[fieldId].bookings.push({
+          startTime: startTime,
+          endTime: endTime,
+          customer: `${booking.customer.customer_firstname} ${booking.customer.customer_surname}`,
+          price: booking.checking_price,
+        })
+
+        return acc
+      }, {})
+
+      const newBookings = Object.values(bookingsByField)
+      setIsBooked(newBookings)
+    } else {
+      setIsBooked([])
+    }
+  }, [todaysBooking])
 
   const isBookedTime = (time, field) => {
     const fieldBookings = isBooked.find((booking) => booking.field === field)
+
     if (!fieldBookings) return false
 
     return fieldBookings.bookings.some((booking) => {
-      const bookingStart = new Date(`2024-01-01T${booking.startTime}`)
-      const bookingEnd = new Date(`2024-01-01T${booking.endTime}`)
-      const currentTime = new Date(`2024-01-01T${time}`)
+      const [bookingHour, bookingMinute] = booking.startTime.split(":")
+      const [bookingEndHour, bookingEndMinute] = booking.endTime.split(":")
+      const [currentTimeHour, currentTimeMinute] = time.split(":")
+
+      const bookingStart = new Date(2024, 0, 1, bookingHour, bookingMinute)
+      const bookingEnd = new Date(2024, 0, 1, bookingEndHour, bookingEndMinute)
+      const currentTime = new Date(
+        2024,
+        0,
+        1,
+        currentTimeHour,
+        currentTimeMinute
+      )
+
       return currentTime >= bookingStart && currentTime < bookingEnd
     })
-  }
-
-  const bookingDetails = {
-    "09:00": {
-      "Terrain 1": {
-        name: "Zinedine Zidane",
-        duration: "1h30",
-        price: "120€",
-      },
-    },
-    "17:00": {
-      "Terrain 2": {
-        name: "Cristiano Ronaldo",
-        duration: "1h30",
-        price: "150€",
-      },
-    },
-    "19:00": {
-      "Terrain 1": {
-        name: "Lionel Messi",
-        duration: "1h30",
-        price: "130€",
-      },
-    },
-    "15:00": {
-      "Terrain 2": {
-        name: "Neymar Jr",
-        duration: "1h30",
-        price: "140€",
-      },
-    },
-    "11:30": {
-      "Terrain 2": {
-        name: "Kylian Mbappé",
-        duration: "1h",
-        price: "110€",
-      },
-    },
-    "00:00": {
-      "Terrain 1": {
-        name: "Andres Iniesta",
-        duration: "2h",
-        price: "200€",
-      },
-    },
   }
 
   return (
@@ -174,15 +132,26 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
                   "bg-gray-800 text-white border-none"
                 }`}
               >
-                {isBookedTime(item, "Terrain 1") &&
-                  bookingDetails[item] &&
-                  bookingDetails[item]["Terrain 1"] && (
-                    <>
-                      {bookingDetails[item]["Terrain 1"].name}{" "}
-                      {bookingDetails[item]["Terrain 1"].duration}{" "}
-                      {bookingDetails[item]["Terrain 1"].price}
-                    </>
-                  )}
+                {isBooked
+                  .filter((booking) =>
+                    booking.bookings.some((b) => b.startTime === item)
+                  )
+                  .map((booking, bookingIndex) => (
+                    <div key={`${booking.field}-${bookingIndex}`}>
+                      {booking.field === "Terrain 1" &&
+                        booking.bookings
+                          .filter((b) => b.startTime === item)
+                          .map((b, bIndex) => (
+                            <div key={`${b.startTime}-${b.endTime}-${bIndex}`}>
+                              <div>{b.customer}</div>
+                              <div>
+                                {b.startTime} - {b.endTime}
+                              </div>
+                              <div>{b.price}€</div>
+                            </div>
+                          ))}
+                    </div>
+                  ))}
               </td>
               <td
                 className={`text-sm border border-gray-300 font-light ${
@@ -190,15 +159,26 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
                   "bg-gray-800 text-white border-none"
                 }`}
               >
-                {isBookedTime(item, "Terrain 2") &&
-                  bookingDetails[item] &&
-                  bookingDetails[item]["Terrain 2"] && (
-                    <>
-                      {bookingDetails[item]["Terrain 2"].name}{" "}
-                      {bookingDetails[item]["Terrain 2"].duration}{" "}
-                      {bookingDetails[item]["Terrain 2"].price}
-                    </>
-                  )}
+                {isBooked
+                  .filter((booking) =>
+                    booking.bookings.some((b) => b.startTime === item)
+                  )
+                  .map((booking, bookingIndex) => (
+                    <div key={`${booking.field}-${bookingIndex}`}>
+                      {booking.field === "Terrain 2" &&
+                        booking.bookings
+                          .filter((b) => b.startTime === item)
+                          .map((b, bIndex) => (
+                            <div key={`${b.startTime}-${b.endTime}-${bIndex}`}>
+                              <div>{b.customer}</div>
+                              <div>
+                                {b.startTime} - {b.endTime}
+                              </div>
+                              <div>{b.price}€</div>
+                            </div>
+                          ))}
+                    </div>
+                  ))}
               </td>
             </tr>
           ))}
