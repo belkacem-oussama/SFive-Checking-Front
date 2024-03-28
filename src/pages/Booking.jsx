@@ -1,4 +1,5 @@
 import { useState } from "react"
+import SearchBar from "../components/Search.jsx"
 
 import Popup from "../components/Popup.jsx"
 
@@ -6,7 +7,8 @@ export default function Booking({ listBooking, setListBooking }) {
   const [showPopUp, setShowPopUp] = useState(false)
   const [bookingId, setBookingId] = useState(null)
   const [checkButton, setCheckButton] = useState(true)
-
+  const [inputSearch, setInputSearch] = useState("")
+  console.log(inputSearch)
   const handleDropBooking = (id) => {
     setShowPopUp(true)
     setBookingId(id)
@@ -47,8 +49,13 @@ export default function Booking({ listBooking, setListBooking }) {
     return `${hours}:${minutes}`
   }
 
+  const handleOnChange = (e) => {
+    setInputSearch(e.target.value)
+  }
+
   return (
     <>
+      <SearchBar inputSearch={inputSearch} onChange={handleOnChange} />
       {showPopUp && (
         <Popup
           checkButton={checkButton}

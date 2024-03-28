@@ -6,7 +6,6 @@ import { Avatar } from "@mui/material"
 
 import SearchBar from "../components/Search.jsx"
 import PaginationComponent from "../components/Pagination.jsx"
-import CustomerForm from "../components/CustomerForm.jsx"
 
 function stringToColor(string) {
   let hash = 0
