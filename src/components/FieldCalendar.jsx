@@ -32,6 +32,10 @@ const hoursData = [
   "23:00",
   "23:30",
   "00:00",
+  "00:30",
+  "01:00",
+  "01:30",
+  "02:00",
 ]
 
 export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
