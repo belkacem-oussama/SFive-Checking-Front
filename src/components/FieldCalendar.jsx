@@ -186,11 +186,13 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
                           .filter((b) => b.startTime === item)
                           .map((b, bIndex) => (
                             <div key={`${b.startTime}-${b.endTime}-${bIndex}`}>
-                              <div>{b.customer}</div>
+                              <div>
+                                {b.customer}{" "}
+                                <span className="font-bold"> {b.price}€</span>
+                              </div>
                               <div>
                                 {b.startTime} - {b.endTime}
                               </div>
-                              <div>{b.price}€</div>
                             </div>
                           ))}
                     </div>
