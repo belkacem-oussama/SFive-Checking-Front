@@ -32,10 +32,6 @@ const hoursData = [
   "23:00",
   "23:30",
   "00:00",
-  "00:30",
-  "01:00",
-  "01:30",
-  "02:00",
 ]
 
 export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
@@ -50,14 +46,25 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
         const startDateTime = new Date(booking.checking_start)
         const endDateTime = new Date(booking.checking_end)
 
-        const startTime = `${String(startDateTime.getHours() - 1).padStart(
-          2,
-          "0"
-        )}:${String(startDateTime.getMinutes()).padStart(2, "0")}`
-        const endTime = `${String(endDateTime.getHours() - 1).padStart(
-          2,
-          "0"
-        )}:${String(endDateTime.getMinutes()).padStart(2, "0")}`
+        let startHour = startDateTime.getHours() - 1
+        if (startHour < 0) {
+          startHour = 23
+        }
+
+        const startTime = `${String(startHour).padStart(2, "0")}:${String(
+          startDateTime.getMinutes()
+        ).padStart(2, "0")}`
+        console.log(startTime)
+
+        let endHour = endDateTime.getHours() - 1
+        if (endHour < 0) {
+          endHour = 23
+        }
+
+        const endTime = `${String(endHour).padStart(2, "0")}:${String(
+          endDateTime.getMinutes()
+        ).padStart(2, "0")}`
+        console.log(endTime)
 
         if (!acc[fieldId]) {
           acc[fieldId] = {
@@ -75,7 +82,6 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
 
         return acc
       }, {})
-
       const newBookings = Object.values(bookingsByField)
       setIsBooked(newBookings)
     } else {
@@ -93,17 +99,24 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
       const [bookingEndHour, bookingEndMinute] = booking.endTime.split(":")
       const [currentTimeHour, currentTimeMinute] = time.split(":")
 
-      const bookingStart = new Date(2024, 0, 1, bookingHour, bookingMinute)
-      const bookingEnd = new Date(2024, 0, 1, bookingEndHour, bookingEndMinute)
-      const currentTime = new Date(
-        2024,
-        0,
-        1,
-        currentTimeHour,
-        currentTimeMinute
-      )
+      const currentTimeInMinutes =
+        parseInt(currentTimeHour) * 60 + parseInt(currentTimeMinute)
+      const bookingStartInMinutes =
+        parseInt(bookingHour) * 60 + parseInt(bookingMinute)
+      const bookingEndInMinutes =
+        parseInt(bookingEndHour) * 60 + parseInt(bookingEndMinute)
 
-      return currentTime >= bookingStart && currentTime < bookingEnd
+      if (bookingStartInMinutes > bookingEndInMinutes) {
+        return (
+          currentTimeInMinutes >= bookingStartInMinutes ||
+          currentTimeInMinutes < bookingEndInMinutes
+        )
+      } else {
+        return (
+          currentTimeInMinutes >= bookingStartInMinutes &&
+          currentTimeInMinutes < bookingEndInMinutes
+        )
+      }
     })
   }
 
