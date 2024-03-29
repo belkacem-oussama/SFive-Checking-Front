@@ -54,7 +54,6 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
         const startTime = `${String(startHour).padStart(2, "0")}:${String(
           startDateTime.getMinutes()
         ).padStart(2, "0")}`
-        console.log(startTime)
 
         let endHour = endDateTime.getHours() - 1
         if (endHour < 0) {
@@ -64,7 +63,6 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
         const endTime = `${String(endHour).padStart(2, "0")}:${String(
           endDateTime.getMinutes()
         ).padStart(2, "0")}`
-        console.log(endTime)
 
         if (!acc[fieldId]) {
           acc[fieldId] = {
