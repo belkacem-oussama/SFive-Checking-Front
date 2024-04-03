@@ -40,7 +40,7 @@ const hoursData = [
 
 export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
   const [isBooked, setIsBooked] = useState([])
-
+  console.log(todaysBooking)
   useEffect(() => {
     if (todaysBooking && Array.isArray(todaysBooking)) {
       const bookingsByField = todaysBooking.reduce((acc, booking) => {

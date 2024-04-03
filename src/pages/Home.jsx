@@ -4,6 +4,7 @@ import FieldCalendar from "../components/FieldCalendar.jsx"
 import SmallCalendar from "../components/SmallCalendar.jsx"
 
 import Cookies from "js-cookie"
+import moment from "moment/moment.js"
 
 export default function Home() {
   //Date for HomePage
@@ -24,14 +25,7 @@ export default function Home() {
   const [todaysBooking, setTodaysBookings] = useState()
 
   //Date for API Call
-  let dateApi = new Date(selectedDateHome)
-  const year = dateApi.getFullYear()
-  let month = dateApi.getMonth() + 1
-  month = month < 10 ? "0" + month : month
-  let day = dateApi.getDate()
-  day = day < 10 ? "0" + day : day
-
-  let backDate = `${year}-${month}-${day}`
+  let backDate = moment().format("YYYY-MM-DD")
 
   let tokenCookie = Cookies.get("token")
 
@@ -53,6 +47,7 @@ export default function Home() {
             },
           }
         )
+        console.log(response)
         data = await response.json()
         setTodaysBookings(data)
       } catch (error) {
