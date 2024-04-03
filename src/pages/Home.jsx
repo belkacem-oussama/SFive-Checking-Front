@@ -14,18 +14,20 @@ export default function Home() {
     month: "long",
     year: "numeric",
   }
+
   const currentDate = new Date().toLocaleDateString("fr-FR", options)
+  let backDate = moment().format("YYYY-MM-DD")
 
   const handleDatePickerChange = (date) => {
+    setApiDate(moment(date).format("YYYY-MM-DD"))
+    console.log(backDate)
     const homePageDate = date.toLocaleDateString("fr-FR", options)
     setSelectedDateHome(homePageDate)
   }
 
   const [selectedDateHome, setSelectedDateHome] = useState(currentDate)
+  const [apiDate, setApiDate] = useState(backDate)
   const [todaysBooking, setTodaysBookings] = useState()
-
-  //Date for API Call
-  let backDate = moment().format("YYYY-MM-DD")
 
   let tokenCookie = Cookies.get("token")
 
@@ -38,7 +40,7 @@ export default function Home() {
         response = await fetch(
           `${
             import.meta.env.VITE_APP_API_URL
-          }/checkings?checking_start=${backDate}`,
+          }/checkings?checking_start=${apiDate}`,
           {
             method: "GET",
             headers: {
