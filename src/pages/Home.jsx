@@ -20,7 +20,6 @@ export default function Home() {
 
   const handleDatePickerChange = (date) => {
     setApiDate(moment(date).format("YYYY-MM-DD"))
-    console.log(backDate)
     const homePageDate = date.toLocaleDateString("fr-FR", options)
     setSelectedDateHome(homePageDate)
   }
@@ -49,7 +48,6 @@ export default function Home() {
             },
           }
         )
-        console.log(response)
         data = await response.json()
         setTodaysBookings(data)
       } catch (error) {
