@@ -90,7 +90,7 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
       setIsBooked([])
     }
   }, [todaysBooking])
-  console.log(isBooked)
+
   const isBookedTime = (time, field) => {
     const fieldBookings = isBooked.find((booking) => booking.field === field)
 
