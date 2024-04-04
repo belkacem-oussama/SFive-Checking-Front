@@ -40,7 +40,7 @@ const hoursData = [
 
 export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
   const [isBooked, setIsBooked] = useState([])
-  console.log(todaysBooking)
+
   useEffect(() => {
     if (todaysBooking && Array.isArray(todaysBooking)) {
       const bookingsByField = todaysBooking.reduce((acc, booking) => {
@@ -50,7 +50,7 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
         const startDateTime = new Date(booking.checking_start)
         const endDateTime = new Date(booking.checking_end)
 
-        let startHour = startDateTime.getHours() - 1
+        let startHour = startDateTime.getHours() - 2
         if (startHour < 0) {
           startHour = 23
         }
@@ -59,7 +59,7 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
           startDateTime.getMinutes()
         ).padStart(2, "0")}`
 
-        let endHour = endDateTime.getHours() - 1
+        let endHour = endDateTime.getHours() - 2
         if (endHour < 0) {
           endHour = 23
         }
@@ -90,7 +90,7 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
       setIsBooked([])
     }
   }, [todaysBooking])
-
+  console.log(isBooked)
   const isBookedTime = (time, field) => {
     const fieldBookings = isBooked.find((booking) => booking.field === field)
 
