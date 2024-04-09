@@ -31,7 +31,7 @@ export default function Select({
             <span className="flex items-center">
               <span className="ml-3 block truncate">
                 {isField
-                  ? selectedField === 13
+                  ? selectedField === 9
                     ? "Terrain 1"
                     : "Terrain 2"
                   : selectedType === 1

@@ -1,9 +1,11 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 import SearchInput from "../components/SearchInput.jsx"
 import Select from "../components/Select.jsx"
 import SmallCalendar from "../components/SmallCalendar.jsx"
+import Cookies from "js-cookie"
+import { jwtDecode } from "jwt-decode"
 
 export default function BookingForm({
   listCustomer,
@@ -66,7 +68,7 @@ export default function BookingForm({
 
   //States for booking
   const [selectedType, setSelectedType] = useState(1)
-  const [selectedField, setSelectedField] = useState(13)
+  const [selectedField, setSelectedField] = useState(9)
   const [selectedDate, setSelectedDate] = useState(currentDate)
   const [selectedUser, setSelectedUser] = useState(null)
   const [textValue, setTextValue] = useState("")
@@ -83,7 +85,7 @@ export default function BookingForm({
 
   const handleReset = () => {
     setSelectedType(1)
-    setSelectedField(13)
+    setSelectedField(9)
     setSelectedDate(currentDate)
     setSelectedUser(0)
     setTextValue("")
@@ -94,6 +96,51 @@ export default function BookingForm({
     console.log(bookingData)
     handleReset()
   }
+
+  useEffect(() => {
+    const handleFieldHours = async () => {
+      try {
+        const token = Cookies.get("token")
+        if (token) {
+          const decodedToken = jwtDecode(token)
+          if (decodedToken.exp < Date.now() / 1000) {
+            // Si le token est expiré, déconnecter l'utilisateur
+            Cookies.remove("token")
+            navigate("/login")
+            return
+          }
+        }
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        }
+
+        const response = await fetch(
+          `${
+            import.meta.env.VITE_APP_API_URL
+          }/checkings?field=${selectedField}&checking_status=1`,
+          { headers },
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+
+        if (response.ok) {
+          const jsonData = await response.json()
+          console.log(jsonData)
+        } else {
+          console.error("Erreur lors de la requête:", response.status)
+        }
+      } catch (error) {
+        console.error("Erreur inattendue:", error)
+      }
+    }
+
+    handleFieldHours()
+  }, [selectedField, selectedDate])
 
   return (
     <div className="space-y-12">
