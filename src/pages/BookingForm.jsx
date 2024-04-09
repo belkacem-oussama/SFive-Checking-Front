@@ -6,6 +6,7 @@ import Select from "../components/Select.jsx"
 import SmallCalendar from "../components/SmallCalendar.jsx"
 import Cookies from "js-cookie"
 import { jwtDecode } from "jwt-decode"
+import moment from "moment/moment.js"
 
 export default function BookingForm({
   listCustomer,
@@ -62,6 +63,8 @@ export default function BookingForm({
   const currentDate = new Date().toLocaleDateString("fr-FR", options)
 
   const handleDatePickerChange = (date) => {
+    let backDate = moment(date).format("YYYY-MM-DD")
+    console.log(backDate)
     const formattedDate = date.toLocaleDateString("fr-FR", options)
     setSelectedDate(formattedDate)
   }
@@ -130,7 +133,6 @@ export default function BookingForm({
 
         if (response.ok) {
           const jsonData = await response.json()
-          console.log(jsonData)
         } else {
           console.error("Erreur lors de la requête:", response.status)
         }
