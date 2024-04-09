@@ -64,15 +64,18 @@ export default function BookingForm({
 
   const handleDatePickerChange = (date) => {
     let backDate = moment(date).format("YYYY-MM-DD")
-    console.log(backDate)
     const formattedDate = date.toLocaleDateString("fr-FR", options)
     setSelectedDate(formattedDate)
+    setApiDate(backDate)
   }
 
   //States for booking
   const [selectedType, setSelectedType] = useState(1)
   const [selectedField, setSelectedField] = useState(9)
   const [selectedDate, setSelectedDate] = useState(currentDate)
+  const [apiDate, setApiDate] = useState(
+    moment(new Date()).format("YYYY-MM-DD")
+  )
   const [selectedUser, setSelectedUser] = useState(null)
   const [textValue, setTextValue] = useState("")
   const [selectedHours, setSelectedHours] = useState([])
@@ -116,18 +119,16 @@ export default function BookingForm({
 
         const headers = {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json", // Ajoutez l'en-tête Content-Type ici
         }
 
         const response = await fetch(
           `${
             import.meta.env.VITE_APP_API_URL
-          }/checkings?field=${selectedField}&checking_status=1`,
-          { headers },
+          }/checkings?checking_start=${apiDate}&field=${selectedField}&checking_status=1`,
           {
             method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: headers, // Utilisez le même objet headers ici
           }
         )
 
