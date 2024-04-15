@@ -20,42 +20,42 @@ export default function BookingForm({
   ]
 
   const fieldAvailability = [
-    { available: 0, start: "09:00", end: "09:30" },
-    { available: 0, start: "09:30", end: "10:00" },
-    { available: 1, start: "10:00", end: "10:30" },
-    { available: 1, start: "10:30", end: "11:00" },
-    { available: 1, start: "11:00", end: "11:30" },
-    { available: 1, start: "11:30", end: "12:00" },
-    { available: 1, start: "12:00", end: "12:30" },
-    { available: 1, start: "12:30", end: "13:00" },
-    { available: 1, start: "13:00", end: "13:30" },
-    { available: 1, start: "13:30", end: "14:00" },
-    { available: 0, start: "14:00", end: "14:30" },
-    { available: 0, start: "14:30", end: "15:00" },
-    { available: 0, start: "15:00", end: "15:30" },
-    { available: 1, start: "15:30", end: "16:00" },
-    { available: 1, start: "16:00", end: "16:30" },
-    { available: 1, start: "16:30", end: "17:00" },
-    { available: 1, start: "17:00", end: "17:30" },
-    { available: 1, start: "17:30", end: "18:00" },
-    { available: 1, start: "18:00", end: "18:30" },
-    { available: 0, start: "18:30", end: "19:00" },
-    { available: 0, start: "19:00", end: "19:30" },
-    { available: 0, start: "19:30", end: "20:00" },
-    { available: 1, start: "20:00", end: "20:30" },
-    { available: 1, start: "20:30", end: "21:00" },
-    { available: 1, start: "21:00", end: "21:30" },
-    { available: 1, start: "21:30", end: "22:00" },
-    { available: 1, start: "22:00", end: "22:30" },
-    { available: 1, start: "22:30", end: "23:00" },
-    { available: 1, start: "23:00", end: "23:30" },
-    { available: 1, start: "23:30", end: "00:00" },
-    { available: 1, start: "00:00", end: "00:30" },
-    { available: 1, start: "00:30", end: "01:00" },
-    { available: 1, start: "01:00", end: "01:30" },
-    { available: 1, start: "01:30", end: "02:00" },
-    { available: 0, start: "02:00", end: "02:30" },
-    { available: 0, start: "02:30", end: "03:00" },
+    { start: "09:00", end: "09:30" },
+    { start: "09:30", end: "10:00" },
+    { start: "10:00", end: "10:30" },
+    { start: "10:30", end: "11:00" },
+    { start: "11:00", end: "11:30" },
+    { start: "11:30", end: "12:00" },
+    { start: "12:00", end: "12:30" },
+    { start: "12:30", end: "13:00" },
+    { start: "13:00", end: "13:30" },
+    { start: "13:30", end: "14:00" },
+    { start: "14:00", end: "14:30" },
+    { start: "14:30", end: "15:00" },
+    { start: "15:00", end: "15:30" },
+    { start: "15:30", end: "16:00" },
+    { start: "16:00", end: "16:30" },
+    { start: "16:30", end: "17:00" },
+    { start: "17:00", end: "17:30" },
+    { start: "17:30", end: "18:00" },
+    { start: "18:00", end: "18:30" },
+    { start: "18:30", end: "19:00" },
+    { start: "19:00", end: "19:30" },
+    { start: "19:30", end: "20:00" },
+    { start: "20:00", end: "20:30" },
+    { start: "20:30", end: "21:00" },
+    { start: "21:00", end: "21:30" },
+    { start: "21:30", end: "22:00" },
+    { start: "22:00", end: "22:30" },
+    { start: "22:30", end: "23:00" },
+    { start: "23:00", end: "23:30" },
+    { start: "23:30", end: "00:00" },
+    { start: "00:00", end: "00:30" },
+    { start: "00:30", end: "01:00" },
+    { start: "01:00", end: "01:30" },
+    { start: "01:30", end: "02:00" },
+    { start: "02:00", end: "02:30" },
+    { start: "02:30", end: "03:00" },
   ]
 
   // Obtention de la date du jour avec le même format que formattedDate
@@ -79,6 +79,7 @@ export default function BookingForm({
   const [selectedUser, setSelectedUser] = useState(null)
   const [textValue, setTextValue] = useState("")
   const [selectedHours, setSelectedHours] = useState([])
+  const [availableSLot, setAvailableSlot] = useState(true)
 
   let bookingData = [
     selectedType,
@@ -146,9 +147,6 @@ export default function BookingForm({
           const checking_end_api = checking_end
             .subtract(2, "hours")
             .format("HH:mm")
-
-          console.log(checking_start_api)
-          console.log(checking_end_api)
         } else {
           console.error("Erreur lors de la requête:", response.status)
         }
@@ -206,7 +204,7 @@ export default function BookingForm({
           {fieldAvailability.map((slot, index) => (
             <span
               onClick={() => {
-                slot.available === 1
+                availableSLot === true
                   ? setSelectedHours((selectedHours) => [
                       ...selectedHours,
                       [slot.start, slot.end],
@@ -215,7 +213,7 @@ export default function BookingForm({
               }}
               key={index}
               className={`rounded-md p-2 border-2 text-center flex items-center justify-center focus-visible:outline-gray-900 ${
-                slot.available === 0
+                availableSLot === false
                   ? "bg-gray-200 text-gray-400 "
                   : selectedHours.some(
                       ([start, end]) => start === slot.start && end === slot.end
