@@ -134,6 +134,21 @@ export default function BookingForm({
 
         if (response.ok) {
           const jsonData = await response.json()
+
+          // Convertir les chaînes de date en objets moment
+          const checking_start = moment(jsonData[0].checking_start)
+          const checking_end = moment(jsonData[0].checking_end)
+
+          // Soustraire 2 heures de checking_start et checking_end
+          const checking_start_api = checking_start
+            .subtract(2, "hours")
+            .format("HH:mm")
+          const checking_end_api = checking_end
+            .subtract(2, "hours")
+            .format("HH:mm")
+
+          console.log(checking_start_api)
+          console.log(checking_end_api)
         } else {
           console.error("Erreur lors de la requête:", response.status)
         }
