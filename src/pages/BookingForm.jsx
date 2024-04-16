@@ -149,9 +149,9 @@ export default function BookingForm({
               start: checking_start.subtract(2, "hours").format("HH:mm"),
               end: checking_end.subtract(2, "hours").format("HH:mm"),
             })
-
-            setBookingDayArray(bookingDayArray)
           })
+
+          setBookingDayArray(bookingDayArray)
         } else {
           console.error("Erreur lors de la requête:", response.status)
         }
@@ -161,15 +161,7 @@ export default function BookingForm({
     }
 
     handleFieldHours()
-  }, [selectedField, selectedDate])
-
-  if (bookingDayArray) {
-    bookingDayArray.forEach((slot) => {
-      if (slot) {
-        console.log(slot.end)
-      }
-    })
-  }
+  }, [selectedField, selectedDate, apiDate])
 
   return (
     <div className="space-y-12">
