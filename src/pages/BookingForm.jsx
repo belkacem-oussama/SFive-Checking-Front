@@ -80,6 +80,7 @@ export default function BookingForm({
   const [textValue, setTextValue] = useState("")
   const [selectedHours, setSelectedHours] = useState([])
   const [availableSLot, setAvailableSlot] = useState(true)
+  const [bookingDayArray, setBookingDayArray] = useState([])
 
   let bookingData = [
     selectedType,
@@ -137,16 +138,20 @@ export default function BookingForm({
           const jsonData = await response.json()
 
           // Convertir les chaînes de date en objets moment
-          const checking_start = moment(jsonData[0].checking_start)
-          const checking_end = moment(jsonData[0].checking_end)
+          let bookingDayArray = []
 
-          // Soustraire 2 heures de checking_start et checking_end
-          const checking_start_api = checking_start
-            .subtract(2, "hours")
-            .format("HH:mm")
-          const checking_end_api = checking_end
-            .subtract(2, "hours")
-            .format("HH:mm")
+          jsonData.map((item, index) => {
+            const checking_start = moment(jsonData[index].checking_start)
+            const checking_end = moment(jsonData[index].checking_end)
+
+            // Soustraire 2 heures de checking_start et checking_end
+            bookingDayArray.push({
+              start: checking_start.subtract(2, "hours").format("HH:mm"),
+              end: checking_end.subtract(2, "hours").format("HH:mm"),
+            })
+
+            setBookingDayArray(bookingDayArray)
+          })
         } else {
           console.error("Erreur lors de la requête:", response.status)
         }
@@ -157,6 +162,14 @@ export default function BookingForm({
 
     handleFieldHours()
   }, [selectedField, selectedDate])
+
+  if (bookingDayArray) {
+    bookingDayArray.forEach((slot) => {
+      if (slot) {
+        console.log(slot.end)
+      }
+    })
+  }
 
   return (
     <div className="space-y-12">
@@ -203,24 +216,42 @@ export default function BookingForm({
         <span className="p-2 grid grid-cols-2 md:grid-cols-4 gap-4 ">
           {fieldAvailability.map((slot, index) => (
             <span
-              onClick={() => {
-                availableSLot === true
-                  ? setSelectedHours((selectedHours) => [
-                      ...selectedHours,
-                      [slot.start, slot.end],
-                    ])
-                  : null
-              }}
               key={index}
               className={`rounded-md p-2 border-2 text-center flex items-center justify-center focus-visible:outline-gray-900 ${
-                availableSLot === false
-                  ? "bg-gray-200 text-gray-400 "
+                bookingDayArray.some(
+                  (bookingSlot) =>
+                    bookingSlot.start === slot.start ||
+                    bookingSlot.end === slot.end
+                )
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                   : selectedHours.some(
                       ([start, end]) => start === slot.start && end === slot.end
                     )
                   ? "bg-gray-900 text-white"
                   : "hover:bg-gray-900 hover:text-white"
               }`}
+              onClick={() => {
+                const isBooked = bookingDayArray.some(
+                  (bookingSlot) => bookingSlot.start === slot.start
+                )
+                const isSlotEnd = bookingDayArray.some(
+                  (bookingSlot) => bookingSlot.end === slot.end
+                )
+
+                if (
+                  availableSLot &&
+                  !isBooked &&
+                  !isSlotEnd &&
+                  !selectedHours.some(
+                    ([start, end]) => start === slot.start && end === slot.end
+                  )
+                ) {
+                  setSelectedHours((selectedHours) => [
+                    ...selectedHours,
+                    [slot.start, slot.end],
+                  ])
+                }
+              }}
             >
               {slot.start}
               <span className="flex items-center">
