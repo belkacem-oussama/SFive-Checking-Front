@@ -70,7 +70,21 @@ export default function Customers({
   return (
     <>
       {showAlert && (
-        <Alert severity="success">Client ajouté avec succès.</Alert>
+        <div style={{ position: "relative" }}>
+          <Alert
+            severity="success"
+            sx={{
+              borderRadius: "8px",
+              position: "absolute",
+              top: "0",
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 1,
+            }}
+          >
+            Client ajouté avec succès.
+          </Alert>
+        </div>
       )}
       <div className="flex justify-between items-center px-2 mt-2 ">
         <Link to="/customers/add">
