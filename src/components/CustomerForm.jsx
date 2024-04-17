@@ -31,10 +31,10 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
       if (response.ok) {
         setTimeout(() => {
           setShowAlert(true)
-        }, 500)
+        }, 200)
         setTimeout(() => {
           setShowAlert(false)
-        }, 5000)
+        }, 3000)
         window.scrollTo(0, 0)
         navigate("/customers")
       } else {
