@@ -31,6 +31,7 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
         setTimeout(() => {
           setShowAlert(false)
         }, 4000)
+        window.scrollTo(0, 0)
       } else {
         console.error("Erreur lors de la requête:", response.status)
       }
