@@ -194,7 +194,7 @@ export default function App() {
     }
 
     fetchData()
-  }, [currentUrl])
+  }, [currentUrl, listCustomer])
 
   return (
     <React.Fragment>
