@@ -219,15 +219,41 @@ export default function BookingForm({
 
             // Vérifier si le créneau actuel est partiellement réservé
             const isPartiallyBooked = bookedSlots.some((bookedSlot) => {
+              // Convertir les heures de début et de fin du créneau réservé en objets moment
+              const bookedSlotStart = moment(bookedSlot.start, "HH:mm")
+              const bookedSlotEnd = moment(bookedSlot.end, "HH:mm")
+
               // Convertir les heures de début et de fin du créneau actuel en objets moment
               const currentSlotStart = moment(slot.start, "HH:mm")
               const currentSlotEnd = moment(slot.end, "HH:mm")
 
               // Vérifier si le créneau actuel chevauche le créneau réservé
-              return (
-                bookedSlot.start.isBefore(currentSlotEnd) &&
-                bookedSlot.end.isAfter(currentSlotStart)
-              )
+              // En tenant compte que 00:00 est dans la même journée que 23:00
+              if (currentSlotEnd.isBefore(currentSlotStart)) {
+                // Si le créneau actuel passe à minuit, vérifions s'il chevauche avant minuit
+                return (
+                  currentSlotStart.isAfter(bookedSlotStart) ||
+                  currentSlotStart.isSame(bookedSlotStart) ||
+                  currentSlotEnd.isBefore(bookedSlotEnd) ||
+                  currentSlotEnd.isSame(bookedSlotEnd)
+                )
+              } else if (bookedSlotStart.isAfter(bookedSlotEnd)) {
+                // Si le créneau réservé passe à minuit, vérifions s'il chevauche après minuit
+                return (
+                  (currentSlotStart.isAfter(bookedSlotStart) ||
+                    currentSlotStart.isSame(bookedSlotStart)) &&
+                  (currentSlotEnd.isBefore(bookedSlotEnd) ||
+                    currentSlotEnd.isSame(bookedSlotEnd))
+                )
+              } else {
+                // Sinon, vérifions normalement
+                return (
+                  (currentSlotStart.isAfter(bookedSlotStart) ||
+                    currentSlotStart.isSame(bookedSlotStart)) &&
+                  (currentSlotEnd.isBefore(bookedSlotEnd) ||
+                    currentSlotEnd.isSame(bookedSlotEnd))
+                )
+              }
             })
 
             return (
