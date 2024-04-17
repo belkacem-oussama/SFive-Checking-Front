@@ -142,7 +142,9 @@ export default function App() {
 
             case "/booking":
               response = await fetch(
-                `${import.meta.env.VITE_APP_API_URL}/checkings`,
+                `${
+                  import.meta.env.VITE_APP_API_URL
+                }/checkings/?checking_status=1`,
                 { headers }
               )
               if (!response.ok) {
