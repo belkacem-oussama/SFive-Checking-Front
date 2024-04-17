@@ -1,8 +1,10 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import Cookies from "js-cookie"
+import { useNavigate } from "react-router-dom"
 
 export default function CustomerForm({ showAlert, setShowAlert }) {
+  const navigate = useNavigate()
   async function handleSubmit() {
     const newCustomer = {
       customer_surname: inputName.trim(),
@@ -32,6 +34,7 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
           setShowAlert(false)
         }, 4000)
         window.scrollTo(0, 0)
+        navigate("/customers")
       } else {
         console.error("Erreur lors de la requête:", response.status)
       }
@@ -170,16 +173,14 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
             Annuler
           </button>
         </Link>
-        <Link to="/customers">
-          <button
-            onClick={() => {
-              handleSubmit()
-            }}
-            className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-          >
-            Valider
-          </button>
-        </Link>
+        <button
+          onClick={() => {
+            handleSubmit()
+          }}
+          className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+        >
+          Valider
+        </button>
       </div>
     </>
   )
