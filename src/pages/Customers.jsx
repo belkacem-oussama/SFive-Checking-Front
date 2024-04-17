@@ -3,6 +3,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 
 import { Avatar } from "@mui/material"
+import Alert from "@mui/material/Alert"
 
 import SearchBar from "../components/Search.jsx"
 import PaginationComponent from "../components/Pagination.jsx"
@@ -47,6 +48,8 @@ export default function Customers({
   setPage,
   totalPage,
   setTotalPage,
+  showAlert,
+  setShowAlert,
 }) {
   const [inputSearch, setInputSearch] = useState("")
 
@@ -66,6 +69,9 @@ export default function Customers({
 
   return (
     <>
+      {showAlert && (
+        <Alert severity="success">Client ajouté avec succès.</Alert>
+      )}
       <div className="flex justify-between items-center px-2 mt-2 ">
         <Link to="/customers/add">
           <button className="rounded-full p-2 text-white bg-gray-800 hover:bg-gray-900 focus:bg-gray-900 ">

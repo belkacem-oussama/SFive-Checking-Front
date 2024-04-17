@@ -1,9 +1,8 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import { jwtDecode } from "jwt-decode"
 import Cookies from "js-cookie"
 
-export default function CustomerForm() {
+export default function CustomerForm({ showAlert, setShowAlert }) {
   async function handleSubmit() {
     const newCustomer = {
       customer_surname: inputName.trim(),
@@ -28,7 +27,10 @@ export default function CustomerForm() {
       )
 
       if (response.ok) {
-        console.log("ok")
+        setShowAlert(true)
+        setTimeout(() => {
+          setShowAlert(false)
+        }, 4000)
       } else {
         console.error("Erreur lors de la requête:", response.status)
       }
