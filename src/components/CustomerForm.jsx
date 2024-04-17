@@ -1,15 +1,41 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
+import { jwtDecode } from "jwt-decode"
+import Cookies from "js-cookie"
 
 export default function CustomerForm() {
-  const handleSubmit = () => {
+  async function handleSubmit() {
     const newCustomer = {
-      name: inputName,
-      surname: inputSurname,
-      email: inputEmail,
-      address: inputAddress,
-      phone: inputPhone,
+      customer_surname: inputName.trim(),
+      customer_firstname: inputSurname.trim(),
+      customer_mail: inputEmail.trim(),
+      customer_address: inputAddress.trim(),
+      customer_phone: inputPhone.trim(),
     }
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/customers`,
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `bearer ${Cookies.get("token")}`,
+          },
+          body: JSON.stringify(newCustomer),
+        }
+      )
+
+      if (response.ok) {
+        console.log("ok")
+      } else {
+        console.error("Erreur lors de la requête:", response.status)
+      }
+    } catch (error) {
+      console.error("Erreur inattendue:", error)
+    }
+
     console.log(newCustomer)
 
     setInputName("")
@@ -18,6 +44,7 @@ export default function CustomerForm() {
     setInputAddress("")
     setInputPhone("")
   }
+
   const [inputName, setInputName] = useState("")
   const [inputSurname, setInputSurname] = useState("")
   const [inputEmail, setInputEmail] = useState("")
