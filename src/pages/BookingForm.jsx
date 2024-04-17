@@ -54,8 +54,6 @@ export default function BookingForm({
     { start: "00:30", end: "01:00" },
     { start: "01:00", end: "01:30" },
     { start: "01:30", end: "02:00" },
-    { start: "02:00", end: "02:30" },
-    { start: "02:30", end: "03:00" },
   ]
 
   // Obtention de la date du jour avec le même format que formattedDate
@@ -79,7 +77,6 @@ export default function BookingForm({
   const [selectedUser, setSelectedUser] = useState(null)
   const [textValue, setTextValue] = useState("")
   const [selectedHours, setSelectedHours] = useState([])
-  const [availableSLot, setAvailableSlot] = useState(true)
   const [bookingDayArray, setBookingDayArray] = useState([])
 
   let bookingData = [
@@ -206,65 +203,91 @@ export default function BookingForm({
         </span>
         <h1 className="ml-2 font-semibold">Disponibilité</h1>
         <span className="p-2 grid grid-cols-2 md:grid-cols-4 gap-4 ">
-          {fieldAvailability.map((slot, index) => (
-            <span
-              key={index}
-              className={`rounded-md p-2 border-2 text-center flex items-center justify-center focus-visible:outline-gray-900 ${
-                bookingDayArray.some(
-                  (bookingSlot) =>
-                    bookingSlot.start === slot.start ||
-                    bookingSlot.end === slot.end
-                )
-                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : selectedHours.some(
+          {fieldAvailability.map((slot, index) => {
+            const isBookedStart = bookingDayArray.some(
+              (bookingSlot) => bookingSlot.start === slot.start
+            )
+            const isBookedEnd = bookingDayArray.some(
+              (bookingSlot) => bookingSlot.end === slot.end
+            )
+
+            // Créer un tableau de créneaux réservés pour le créneau actuel
+            const bookedSlots = bookingDayArray.map((bookingSlot) => ({
+              start: moment(bookingSlot.start, "HH:mm"),
+              end: moment(bookingSlot.end, "HH:mm"),
+            }))
+
+            // Vérifier si le créneau actuel est partiellement réservé
+            const isPartiallyBooked = bookedSlots.some((bookedSlot) => {
+              // Convertir les heures de début et de fin du créneau actuel en objets moment
+              const currentSlotStart = moment(slot.start, "HH:mm")
+              const currentSlotEnd = moment(slot.end, "HH:mm")
+
+              // Vérifier si le créneau actuel chevauche le créneau réservé
+              return (
+                bookedSlot.start.isBefore(currentSlotEnd) &&
+                bookedSlot.end.isAfter(currentSlotStart)
+              )
+            })
+
+            return (
+              <span
+                key={index}
+                className={`rounded-md p-2 border-2 text-center flex items-center justify-center focus-visible:outline-gray-900 ${
+                  isPartiallyBooked
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : isBookedStart || isBookedEnd
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : selectedHours.some(
+                        ([start, end]) =>
+                          start === slot.start && end === slot.end
+                      )
+                    ? "bg-gray-900 text-white border-none "
+                    : "hover:bg-gray-900 hover:text-white hover:border-none "
+                }`}
+                onClick={() => {
+                  const isBooked = bookingDayArray.some(
+                    (bookingSlot) => bookingSlot.start === slot.start
+                  )
+                  const isSlotEnd = bookingDayArray.some(
+                    (bookingSlot) => bookingSlot.end === slot.end
+                  )
+
+                  if (
+                    !isBooked &&
+                    !isSlotEnd &&
+                    !selectedHours.some(
                       ([start, end]) => start === slot.start && end === slot.end
                     )
-                  ? "bg-gray-900 text-white"
-                  : "hover:bg-gray-900 hover:text-white"
-              }`}
-              onClick={() => {
-                const isBooked = bookingDayArray.some(
-                  (bookingSlot) => bookingSlot.start === slot.start
-                )
-                const isSlotEnd = bookingDayArray.some(
-                  (bookingSlot) => bookingSlot.end === slot.end
-                )
-
-                if (
-                  availableSLot &&
-                  !isBooked &&
-                  !isSlotEnd &&
-                  !selectedHours.some(
-                    ([start, end]) => start === slot.start && end === slot.end
-                  )
-                ) {
-                  setSelectedHours((selectedHours) => [
-                    ...selectedHours,
-                    [slot.start, slot.end],
-                  ])
-                }
-              }}
-            >
-              {slot.start}
-              <span className="flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  className="w-4 h-4 mx-2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-                  />
-                </svg>
+                  ) {
+                    setSelectedHours((selectedHours) => [
+                      ...selectedHours,
+                      [slot.start, slot.end],
+                    ])
+                  }
+                }}
+              >
+                {slot.start}
+                <span className="flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    className="w-4 h-4 mx-2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                    />
+                  </svg>
+                </span>
+                {slot.end}
               </span>
-              {slot.end}
-            </span>
-          ))}
+            )
+          })}
         </span>
 
         <h1 className="ml-2 font-semibold mt-4">Organisateur</h1>
