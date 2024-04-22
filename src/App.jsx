@@ -119,7 +119,7 @@ export default function App() {
           }
 
           const headers = {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           }
 
           let response

@@ -22,7 +22,7 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
           mode: "cors",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `bearer ${Cookies.get("token")}`,
+            Authorization: `${Cookies.get("token")}`,
           },
           body: JSON.stringify(newCustomer),
         }
