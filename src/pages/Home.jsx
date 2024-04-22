@@ -37,14 +37,12 @@ export default function Home() {
 
       try {
         response = await fetch(
-          `${
-            import.meta.env.VITE_APP_API_URL
-          }/checkings?checking_start=${apiDate}`,
+          `${import.meta.env.VITE_APP_API_URL}/checkings/date/${apiDate}`,
           {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${tokenCookie}`,
+              Authorization: tokenCookie,
             },
           }
         )
