@@ -117,29 +117,30 @@ export default function BookingForm({
         }
 
         const headers = {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json", // Ajoutez l'en-tête Content-Type ici
+          Authorization: `${token}`,
+          "Content-Type": "application/json",
         }
 
         const response = await fetch(
           `${
             import.meta.env.VITE_APP_API_URL
-          }/checkings?checking_start=${apiDate}&field=${selectedField}&checking_status=1`,
+          }/checkings/date/${apiDate}/${selectedField}`,
           {
             method: "GET",
-            headers: headers, // Utilisez le même objet headers ici
+            headers: headers,
           }
         )
 
         if (response.ok) {
           const jsonData = await response.json()
+          console.log(jsonData)
 
           // Convertir les chaînes de date en objets moment
           let bookingDayArray = []
 
-          jsonData.map((item, index) => {
-            const checking_start = moment(jsonData[index].checking_start)
-            const checking_end = moment(jsonData[index].checking_end)
+          jsonData.forEach((item) => {
+            const checking_start = moment(item.checking_start)
+            const checking_end = moment(item.checking_end)
 
             // Soustraire 2 heures de checking_start et checking_end
             bookingDayArray.push({
@@ -151,6 +152,7 @@ export default function BookingForm({
           setBookingDayArray(bookingDayArray)
         } else {
           console.error("Erreur lors de la requête:", response.status)
+          setBookingDayArray([])
         }
       } catch (error) {
         console.error("Erreur inattendue:", error)
