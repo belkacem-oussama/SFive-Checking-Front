@@ -54,8 +54,8 @@ export default function App() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: inputLogin,
-            password: inputPassword,
+            user_email: inputLogin,
+            user_password: inputPassword,
           }),
         }
       )
