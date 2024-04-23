@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 import SearchInput from "../components/SearchInput.jsx"
 import Select from "../components/Select.jsx"
@@ -14,6 +15,8 @@ export default function BookingForm({
   listFields,
   setListFields,
 }) {
+  const navigate = useNavigate()
+
   const bookingType = [
     { id: 1, name: "Classique" },
     { id: 2, name: "Anniversaire" },
@@ -193,16 +196,14 @@ export default function BookingForm({
       )
 
       if (response.ok) {
+        navigate("/")
         const jsonData = await response.json()
       }
     } catch (error) {
       console.log(error)
     }
-
-    handleReset()
-    window.scroll({ top: 0 })
   }
-
+  console.log(selectedHours)
   return (
     <div className="space-y-12">
       <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10q pb-3">
@@ -325,6 +326,7 @@ export default function BookingForm({
                   if (
                     !isBooked &&
                     !isSlotEnd &&
+                    !isPartiallyBooked &&
                     !selectedHours.some(
                       ([start, end]) => start === slot.start && end === slot.end
                     )
@@ -388,16 +390,15 @@ export default function BookingForm({
           >
             Annuler
           </button>
-          <Link to="/">
-            <button
-              onClick={() => {
-                handleSendData()
-              }}
-              className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-            >
-              Valider
-            </button>
-          </Link>
+
+          <button
+            onClick={() => {
+              handleSendData()
+            }}
+            className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+          >
+            Valider
+          </button>
         </div>
       </div>
     </div>
