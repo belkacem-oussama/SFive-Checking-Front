@@ -80,12 +80,12 @@ export default function BookingForm({
   const [bookingDayArray, setBookingDayArray] = useState([])
 
   let bookingData = [
-    selectedType,
-    selectedField,
-    selectedDate,
-    selectedHours,
     selectedUser,
+    selectedField,
+    selectedType,
     textValue,
+    apiDate,
+    selectedHours,
   ]
 
   const handleReset = () => {
@@ -95,11 +95,6 @@ export default function BookingForm({
     setSelectedUser(0)
     setTextValue("")
     setSelectedHours([])
-  }
-
-  const handleSendData = () => {
-    console.log(bookingData)
-    handleReset()
   }
 
   useEffect(() => {
@@ -161,6 +156,53 @@ export default function BookingForm({
 
     handleFieldHours()
   }, [selectedField, selectedDate, apiDate])
+
+  const handleSendData = async () => {
+    try {
+      const token = Cookies.get("token")
+      if (token) {
+        const decodedToken = jwtDecode(token)
+        if (decodedToken.exp < Date.now() / 1000) {
+          // Si le token est expiré, déconnecter l'utilisateur
+          Cookies.remove("token")
+          navigate("/login")
+          return
+        }
+      }
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/checkings`,
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            Authorization: `${Cookies.get("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            customer_id: bookingData[0],
+            field_id: bookingData[1],
+            checking_status: 1,
+            checking_type: bookingData[2],
+            checking_price: 120,
+            checking_notes: "premiers tests api checking post",
+            checking_start: `${apiDate}T${selectedHours[0][0]}:00.000Z`,
+            checking_end: `${apiDate}T${
+              selectedHours[selectedHours.length - 1][1]
+            }:00.000Z`,
+          }),
+        }
+      )
+
+      if (response.ok) {
+        const jsonData = await response.json()
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
+    handleReset()
+    window.scroll({ top: 0 })
+  }
 
   return (
     <div className="space-y-12">
@@ -349,7 +391,10 @@ export default function BookingForm({
           </button>
           <Link to="/">
             <button
-              onClick={handleSendData}
+              onClick={() => {
+                handleSendData()
+                console.log(bookingData)
+              }}
               className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
             >
               Valider
