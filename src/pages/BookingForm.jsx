@@ -323,6 +323,10 @@ export default function BookingForm({
                     (bookingSlot) => bookingSlot.end === slot.end
                   )
 
+                  const isAlreadySelected = selectedHours.some(
+                    ([start, end]) => start === slot.start && end === slot.end
+                  )
+                  console.log(isAlreadySelected)
                   if (
                     !isBooked &&
                     !isSlotEnd &&
@@ -331,10 +335,19 @@ export default function BookingForm({
                       ([start, end]) => start === slot.start && end === slot.end
                     )
                   ) {
-                    setSelectedHours((selectedHours) => [
-                      ...selectedHours,
-                      [slot.start, slot.end],
-                    ])
+                    if (!isAlreadySelected) {
+                      setSelectedHours((selectedHours) => [
+                        ...selectedHours,
+                        [slot.start, slot.end],
+                      ])
+                    }
+                  } else {
+                    setSelectedHours((prevSelectedHours) =>
+                      prevSelectedHours.filter(
+                        ([start, end]) =>
+                          !(start === slot.start && end === slot.end)
+                      )
+                    )
                   }
                 }}
               >
