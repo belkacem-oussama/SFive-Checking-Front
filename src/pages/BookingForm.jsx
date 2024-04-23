@@ -128,7 +128,6 @@ export default function BookingForm({
 
         if (response.ok) {
           const jsonData = await response.json()
-          console.log(jsonData)
 
           // Convertir les chaînes de date en objets moment
           let bookingDayArray = []
@@ -393,7 +392,6 @@ export default function BookingForm({
             <button
               onClick={() => {
                 handleSendData()
-                console.log(bookingData)
               }}
               className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
             >
