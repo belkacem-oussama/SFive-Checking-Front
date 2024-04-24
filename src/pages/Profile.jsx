@@ -7,7 +7,6 @@ export default function Profile({ tokenCookie, setTokenCookie }) {
   let userDataEmail
 
   if (tokenCookie) {
-    console.log(jwtDecode(tokenCookie))
     userDataRole = jwtDecode(tokenCookie).user_roles
 
     userDataName = jwtDecode(tokenCookie).user_name
