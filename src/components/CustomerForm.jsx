@@ -1,15 +1,49 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
+import Cookies from "js-cookie"
+import { useNavigate } from "react-router-dom"
 
-export default function CustomerForm() {
-  const handleSubmit = () => {
+export default function CustomerForm({ showAlert, setShowAlert }) {
+  const navigate = useNavigate()
+  async function handleSubmit() {
     const newCustomer = {
-      name: inputName,
-      surname: inputSurname,
-      email: inputEmail,
-      address: inputAddress,
-      phone: inputPhone,
+      customer_surname: inputName.trim(),
+      customer_firstname: inputSurname.trim(),
+      customer_mail: inputEmail.trim(),
+      customer_address: inputAddress.trim(),
+      customer_phone: inputPhone.trim(),
     }
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/customers`,
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${Cookies.get("token")}`,
+          },
+          body: JSON.stringify(newCustomer),
+        }
+      )
+
+      if (response.ok) {
+        setTimeout(() => {
+          setShowAlert(true)
+        }, 200)
+        setTimeout(() => {
+          setShowAlert(false)
+        }, 3000)
+        window.scrollTo(0, 0)
+        navigate("/customers")
+      } else {
+        console.error("Erreur lors de la requête:", response.status)
+      }
+    } catch (error) {
+      console.error("Erreur inattendue:", error)
+    }
+
     console.log(newCustomer)
 
     setInputName("")
@@ -18,6 +52,7 @@ export default function CustomerForm() {
     setInputAddress("")
     setInputPhone("")
   }
+
   const [inputName, setInputName] = useState("")
   const [inputSurname, setInputSurname] = useState("")
   const [inputEmail, setInputEmail] = useState("")
@@ -140,16 +175,14 @@ export default function CustomerForm() {
             Annuler
           </button>
         </Link>
-        <Link to="/customers">
-          <button
-            onClick={() => {
-              handleSubmit()
-            }}
-            className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-          >
-            Valider
-          </button>
-        </Link>
+        <button
+          onClick={() => {
+            handleSubmit()
+          }}
+          className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+        >
+          Valider
+        </button>
       </div>
     </>
   )

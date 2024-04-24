@@ -28,6 +28,7 @@ export default function App() {
   const [inputPassword, setInputPassword] = useState("")
   const [tokenCookie, setTokenCookie] = useState(Cookies.get("token") || "")
   const [showLoader, setShowLoader] = useState(false)
+  const [showAlert, setShowAlert] = useState(false)
   const [showMessage, setShowMessage] = useState(false)
   const [isLogged, setIsLogged] = useState(false)
   const [listCustomer, setListCustomer] = useState([])
@@ -53,8 +54,8 @@ export default function App() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: inputLogin,
-            password: inputPassword,
+            user_email: inputLogin,
+            user_password: inputPassword,
           }),
         }
       )
@@ -118,7 +119,7 @@ export default function App() {
           }
 
           const headers = {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
           }
 
           let response
@@ -142,9 +143,7 @@ export default function App() {
 
             case "/booking":
               response = await fetch(
-                `${
-                  import.meta.env.VITE_APP_API_URL
-                }/checkings/?checking_status=1`,
+                `${import.meta.env.VITE_APP_API_URL}/checkings`,
                 { headers }
               )
               if (!response.ok) {
@@ -221,10 +220,20 @@ export default function App() {
                   setPage={setPage}
                   totalPage={totalPage}
                   setTotalPage={setTotalPage}
+                  showAlert={showAlert}
+                  setShowAlert={setShowAlert}
                 />
               }
             />
-            <Route path="/customers/add" element={<CustomerForm />} />
+            <Route
+              path="/customers/add"
+              element={
+                <CustomerForm
+                  showAlert={showAlert}
+                  setShowAlert={setShowAlert}
+                />
+              }
+            />
             <Route
               path="/customers/:id"
               element={

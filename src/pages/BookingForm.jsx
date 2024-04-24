@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 import SearchInput from "../components/SearchInput.jsx"
 import Select from "../components/Select.jsx"
@@ -14,6 +15,8 @@ export default function BookingForm({
   listFields,
   setListFields,
 }) {
+  const navigate = useNavigate()
+
   const bookingType = [
     { id: 1, name: "Classique" },
     { id: 2, name: "Anniversaire" },
@@ -80,12 +83,12 @@ export default function BookingForm({
   const [bookingDayArray, setBookingDayArray] = useState([])
 
   let bookingData = [
-    selectedType,
-    selectedField,
-    selectedDate,
-    selectedHours,
     selectedUser,
+    selectedField,
+    selectedType,
     textValue,
+    apiDate,
+    selectedHours,
   ]
 
   const handleReset = () => {
@@ -95,11 +98,6 @@ export default function BookingForm({
     setSelectedUser(0)
     setTextValue("")
     setSelectedHours([])
-  }
-
-  const handleSendData = () => {
-    console.log(bookingData)
-    handleReset()
   }
 
   useEffect(() => {
@@ -117,17 +115,17 @@ export default function BookingForm({
         }
 
         const headers = {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json", // Ajoutez l'en-tête Content-Type ici
+          Authorization: `${token}`,
+          "Content-Type": "application/json",
         }
 
         const response = await fetch(
           `${
             import.meta.env.VITE_APP_API_URL
-          }/checkings?checking_start=${apiDate}&field=${selectedField}&checking_status=1`,
+          }/checkings/date/${apiDate}/${selectedField}`,
           {
             method: "GET",
-            headers: headers, // Utilisez le même objet headers ici
+            headers: headers,
           }
         )
 
@@ -137,9 +135,9 @@ export default function BookingForm({
           // Convertir les chaînes de date en objets moment
           let bookingDayArray = []
 
-          jsonData.map((item, index) => {
-            const checking_start = moment(jsonData[index].checking_start)
-            const checking_end = moment(jsonData[index].checking_end)
+          jsonData.forEach((item) => {
+            const checking_start = moment(item.checking_start)
+            const checking_end = moment(item.checking_end)
 
             // Soustraire 2 heures de checking_start et checking_end
             bookingDayArray.push({
@@ -151,6 +149,7 @@ export default function BookingForm({
           setBookingDayArray(bookingDayArray)
         } else {
           console.error("Erreur lors de la requête:", response.status)
+          setBookingDayArray([])
         }
       } catch (error) {
         console.error("Erreur inattendue:", error)
@@ -160,6 +159,51 @@ export default function BookingForm({
     handleFieldHours()
   }, [selectedField, selectedDate, apiDate])
 
+  const handleSendData = async () => {
+    try {
+      const token = Cookies.get("token")
+      if (token) {
+        const decodedToken = jwtDecode(token)
+        if (decodedToken.exp < Date.now() / 1000) {
+          // Si le token est expiré, déconnecter l'utilisateur
+          Cookies.remove("token")
+          navigate("/login")
+          return
+        }
+      }
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/checkings`,
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            Authorization: `${Cookies.get("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            customer_id: bookingData[0],
+            field_id: bookingData[1],
+            checking_status: 1,
+            checking_type: bookingData[2],
+            checking_price: 120,
+            checking_notes: "premiers tests api checking post",
+            checking_start: `${apiDate}T${selectedHours[0][0]}:00.000Z`,
+            checking_end: `${apiDate}T${
+              selectedHours[selectedHours.length - 1][1]
+            }:00.000Z`,
+          }),
+        }
+      )
+
+      if (response.ok) {
+        navigate("/")
+        const jsonData = await response.json()
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  console.log(selectedHours)
   return (
     <div className="space-y-12">
       <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10q pb-3">
@@ -279,17 +323,31 @@ export default function BookingForm({
                     (bookingSlot) => bookingSlot.end === slot.end
                   )
 
+                  const isAlreadySelected = selectedHours.some(
+                    ([start, end]) => start === slot.start && end === slot.end
+                  )
+                  console.log(isAlreadySelected)
                   if (
                     !isBooked &&
                     !isSlotEnd &&
+                    !isPartiallyBooked &&
                     !selectedHours.some(
                       ([start, end]) => start === slot.start && end === slot.end
                     )
                   ) {
-                    setSelectedHours((selectedHours) => [
-                      ...selectedHours,
-                      [slot.start, slot.end],
-                    ])
+                    if (!isAlreadySelected) {
+                      setSelectedHours((selectedHours) => [
+                        ...selectedHours,
+                        [slot.start, slot.end],
+                      ])
+                    }
+                  } else {
+                    setSelectedHours((prevSelectedHours) =>
+                      prevSelectedHours.filter(
+                        ([start, end]) =>
+                          !(start === slot.start && end === slot.end)
+                      )
+                    )
                   }
                 }}
               >
@@ -345,14 +403,15 @@ export default function BookingForm({
           >
             Annuler
           </button>
-          <Link to="/">
-            <button
-              onClick={handleSendData}
-              className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-            >
-              Valider
-            </button>
-          </Link>
+
+          <button
+            onClick={() => {
+              handleSendData()
+            }}
+            className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+          >
+            Valider
+          </button>
         </div>
       </div>
     </div>
