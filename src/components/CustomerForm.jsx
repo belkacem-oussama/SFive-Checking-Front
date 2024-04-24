@@ -44,8 +44,6 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
       console.error("Erreur inattendue:", error)
     }
 
-    console.log(newCustomer)
-
     setInputName("")
     setInputSurname("")
     setInputEmail("")

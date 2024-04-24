@@ -1,13 +1,17 @@
 import { useState } from "react"
 import SearchBar from "../components/Search.jsx"
+import Cookies from "js-cookie"
+import { jwtDecode } from "jwt-decode"
 
 import Popup from "../components/Popup.jsx"
+import Alert from "../components/Alert.jsx"
 
 export default function Booking({ listBooking, setListBooking }) {
   const [showPopUp, setShowPopUp] = useState(false)
   const [bookingId, setBookingId] = useState(null)
   const [checkButton, setCheckButton] = useState(true)
   const [inputSearch, setInputSearch] = useState("")
+  const [showAlert, setShowAlert] = useState(false)
 
   const handleDropBooking = (id) => {
     setShowPopUp(true)
@@ -21,8 +25,55 @@ export default function Booking({ listBooking, setListBooking }) {
     setCheckButton(true)
   }
 
-  const handleConfirmCancellation = () => {
-    console.log("Réservation annulée :", bookingId)
+  const handleUpdateBooking = () => {
+    console.log(`Réservation ${bookingId}`)
+  }
+
+  const successMessage = `Réservation ${bookingId} annulée.`
+
+  const handleConfirmCancellation = async () => {
+    try {
+      const token = Cookies.get("token")
+      if (token) {
+        const decodedToken = jwtDecode(token)
+        if (decodedToken.exp < Date.now() / 1000) {
+          // Si le token est expiré, déconnecter l'utilisateur
+          setIsLogged(false)
+          Cookies.remove("token")
+          navigate("/login")
+          return
+        }
+      }
+
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/checkings/${bookingId}`,
+        {
+          method: "DELETE",
+          mode: "cors",
+          headers: {
+            Authorization: `${Cookies.get("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+
+      if (response.ok) {
+        setTimeout(() => {
+          setShowAlert(true)
+        }, 200)
+        setTimeout(() => {
+          setShowAlert(false)
+        }, 3000)
+        window.scrollTo(0, 0)
+      }
+
+      setListBooking((prevListBooking) =>
+        prevListBooking.filter((booking) => booking.id !== bookingId)
+      )
+    } catch (error) {
+      ;`Erreur lors de la requête : ${console.error(error)}`
+    }
+
     setShowPopUp(false)
   }
 
@@ -64,6 +115,7 @@ export default function Booking({ listBooking, setListBooking }) {
 
   return (
     <>
+      {showAlert && <Alert alertMessage={successMessage} />}
       <SearchBar inputSearch={inputSearch} onChange={handleOnChange} />
       {showPopUp && (
         <Popup
@@ -71,6 +123,7 @@ export default function Booking({ listBooking, setListBooking }) {
           bookingId={bookingId}
           handleConfirmCancellation={handleConfirmCancellation}
           handleCancel={handleCancel}
+          handleUpdateBooking={handleUpdateBooking}
         />
       )}
       <ul role="list" className="divide-y divide-gray-100">

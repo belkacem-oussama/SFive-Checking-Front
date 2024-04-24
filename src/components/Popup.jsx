@@ -5,6 +5,7 @@ export default function Popup({
   bookingId,
   checkButton,
   handleConfirmCancellation,
+  handleUpdateBooking,
 }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -27,7 +28,9 @@ export default function Popup({
             Annuler
           </button>
           <button
-            onClick={handleConfirmCancellation}
+            onClick={
+              !checkButton ? handleConfirmCancellation : handleUpdateBooking
+            }
             className="font-bold px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
           >
             Confirmer
