@@ -4,12 +4,14 @@ import Cookies from "js-cookie"
 import { jwtDecode } from "jwt-decode"
 
 import Popup from "../components/Popup.jsx"
+import Alert from "../components/Alert.jsx"
 
 export default function Booking({ listBooking, setListBooking }) {
   const [showPopUp, setShowPopUp] = useState(false)
   const [bookingId, setBookingId] = useState(null)
   const [checkButton, setCheckButton] = useState(true)
   const [inputSearch, setInputSearch] = useState("")
+  const [showAlert, setShowAlert] = useState(false)
 
   const handleDropBooking = (id) => {
     setShowPopUp(true)
@@ -26,6 +28,8 @@ export default function Booking({ listBooking, setListBooking }) {
   const handleUpdateBooking = () => {
     console.log(`Réservation ${bookingId}`)
   }
+
+  const successMessage = `Réservation ${bookingId} annulée.`
 
   const handleConfirmCancellation = async () => {
     try {
@@ -52,8 +56,15 @@ export default function Booking({ listBooking, setListBooking }) {
           },
         }
       )
+
       if (response.ok) {
-        alert(`Réservation ${bookingId} supprimée.`)
+        setTimeout(() => {
+          setShowAlert(true)
+        }, 200)
+        setTimeout(() => {
+          setShowAlert(false)
+        }, 3000)
+        window.scrollTo(0, 0)
       }
 
       setListBooking((prevListBooking) =>
@@ -104,6 +115,7 @@ export default function Booking({ listBooking, setListBooking }) {
 
   return (
     <>
+      {showAlert && <Alert alertMessage={successMessage} />}
       <SearchBar inputSearch={inputSearch} onChange={handleOnChange} />
       {showPopUp && (
         <Popup
