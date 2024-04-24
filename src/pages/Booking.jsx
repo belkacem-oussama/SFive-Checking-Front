@@ -55,6 +55,10 @@ export default function Booking({ listBooking, setListBooking }) {
       if (response.ok) {
         alert(`Réservation ${bookingId} supprimée.`)
       }
+
+      setListBooking((prevListBooking) =>
+        prevListBooking.filter((booking) => booking.id !== bookingId)
+      )
     } catch (error) {
       ;`Erreur lors de la requête : ${console.error(error)}`
     }
