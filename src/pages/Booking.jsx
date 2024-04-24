@@ -1,5 +1,7 @@
 import { useState } from "react"
 import SearchBar from "../components/Search.jsx"
+import Cookies from "js-cookie"
+import { jwtDecode } from "jwt-decode"
 
 import Popup from "../components/Popup.jsx"
 
@@ -21,8 +23,42 @@ export default function Booking({ listBooking, setListBooking }) {
     setCheckButton(true)
   }
 
-  const handleConfirmCancellation = () => {
-    console.log("Réservation annulée :", bookingId)
+  const handleUpdateBooking = () => {
+    console.log(`Réservation ${bookingId}`)
+  }
+
+  const handleConfirmCancellation = async () => {
+    try {
+      const token = Cookies.get("token")
+      if (token) {
+        const decodedToken = jwtDecode(token)
+        if (decodedToken.exp < Date.now() / 1000) {
+          // Si le token est expiré, déconnecter l'utilisateur
+          setIsLogged(false)
+          Cookies.remove("token")
+          navigate("/login")
+          return
+        }
+      }
+
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/checkings/${bookingId}`,
+        {
+          method: "DELETE",
+          mode: "cors",
+          headers: {
+            Authorization: `${Cookies.get("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      if (response.ok) {
+        alert(`Réservation ${bookingId} supprimée.`)
+      }
+    } catch (error) {
+      ;`Erreur lors de la requête : ${console.error(error)}`
+    }
+
     setShowPopUp(false)
   }
 
@@ -71,6 +107,7 @@ export default function Booking({ listBooking, setListBooking }) {
           bookingId={bookingId}
           handleConfirmCancellation={handleConfirmCancellation}
           handleCancel={handleCancel}
+          handleUpdateBooking={handleUpdateBooking}
         />
       )}
       <ul role="list" className="divide-y divide-gray-100">
