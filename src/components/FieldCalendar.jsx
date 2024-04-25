@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import LoaderComponent from "../components/Loader.jsx"
 
 const hoursData = [
   "09:00",
@@ -38,7 +39,12 @@ const hoursData = [
   "02:00",
 ]
 
-export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
+export default function FieldCalendar({
+  todaysBooking,
+  setTodaysBooking,
+  showLoader,
+  setShowLoader,
+}) {
   const [isBooked, setIsBooked] = useState([])
 
   useEffect(() => {
@@ -123,7 +129,12 @@ export default function FieldCalendar({ todaysBooking, setTodaysBooking }) {
   }
 
   return (
-    <div className="pt-2">
+    <div className="pt-2 relative ">
+      {showLoader && (
+        <div className="absolute inset-0 flex justify-center items-center bg-gray-100 bg-opacity-50">
+          <LoaderComponent />
+        </div>
+      )}
       <table cellPadding="6" className="w-full">
         <thead>
           <tr>
