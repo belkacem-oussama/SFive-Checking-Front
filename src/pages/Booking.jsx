@@ -167,7 +167,7 @@ export default function Booking({ listBooking, setListBooking }) {
 
       <ul role="list" className="divide-y divide-gray-100">
         {filteredBookings.length === 0 && (
-          <p className="flex items-center justify-center h-full text-gray-500">
+          <p className="flex items-center justify-center h-screen text-gray-500">
             Aucun résultats...
           </p>
         )}
