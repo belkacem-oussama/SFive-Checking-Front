@@ -64,7 +64,7 @@ export default function Booking({ listBooking, setListBooking }) {
         }, 200)
         setTimeout(() => {
           setShowAlert(false)
-        }, 3000)
+        }, 2000)
         window.scrollTo(0, 0)
       }
 
@@ -97,7 +97,7 @@ export default function Booking({ listBooking, setListBooking }) {
         }, 200)
         setTimeout(() => {
           setShowAlert(false)
-        }, 3000)
+        }, 2000)
         window.scrollTo(0, 0)
       }
 
