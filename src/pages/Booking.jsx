@@ -223,7 +223,7 @@ export default function Booking({ listBooking, setListBooking }) {
               </button>
               <button
                 onClick={() => handleDropBooking(checking.id)}
-                className="font-bold px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                className="font-bold px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900"
               >
                 Annuler
               </button>
