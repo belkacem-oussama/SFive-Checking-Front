@@ -49,7 +49,7 @@ export default function Home() {
         data = await response.json()
         setTodaysBookings(data)
       } catch (error) {
-        console.log("hehe")
+        console.log(error)
       }
     }
     fetchData()
