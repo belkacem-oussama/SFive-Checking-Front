@@ -72,7 +72,7 @@ export default function Customers({
   const totalPageCalc = Math.ceil(listCustomer.length / 20)
 
   const successMessage = "Client ajouté avec succès."
-  console.log(filteredCustomers)
+
   return (
     <>
       {showAlert && <Alert alertMessage={successMessage} />}
