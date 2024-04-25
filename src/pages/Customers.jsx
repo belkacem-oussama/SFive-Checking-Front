@@ -3,11 +3,13 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 
 import { Avatar } from "@mui/material"
+import { useLocation } from "react-router-dom"
 
 import SearchBar from "../components/Search.jsx"
 import PaginationComponent from "../components/Pagination.jsx"
 import Alert from "../components/Alert.jsx"
 import LoaderComponent from "../components/Loader.jsx"
+import { useEffect } from "react"
 
 function stringToColor(string) {
   let hash = 0
@@ -53,6 +55,11 @@ export default function Customers({
   setShowAlert,
 }) {
   const [inputSearch, setInputSearch] = useState("")
+  const location = useLocation()
+
+  useEffect(() => {
+    setPage(1)
+  }, [location])
 
   const handleChange = (e) => {
     setInputSearch(e.target.value)
