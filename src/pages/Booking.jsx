@@ -123,8 +123,10 @@ export default function Booking({ listBooking, setListBooking }) {
       day: "numeric",
     }
     const date = new Date(dateString)
-    const formattedDate = date.toLocaleDateString("fr-FR", options)
-    return formattedDate.charAt(0) + formattedDate.slice(1)
+    let formattedDate = date.toLocaleDateString("fr-FR", options)
+    // Mettre en majuscule la première lettre du jour et du mois
+    formattedDate = formattedDate.replace(/\b\w/g, (char) => char.toUpperCase())
+    return formattedDate
   }
 
   function formatTimeFromString(dateString) {
