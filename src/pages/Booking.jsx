@@ -13,6 +13,22 @@ export default function Booking({ listBooking, setListBooking }) {
   const [inputSearch, setInputSearch] = useState("")
   const [showAlert, setShowAlert] = useState(false)
 
+  const deleteMessage = `Réservation ${bookingId} annulée.`
+  const updateMessage = `Réservation ${bookingId} terminée.`
+
+  const token = Cookies.get("token")
+
+  if (token) {
+    const decodedToken = jwtDecode(token)
+    if (decodedToken.exp < Date.now() / 1000) {
+      // Si le token est expiré, déconnecter l'utilisateur
+      setIsLogged(false)
+      Cookies.remove("token")
+      navigate("/login")
+      return
+    }
+  }
+
   const handleDropBooking = (id) => {
     setShowPopUp(true)
     setBookingId(id)
@@ -25,26 +41,44 @@ export default function Booking({ listBooking, setListBooking }) {
     setCheckButton(true)
   }
 
-  const handleUpdateBooking = () => {
-    console.log(`Réservation ${bookingId}`)
-  }
+  const handleUpdateBooking = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/checkings/${bookingId}`,
+        {
+          method: "PUT",
+          mode: "cors",
+          headers: {
+            Authorization: `${Cookies.get("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            checking_status: 0,
+          }),
+        }
+      )
 
-  const successMessage = `Réservation ${bookingId} annulée.`
+      if (response.ok) {
+        setTimeout(() => {
+          setShowAlert(true)
+        }, 200)
+        setTimeout(() => {
+          setShowAlert(false)
+        }, 3000)
+        window.scrollTo(0, 0)
+      }
+
+      setListBooking((prevListBooking) =>
+        prevListBooking.filter((booking) => booking.id !== bookingId)
+      )
+    } catch (error) {
+      console.log(error)
+    }
+    setShowPopUp(false)
+  }
 
   const handleConfirmCancellation = async () => {
     try {
-      const token = Cookies.get("token")
-      if (token) {
-        const decodedToken = jwtDecode(token)
-        if (decodedToken.exp < Date.now() / 1000) {
-          // Si le token est expiré, déconnecter l'utilisateur
-          setIsLogged(false)
-          Cookies.remove("token")
-          navigate("/login")
-          return
-        }
-      }
-
       const response = await fetch(
         `${import.meta.env.VITE_APP_API_URL}/checkings/${bookingId}`,
         {
@@ -115,7 +149,9 @@ export default function Booking({ listBooking, setListBooking }) {
 
   return (
     <>
-      {showAlert && <Alert alertMessage={successMessage} />}
+      {showAlert && (
+        <Alert alertMessage={checkButton ? updateMessage : deleteMessage} />
+      )}
       <SearchBar inputSearch={inputSearch} onChange={handleOnChange} />
       {showPopUp && (
         <Popup
