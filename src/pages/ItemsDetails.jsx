@@ -36,7 +36,17 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
 
   // Function to toggle the input display
   const handleShowInput = (fieldName) => {
-    setShowInput({ ...showInput, [fieldName]: !showInput[fieldName] })
+    setShowInput((prevShowInput) => ({
+      ...prevShowInput,
+      [fieldName]: true,
+    }))
+  }
+
+  const handleHideInput = (fieldName) => {
+    setShowInput((prevShowInput) => ({
+      ...prevShowInput,
+      [fieldName]: false,
+    }))
     handleUpdateDetails()
   }
 
@@ -197,7 +207,7 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
                       viewBox="0 0 24 24"
                       stroke="currentColor"
                       className="w-4 h-4"
-                      onClick={() => handleShowInput(key)}
+                      onClick={() => handleHideInput(key)}
                     >
                       <path
                         strokeLinecap="round"
