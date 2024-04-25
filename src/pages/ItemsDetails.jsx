@@ -1,5 +1,7 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
+import Cookies from "js-cookie"
+import Alert from "../components/Alert.jsx"
 
 import { PaperClipIcon } from "@heroicons/react/20/solid"
 
@@ -15,21 +17,97 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
     mail: false,
     phone: false,
   })
-  const [inputValue, setInputValue] = useState("")
+  const [inputValues, setInputValues] = useState({
+    customer_surname: "",
+    customer_firstname: "",
+    customer_address: "",
+    customer_city: "",
+    customer_mail: "",
+    customer_phone: "",
+  })
+
+  const [showAlert, setShowAlert] = useState(false)
 
   const { id } = useParams()
 
-  const booking = listCustomer.find(
+  const customerId = listCustomer.find(
     (customer) => parseInt(customer.id) === parseInt(id)
   )
 
   // Function to toggle the input display
   const handleShowInput = (fieldName) => {
     setShowInput({ ...showInput, [fieldName]: !showInput[fieldName] })
+    handleUpdateDetails()
   }
+
+  useEffect(() => {
+    const customer = listCustomer.find(
+      (customer) => parseInt(customer.id) === parseInt(id)
+    )
+    setInputValues({
+      customer_surname: customer.customer_surname,
+      customer_firstname: customer.customer_firstname,
+      customer_address: customer.customer_address,
+      customer_city: customer.customer_city,
+      customer_mail: customer.customer_mail,
+      customer_phone: customer.customer_phone,
+    })
+  }, [id, listCustomer])
+
+  const handleInputChange = (fieldName, value) => {
+    setInputValues({
+      ...inputValues,
+      [fieldName]: value,
+    })
+  }
+
+  const handleUpdateDetails = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/customers/${customerId.id}`,
+
+        {
+          method: "PUT",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${Cookies.get("token")}`,
+          },
+
+          body: JSON.stringify(inputValues),
+        }
+      )
+
+      if (response.ok) {
+        const updatedListCustomer = listCustomer.map((customer) => {
+          if (parseInt(customer.id) === parseInt(customerId.id)) {
+            return { ...customer, ...inputValues }
+          } else {
+            return customer
+          }
+        })
+        setListCustomer(updatedListCustomer)
+
+        setTimeout(() => {
+          setShowAlert(true)
+        }, 200)
+        setTimeout(() => {
+          setShowAlert(false)
+        }, 1000)
+        window.scrollTo(0, 0)
+      } else {
+        console.error("Erreur lors de la requête:", response.status)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const successMessage = "Champs modifié."
 
   return (
     <div>
+      {showAlert && <Alert alertMessage={successMessage} />}
       <div className="p-2 flex justify-between items-center ">
         <Link to="/customers">
           <button className="px-2 py-2 mt-2  hover:bg-gray-300 text-gray-700 focus:outline-none rounded-md ml-2 ">
@@ -52,7 +130,7 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
       </div>
       <div className="px-4 sm:px-2 py-2 ">
         <h3 className="text-base font-semibold leading-7 text-gray-800">
-          Client #{booking.id}
+          Client #{customerId.id}
         </h3>
         <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
           Informations détaillées.
@@ -60,7 +138,7 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
       </div>
       <div className="mt-6 border-t border-gray-100">
         <dl className="divide-y divide-gray-100 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0 sm:ml-2">
-          {Object.keys(booking).map((key) => {
+          {Object.keys(customerId).map((key) => {
             if (key !== "id" && key !== "created_at") {
               return (
                 <div
@@ -88,15 +166,13 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
 
                   {!showInput[key] ? (
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {booking[key]}
+                      {customerId[key]}
                     </dd>
                   ) : (
                     <Input
-                      inputValue={inputValue}
-                      placeholder={booking[key]}
-                      onChange={(e) => {
-                        setInputValue(e.target.value)
-                      }}
+                      value={inputValues[key]}
+                      placeholder={customerId[key]}
+                      onChange={(e) => handleInputChange(key, e.target.value)}
                     />
                   )}
                   {!showInput[key] ? (
