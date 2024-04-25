@@ -56,6 +56,7 @@ export default function Customers({
   const handleChange = (e) => {
     setInputSearch(e.target.value)
     setPage(1)
+    window.scrollTo(0, 0)
   }
 
   // Fonction pour filtrer les clients en fonction de la recherche et de la pagination
@@ -66,6 +67,8 @@ export default function Customers({
         .includes(inputSearch.toLowerCase())
     )
     .slice((page - 1) * 20, page * 20) // Utiliser la pagination pour obtenir seulement 10 résultats par page
+
+  const totalPageCalc = Math.ceil(listCustomer.length / 20)
 
   const successMessage = "Client ajouté avec succès."
 
@@ -132,7 +135,7 @@ export default function Customers({
       <PaginationComponent
         page={page}
         setPage={setPage}
-        totalPage={totalPage}
+        totalPage={totalPageCalc}
         setTotalPage={setTotalPage}
       />
     </>
