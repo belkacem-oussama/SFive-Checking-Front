@@ -231,7 +231,7 @@ export default function Booking({ listBooking, setListBooking }) {
               <button
                 value={checkButton}
                 onClick={() => handleCheckBooking(checking.id)}
-                className="font-bold px-4 py-2 bg-green-500 text-white rounded-md mr-4 hover:bg-green-600 md:mr-0 "
+                className="font-bold px-4 py-2 bg-green-600 text-white rounded-md mr-4 hover:bg-green-800 md:mr-0 "
               >
                 Terminer
               </button>
