@@ -2,7 +2,6 @@ import { useState } from "react"
 import { jwtDecode } from "jwt-decode"
 import Cookies from "js-cookie"
 import Alert from "./Alert.jsx"
-import LoaderComponents from "./Loader.jsx"
 import LoaderComponent from "./Loader.jsx"
 
 export default function Forms() {
