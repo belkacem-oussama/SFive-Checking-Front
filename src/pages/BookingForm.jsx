@@ -197,13 +197,14 @@ export default function BookingForm({
 
       if (response.ok) {
         navigate("/")
+        window.scrollTo(0, 0)
         const jsonData = await response.json()
       }
     } catch (error) {
       console.log(error)
     }
   }
-  console.log(selectedHours)
+
   return (
     <div className="space-y-12">
       <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10q pb-3">
@@ -326,7 +327,7 @@ export default function BookingForm({
                   const isAlreadySelected = selectedHours.some(
                     ([start, end]) => start === slot.start && end === slot.end
                   )
-                  console.log(isAlreadySelected)
+
                   if (
                     !isBooked &&
                     !isSlotEnd &&
