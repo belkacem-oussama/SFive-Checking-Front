@@ -164,7 +164,14 @@ export default function Booking({ listBooking, setListBooking }) {
           handleUpdateBooking={handleUpdateBooking}
         />
       )}
+
       <ul role="list" className="divide-y divide-gray-100">
+        {filteredBookings.length === 0 && (
+          <p className="flex items-center justify-center h-full text-gray-500">
+            Aucun résultats...
+          </p>
+        )}
+
         {filteredBookings.map((checking) => (
           <li
             key={checking.id}
