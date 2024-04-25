@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import LoaderComponent from "../components/Loader.jsx"
+import moment from "moment/moment.js"
 
 const hoursData = [
   "09:00",
@@ -53,25 +54,27 @@ export default function FieldCalendar({
         const fieldId = booking.field.id
         const fieldName = booking.field.field_name
         //Décalage horaire ici !!!
-        const startDateTime = new Date(booking.checking_start)
-        const endDateTime = new Date(booking.checking_end)
 
-        let startHour = startDateTime.getHours() - 2
+        const startDateTime = moment(booking.checking_start)
+
+        const endDateTime = moment(booking.checking_end)
+
+        let startHour = startDateTime.utc().hour()
         if (startHour < 0) {
           startHour = 23
         }
 
         const startTime = `${String(startHour).padStart(2, "0")}:${String(
-          startDateTime.getMinutes()
+          startDateTime.minutes()
         ).padStart(2, "0")}`
 
-        let endHour = endDateTime.getHours() - 2
+        let endHour = endDateTime.utc().hour()
         if (endHour < 0) {
           endHour = 23
         }
 
         const endTime = `${String(endHour).padStart(2, "0")}:${String(
-          endDateTime.getMinutes()
+          endDateTime.minutes()
         ).padStart(2, "0")}`
 
         if (!acc[fieldId]) {
