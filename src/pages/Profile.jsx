@@ -7,17 +7,11 @@ export default function Profile({ tokenCookie, setTokenCookie }) {
   let userDataEmail
 
   if (tokenCookie) {
-    userDataRole =
-      jwtDecode(tokenCookie).roles[0].charAt(0).toUpperCase() +
-      jwtDecode(tokenCookie).roles[0].slice(1).toLowerCase()
+    userDataRole = jwtDecode(tokenCookie).user_roles
 
-    userDataName = jwtDecode(tokenCookie)
-      .username.split("@")[0]
-      .split(".")
-      .map((name) => name.charAt(0).toUpperCase() + name.slice(1))
-      .join(" ")
+    userDataName = jwtDecode(tokenCookie).user_name
 
-    userDataEmail = jwtDecode(tokenCookie).username
+    userDataEmail = jwtDecode(tokenCookie).user_email
   } else {
     userDataRole = null
     userDataName = null
