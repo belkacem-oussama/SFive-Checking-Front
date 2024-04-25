@@ -3,6 +3,7 @@ import { jwtDecode } from "jwt-decode"
 import Cookies from "js-cookie"
 import Alert from "./Alert.jsx"
 import LoaderComponent from "./Loader.jsx"
+import { Link } from "react-router-dom"
 
 export default function Forms() {
   const [newPassword, setNewPassword] = useState("")
@@ -100,12 +101,14 @@ export default function Forms() {
           </div>
         </div>
         <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button
-            type="button"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Annuler
-          </button>
+          <Link to="/">
+            <button
+              type="button"
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              Annuler
+            </button>
+          </Link>
           <button
             type="submit"
             className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
