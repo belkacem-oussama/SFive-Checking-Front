@@ -65,7 +65,7 @@ export default function Customers({
         .toLowerCase()
         .includes(inputSearch.toLowerCase())
     )
-    .slice((page - 1) * 10, page * 10) // Utiliser la pagination pour obtenir seulement 10 résultats par page
+    .slice((page - 1) * 20, page * 20) // Utiliser la pagination pour obtenir seulement 10 résultats par page
 
   const successMessage = "Client ajouté avec succès."
 
