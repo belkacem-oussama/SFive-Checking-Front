@@ -188,6 +188,14 @@ export default function Booking({ listBooking, setListBooking }) {
                   {checking.customer.customer_phone}
                 </p>
                 <br />
+                {checking.checking_type && (
+                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <span className="font-bold">Type : </span>
+                    {checking.checking_type === 2
+                      ? " Anniversaire"
+                      : " Classique"}
+                  </p>
+                )}
                 {checking.checking_start && (
                   <p className="mt-1 text-xs leading-5 text-gray-500">
                     <span className="font-bold">Date : </span>
@@ -209,6 +217,12 @@ export default function Booking({ listBooking, setListBooking }) {
                   <p className="mt-1 text-xs leading-5 text-gray-500">
                     <span className="font-bold">Prix : </span>
                     {checking.checking_price} €
+                  </p>
+                )}
+                {checking.checking_notes && (
+                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <span className="font-bold">Notes : </span>
+                    {checking.checking_notes}
                   </p>
                 )}
               </div>
