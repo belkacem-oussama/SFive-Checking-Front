@@ -2,15 +2,19 @@ import { useState } from "react"
 import { jwtDecode } from "jwt-decode"
 import Cookies from "js-cookie"
 import Alert from "./Alert.jsx"
+import LoaderComponents from "./Loader.jsx"
+import LoaderComponent from "./Loader.jsx"
 
 export default function Forms() {
   const [newPassword, setNewPassword] = useState("")
   const [showAlert, setShowAlert] = useState(false)
+  const [showLoader, setShowLoader] = useState(false)
 
   const idUser = jwtDecode(Cookies.get("token")).id
 
   const handleUpdatePassword = async () => {
     try {
+      setShowLoader(true)
       const response = await fetch(
         `${import.meta.env.VITE_APP_API_URL}/users/${idUser}`,
 
@@ -29,6 +33,7 @@ export default function Forms() {
       )
 
       if (response.ok) {
+        setShowLoader(false)
         setTimeout(() => {
           setShowAlert(true)
         }, 200)
@@ -37,9 +42,11 @@ export default function Forms() {
         }, 3000)
         window.scrollTo(0, 0)
       } else {
+        setShowLoader(false)
         console.error("Erreur lors de la requête:", response.status)
       }
     } catch (error) {
+      setShowLoader(false)
       console.log(error)
     }
   }
@@ -104,7 +111,7 @@ export default function Forms() {
             type="submit"
             className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
           >
-            Valider
+            <span>{showLoader ? <LoaderComponent /> : "Valider"}</span>
           </button>
         </div>
       </form>
