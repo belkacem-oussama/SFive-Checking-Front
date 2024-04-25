@@ -27,6 +27,7 @@ export default function Home() {
   const [selectedDateHome, setSelectedDateHome] = useState(currentDate)
   const [apiDate, setApiDate] = useState(backDate)
   const [todaysBooking, setTodaysBookings] = useState()
+  const [showLoader, setShowLoader] = useState(false)
 
   let tokenCookie = Cookies.get("token")
 
@@ -36,6 +37,7 @@ export default function Home() {
       let data
 
       try {
+        setShowLoader(true)
         response = await fetch(
           `${import.meta.env.VITE_APP_API_URL}/checkings/date/${apiDate}`,
           {
@@ -46,10 +48,15 @@ export default function Home() {
             },
           }
         )
-        data = await response.json()
-        setTodaysBookings(data)
+        if (response.ok) {
+          data = await response.json()
+          setTodaysBookings(data)
+        }
+
+        setShowLoader(false)
       } catch (error) {
-        console.log("hehe")
+        setShowLoader(false)
+        console.log(error)
       }
     }
     fetchData()
@@ -68,6 +75,8 @@ export default function Home() {
         <FieldCalendar
           todaysBooking={todaysBooking}
           setTodaysBookings={setTodaysBookings}
+          showLoader={showLoader}
+          setShowLoader={setShowLoader}
         />
       </div>
     </div>

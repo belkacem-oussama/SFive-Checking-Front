@@ -123,8 +123,10 @@ export default function Booking({ listBooking, setListBooking }) {
       day: "numeric",
     }
     const date = new Date(dateString)
-    const formattedDate = date.toLocaleDateString("fr-FR", options)
-    return formattedDate.charAt(0) + formattedDate.slice(1)
+    let formattedDate = date.toLocaleDateString("fr-FR", options)
+    // Mettre en majuscule la première lettre du jour et du mois
+    formattedDate = formattedDate.replace(/\b\w/g, (char) => char.toUpperCase())
+    return formattedDate
   }
 
   function formatTimeFromString(dateString) {
@@ -162,67 +164,86 @@ export default function Booking({ listBooking, setListBooking }) {
           handleUpdateBooking={handleUpdateBooking}
         />
       )}
+
       <ul role="list" className="divide-y divide-gray-100">
-        {filteredBookings
-          .sort((a, b) => b.id - a.id)
-          .map((checking) => (
-            <li
-              key={checking.id}
-              className="flex flex-col sm:flex-row justify-between gap-x-6 px-4 py-5 border-solid border-b-2 hover:bg-gray-100"
-            >
-              <div className="flex flex-col sm:flex-row gap-x-4 items-start sm:items-center w-full">
-                <div className="min-w-0 flex-auto">
-                  <p className="text-sm font-semibold leading-6 text-gray-800">
-                    #{checking.id} - {checking.customer.customer_surname}{" "}
-                    {checking.customer.customer_firstname}
-                  </p>
-                  <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                    <span className="font-bold">Tél : </span>
-                    {checking.customer.customer_phone}
-                  </p>
-                  <br />
-                  {checking.checking_start && (
-                    <p className="mt-1 text-xs leading-5 text-gray-500">
-                      <span className="font-bold">Date : </span>
-                      {formatDateFromString(checking.checking_start)}
-                    </p>
-                  )}
+        {filteredBookings.length === 0 && (
+          <p className="flex items-center justify-center h-screen text-gray-500">
+            Aucun résultats...
+          </p>
+        )}
+
+        {filteredBookings.map((checking) => (
+          <li
+            key={checking.id}
+            className="flex flex-col sm:flex-row justify-between gap-x-6 px-4 py-5 border-solid border-b-2 hover:bg-gray-100"
+          >
+            <div className="flex flex-col sm:flex-row gap-x-4 items-start sm:items-center w-full">
+              <div className="min-w-0 flex-auto">
+                <p className="text-sm font-semibold leading-6 text-gray-800">
+                  #{checking.id} - {checking.customer.customer_surname}{" "}
+                  {checking.customer.customer_firstname}
+                </p>
+                <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                  <span className="font-bold">Tél : </span>
+                  {checking.customer.customer_phone}
+                </p>
+                <br />
+                {checking.checking_type && (
                   <p className="mt-1 text-xs leading-5 text-gray-500">
-                    <span className="font-bold">Créneau : </span>
-                    {formatTimeFromString(checking.checking_start)} -{" "}
-                    {formatTimeFromString(checking.checking_end)}
+                    <span className="font-bold">Type : </span>
+                    {checking.checking_type === 2
+                      ? " Anniversaire"
+                      : " Classique"}
                   </p>
-                  {checking.field && (
-                    <p className="mt-1 text-xs leading-5 text-gray-500">
-                      <span className="font-bold">Terrain : </span>
-                      {checking.field.id}
-                    </p>
-                  )}
-                  {checking.checking_price && (
-                    <p className="mt-1 text-xs leading-5 text-gray-500">
-                      <span className="font-bold">Prix : </span>
-                      {checking.checking_price} €
-                    </p>
-                  )}
-                </div>
+                )}
+                {checking.checking_start && (
+                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <span className="font-bold">Date : </span>
+                    {formatDateFromString(checking.checking_start)}
+                  </p>
+                )}
+                <p className="mt-1 text-xs leading-5 text-gray-500">
+                  <span className="font-bold">Créneau : </span>
+                  {formatTimeFromString(checking.checking_start)} -{" "}
+                  {formatTimeFromString(checking.checking_end)}
+                </p>
+                {checking.field && (
+                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <span className="font-bold">Terrain : </span>
+                    {checking.field.id}
+                  </p>
+                )}
+                {checking.checking_price && (
+                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <span className="font-bold">Prix : </span>
+                    {checking.checking_price} €
+                  </p>
+                )}
+                {checking.checking_notes && (
+                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <span className="font-bold">Notes : </span>
+                    {checking.checking_notes}
+                  </p>
+                )}
               </div>
-              <div className="flex justify-evenly w-auto md:items-center md:p-2 mt-6 md:flex-col md:w-26 ">
-                <button
-                  value={checkButton}
-                  onClick={() => handleCheckBooking(checking.id)}
-                  className="font-bold px-4 py-2 bg-green-500 text-white rounded-md mr-4 hover:bg-green-600 md:mr-0 "
-                >
-                  Terminer
-                </button>
-                <button
-                  onClick={() => handleDropBooking(checking.id)}
-                  className="font-bold px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                >
-                  Annuler
-                </button>
-              </div>
-            </li>
-          ))}
+            </div>
+            <div className="flex justify-evenly w-auto md:items-center md:p-2 mt-6 md:flex-col md:w-26 ">
+              <button
+                value={checkButton}
+                onClick={() => handleCheckBooking(checking.id)}
+                className="font-bold px-4 py-2 bg-green-600 text-white rounded-md mr-4 hover:bg-green-800 md:mr-0 "
+              >
+                Terminer
+              </button>
+              <button
+                onClick={() => handleDropBooking(checking.id)}
+                className="font-bold px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900"
+              >
+                Annuler
+              </button>
+            </div>
+          </li>
+        ))}
       </ul>
     </>
   )

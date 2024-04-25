@@ -3,10 +3,13 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 
 import { Avatar } from "@mui/material"
+import { useLocation } from "react-router-dom"
 
 import SearchBar from "../components/Search.jsx"
 import PaginationComponent from "../components/Pagination.jsx"
 import Alert from "../components/Alert.jsx"
+import LoaderComponent from "../components/Loader.jsx"
+import { useEffect } from "react"
 
 function stringToColor(string) {
   let hash = 0
@@ -52,10 +55,16 @@ export default function Customers({
   setShowAlert,
 }) {
   const [inputSearch, setInputSearch] = useState("")
+  const location = useLocation()
+
+  useEffect(() => {
+    setPage(1)
+  }, [location])
 
   const handleChange = (e) => {
     setInputSearch(e.target.value)
     setPage(1)
+    window.scrollTo(0, 0)
   }
 
   // Fonction pour filtrer les clients en fonction de la recherche et de la pagination
@@ -66,6 +75,8 @@ export default function Customers({
         .includes(inputSearch.toLowerCase())
     )
     .slice((page - 1) * 20, page * 20) // Utiliser la pagination pour obtenir seulement 10 résultats par page
+
+  const totalPageCalc = Math.ceil(listCustomer.length / 20)
 
   const successMessage = "Client ajouté avec succès."
 
@@ -93,46 +104,52 @@ export default function Customers({
         </Link>
         <SearchBar inputValue={inputSearch} onChange={handleChange} />
       </div>
-      <ul
-        role="list"
-        className="md:grid md:grid-rows-6 divide-y divide-gray-100"
-      >
-        {filteredCustomers.map((customer) => (
-          <Link key={customer.id} to={`/customers/${customer.id}`}>
-            <li
-              key={customer.customer_mail}
-              className="flex flex-col md:flex-row py-2 hover:bg-gray-100"
-            >
-              <div className="flex items-center gap-x-6 p-2 flex-grow">
-                <Avatar
-                  {...stringAvatar(
-                    `${customer.customer_firstname} ${customer.customer_surname}`
-                  )}
-                  variant="rounded"
-                />
-                <div className="grid grid-cols-1 md:grid-cols-4 md:gap-x-4 w-full">
-                  <p className="text-sm truncate font-semibold leading-6 text-gray-900 col-span-1">
-                    {customer.customer_firstname} {customer.customer_surname}
-                  </p>
-                  <p className="mt-1 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
-                    {customer.mail}
-                  </p>
-                  <p className="mt-1 md:ml-4 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
-                    {customer.customer_phone}
-                  </p>
-                  <p className="mt-1 md:ml-4 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
-                    {customer.customer_mail}
-                  </p>
+      {!filteredCustomers || filteredCustomers.length === 0 ? (
+        <div className="flex justify-center items-center  h-screen ">
+          <LoaderComponent />
+        </div>
+      ) : (
+        <ul
+          role="list"
+          className="md:grid md:grid-rows-6 divide-y divide-gray-100"
+        >
+          {filteredCustomers.map((customer) => (
+            <Link key={customer.id} to={`/customers/${customer.id}`}>
+              <li
+                key={customer.customer_mail}
+                className="flex flex-col md:flex-row py-2 hover:bg-gray-100"
+              >
+                <div className="flex items-center gap-x-6 p-2 flex-grow">
+                  <Avatar
+                    {...stringAvatar(
+                      `${customer.customer_firstname} ${customer.customer_surname}`
+                    )}
+                    variant="rounded"
+                  />
+                  <div className="grid grid-cols-1 md:grid-cols-4 md:gap-x-4 w-full">
+                    <p className="text-sm truncate font-semibold leading-6 text-gray-900 col-span-1">
+                      {customer.customer_firstname} {customer.customer_surname}
+                    </p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
+                      {customer.mail}
+                    </p>
+                    <p className="mt-1 md:ml-4 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
+                      {customer.customer_phone}
+                    </p>
+                    <p className="mt-1 md:ml-4 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
+                      {customer.customer_mail}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </li>
-          </Link>
-        ))}
-      </ul>
+              </li>
+            </Link>
+          ))}
+        </ul>
+      )}
       <PaginationComponent
         page={page}
         setPage={setPage}
-        totalPage={totalPage}
+        totalPage={totalPageCalc}
         setTotalPage={setTotalPage}
       />
     </>

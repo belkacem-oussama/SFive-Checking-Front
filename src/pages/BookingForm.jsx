@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 
 import SearchInput from "../components/SearchInput.jsx"
@@ -186,10 +185,10 @@ export default function BookingForm({
             checking_status: 1,
             checking_type: bookingData[2],
             checking_price: 120,
-            checking_notes: "premiers tests api checking post",
-            checking_start: `${apiDate}T${selectedHours[0][0]}:00.000Z`,
+            checking_notes: textValue,
+            checking_start: `${apiDate}T${selectedHours.sort()[0][0]}:00.000Z`,
             checking_end: `${apiDate}T${
-              selectedHours[selectedHours.length - 1][1]
+              selectedHours.sort()[selectedHours.sort().length - 1][1]
             }:00.000Z`,
           }),
         }

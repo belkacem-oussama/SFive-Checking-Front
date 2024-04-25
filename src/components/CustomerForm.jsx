@@ -165,7 +165,7 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
         </div>
       </div>
       <div className="mt-6 mb-4 flex items-center justify-end gap-x-6 mr-2 sm:col-span-6">
-        <Link to="/customers">
+        <Link to="/customers" onClick={() => window.scrollTo(0, 0)}>
           <button
             type="button"
             className="text-sm font-semibold leading-6 text-gray-900"
