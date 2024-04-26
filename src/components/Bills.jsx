@@ -8,93 +8,116 @@ export default function Bills() {
     const doc = new jsPDF()
 
     // Logo SFive
-    const logoWidth = 50
-    const logoHeight = 50
+    const logoWidth = 40
+    const logoHeight = 30
     const logoX = 10
     const logoY = 10
     doc.addImage(SFiveLogo, "PNG", logoX, logoY, logoWidth, logoHeight)
 
     // Informations de l'entreprise
     const companyName = "S-FIVE5"
-    const companyAddress = "6 rue des Frères Péraux"
+    const companyAddress = "6 Rue des Frères Péraux"
     const companyCity = "60180 Nogent-sur-Oise"
     const companyPhone = "03 65 09 03 90"
     const companyEmail = "infosfives@gmail.com"
 
-    // Position des informations de l'entreprise sous le logo
-    const companyInfoY = logoY + logoHeight + 10
-    doc.text(`${companyName}`, logoX, companyInfoY)
-    doc.text(`${companyAddress}`, logoX, companyInfoY + 10)
-    doc.text(`${companyCity}`, logoX, companyInfoY + 20)
-    doc.text(`Tél: ${companyPhone}`, logoX, companyInfoY + 30)
-    doc.text(`Email: ${companyEmail}`, logoX, companyInfoY + 40)
+    const customerName = "Apprentis d’auteuil"
+    const billsLocation = "À Nogent-Sur-Oise"
 
-    // Titre de la facture
-    const invoiceTitle = "Facture SFIVES"
-    doc.text(`${invoiceTitle}`, 10, companyInfoY + 60)
+    // Entreprise ------------------------------------
+    const companyInfoY = logoY + logoHeight + 5
+
+    // Définir la taille de police pour les informations de l'entreprise
+    const infoFontSize = 12
+
+    doc.setFontSize(infoFontSize)
+    doc.text(`${companyName}`, 20, companyInfoY)
+    doc.text(`${companyAddress}`, logoX, companyInfoY + 5)
+    doc.text(`${companyCity}`, logoX, companyInfoY + 10)
+    doc.text(`${companyPhone}`, logoX, companyInfoY + 15)
+    doc.text(`${companyEmail}`, logoX, companyInfoY + 20)
 
     // Informations sur la facture
-    const invoiceDate = "Le 18 février 2023" // Date au format français
-    const invoiceNumber = "Facture 180223"
-    doc.text(`${invoiceDate}`, 150, companyInfoY + 10) // Date à droite
-    doc.text(`Client: Apprentis d’auteuil`, 150, companyInfoY + 20) // Client
-    doc.text(`Lieu de facturation: Nogent-sur-Oise`, 150, companyInfoY + 30) // Lieu de facturation
+    const invoiceDate = "Le 18 Février 2023"
+    const invoiceNumber = "180223"
 
-    // Objet de la facture
-    doc.text("Objet: facture SFIVE5", 10, companyInfoY + 80)
+    // Client ------------------------------------
+    const clientInfoX = 150
+    const clientInfoY = companyInfoY + 30
+    doc.text(`${customerName}`, clientInfoX, clientInfoY)
 
-    // Tableau des articles
+    // Date et lieu de facturation ----------------------
+    const billingInfoY = clientInfoY + 10
+    doc.text(`${invoiceDate}`, clientInfoX, billingInfoY)
+    doc.text(`${billsLocation}`, clientInfoX, billingInfoY + 5)
+
+    // Objet de la facture -----------------------------
+    const invoiceObjectY = billingInfoY + 20
+    doc.text("Objet : Facture SFIVE5", 10, invoiceObjectY)
+
+    // Position numéro facture -------------------------
+    doc.text(`Facture ${invoiceNumber}`, 80, invoiceObjectY + 20)
+
+    // Tableau des articles -----------------------------
     const items = [
       {
-        description: "2h",
-        unitPriceTTC: "120€",
+        description: "2 heures",
         totalPriceHT: "100€",
         totalPriceTTC: "120€",
+        totalPay: "120€",
       },
     ]
 
+    // Définition des colonnes et lignes du tableau
     const tableColumns = [
-      "Quantité",
-      "Prix unitaire TTC",
-      "Prix total HT",
-      "Prix total TTC",
+      { header: "Quantité", dataKey: "description" },
+      { header: "Prix Total HT", dataKey: "totalPriceHT" },
+      { header: "Prix Total TTC", dataKey: "totalPriceTTC" },
+      { header: "À Régler", dataKey: "totalPay" },
     ]
-    const tableRows = items.map((item) => [
-      item.description,
-      item.unitPriceTTC,
-      item.totalPriceHT,
-      item.totalPriceTTC,
-    ])
+
+    const tableY = invoiceObjectY + 30 // Position Y pour le tableau des articles
 
     doc.autoTable({
-      startY: companyInfoY + 100,
-      head: [tableColumns],
-      body: tableRows,
+      startY: tableY,
+      headStyles: {
+        fillColor: [51, 122, 183],
+        textColor: [255, 255, 255],
+        fontStyle: "bold",
+      },
+      bodyStyles: { fontSize: 14 },
+      columnStyles: { 0: { cellWidth: 60 } },
+      body: items,
+      columns: tableColumns,
+      didParseCell: function (data) {
+        if (
+          data.column.dataKey === "totalPay" &&
+          data.cell.section === "body"
+        ) {
+          data.cell.styles.fontStyle = "bold"
+          data.cell.text = `${data.cell.text}`
+        }
+      },
     })
 
-    // Total à régler
-    const totalAmountTTC = "120€"
-    doc.text(
-      `Total à régler: ${totalAmountTTC}`,
-      10,
-      doc.autoTable.previous.finalY + 10
-    )
-
-    // Message de conclusion
+    // Message  ------------------------------------
+    const totalAmountY = doc.autoTable.previous.finalY + 10
     doc.text(
       "Nous restons à votre disposition pour toute information complémentaire.",
-      10,
-      doc.autoTable.previous.finalY + 20
+      13,
+      totalAmountY + 5
     )
-    doc.text("Cordialement,", 10, doc.autoTable.previous.finalY + 30)
+    doc.text("Cordialement,", 13, totalAmountY + 10)
+    doc.text("L'équipe S-FIVE5", 13, totalAmountY + 15)
 
-    // SIRET / N° TVA centré en bas
+    // SIRET / N° TVA -----------------------------------
     const companyInfoBottomY = doc.internal.pageSize.height - 30
+
+    doc.setFont("helvetica", "bold")
     doc.text(
       "N° SIRET : 84937789000017 / N° TVA : FR 39849377890",
-      0,
-      companyInfoBottomY,
-      { align: "center" }
+      35,
+      companyInfoBottomY
     )
 
     // Sauvegarder le PDF avec un nom spécifique
