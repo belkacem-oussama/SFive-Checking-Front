@@ -6,7 +6,12 @@ import { jwtDecode } from "jwt-decode"
 import Popup from "../components/Popup.jsx"
 import Alert from "../components/Alert.jsx"
 
-export default function Booking({ listBooking, setListBooking }) {
+export default function Booking({
+  listBooking,
+  setListBooking,
+  isLogged,
+  setIsLogged,
+}) {
   const [showPopUp, setShowPopUp] = useState(false)
   const [bookingId, setBookingId] = useState(null)
   const [checkButton, setCheckButton] = useState(true)
@@ -157,6 +162,7 @@ export default function Booking({ listBooking, setListBooking }) {
       <SearchBar inputSearch={inputSearch} onChange={handleOnChange} />
       {showPopUp && (
         <Popup
+          listBooking={listBooking}
           checkButton={checkButton}
           bookingId={bookingId}
           handleConfirmCancellation={handleConfirmCancellation}

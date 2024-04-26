@@ -22,6 +22,7 @@ import LoginPage from "./pages/Login.jsx"
 import Cookies from "js-cookie"
 import { jwtDecode } from "jwt-decode"
 import CustomerForm from "./components/CustomerForm.jsx"
+import Bills from "./components/Bills.jsx"
 
 export default function App() {
   const [inputLogin, setInputLogin] = useState("")
@@ -205,6 +206,8 @@ export default function App() {
               path="/booking"
               element={
                 <Booking
+                  isLogged={isLogged}
+                  setIsLogged={setIsLogged}
                   listBooking={listBooking}
                   setListBooking={setListBooking}
                 />

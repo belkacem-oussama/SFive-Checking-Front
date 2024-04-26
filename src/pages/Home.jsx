@@ -5,6 +5,7 @@ import SmallCalendar from "../components/SmallCalendar.jsx"
 
 import Cookies from "js-cookie"
 import moment from "moment/moment.js"
+import Bills from "../components/Bills.jsx"
 
 export default function Home() {
   //Date for HomePage
