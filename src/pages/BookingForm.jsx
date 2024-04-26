@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import SearchInput from "../components/SearchInput.jsx"
 import Select from "../components/Select.jsx"
@@ -397,12 +397,19 @@ export default function BookingForm({
           </span>
         </div>
         <div className="mt-6 mb-4 flex items-center justify-end gap-x-6 mr-2 sm:col-span-6">
-          <button
-            type="button"
-            className="text-sm font-semibold leading-6 text-gray-900"
+          <Link
+            to="/"
+            onClick={() => {
+              window.scrollTo(0, 0)
+            }}
           >
-            Annuler
-          </button>
+            <button
+              type="button"
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              Annuler
+            </button>
+          </Link>
 
           <button
             onClick={() => {
