@@ -17,6 +17,7 @@
     "@mui/material": "^5.15.10",
     "@mui/system": "^5.15.9",
     "@mui/x-date-pickers": "^6.19.4",
+    "@react-pdf/renderer": "^3.4.4",
     "dayjs": "^1.11.10",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.7.2",
