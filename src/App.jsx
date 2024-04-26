@@ -206,6 +206,8 @@ export default function App() {
               path="/booking"
               element={
                 <Booking
+                  isLogged={isLogged}
+                  setIsLogged={setIsLogged}
                   listBooking={listBooking}
                   setListBooking={setListBooking}
                 />

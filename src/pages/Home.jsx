@@ -73,9 +73,6 @@ export default function Home() {
         />
       </div>
       <div>
-        <Bills />
-      </div>
-      <div>
         <FieldCalendar
           todaysBooking={todaysBooking}
           setTodaysBookings={setTodaysBookings}
