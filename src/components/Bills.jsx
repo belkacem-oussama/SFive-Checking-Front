@@ -8,7 +8,7 @@ import SFiveLogo from "../assets/images/sfive_icone.png"
 export default function Bills({ listBooking }) {
   const generatePDF = () => {
     const doc = new jsPDF()
-    console.log(listBooking)
+
     // Logo SFive
     const logoWidth = 40
     const logoHeight = 30
