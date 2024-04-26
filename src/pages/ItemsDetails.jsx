@@ -21,7 +21,6 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
     customer_surname: "",
     customer_firstname: "",
     customer_address: "",
-    customer_city: "",
     customer_mail: "",
     customer_phone: "",
   })
@@ -58,7 +57,6 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
       customer_surname: customer.customer_surname,
       customer_firstname: customer.customer_firstname,
       customer_address: customer.customer_address,
-      customer_city: customer.customer_city,
       customer_mail: customer.customer_mail,
       customer_phone: customer.customer_phone,
     })

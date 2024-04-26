@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 
 import { Avatar } from "@mui/material"
 import { useLocation } from "react-router-dom"
+import Cookies from "js-cookie"
 
 import SearchBar from "../components/Search.jsx"
 import PaginationComponent from "../components/Pagination.jsx"
@@ -56,6 +57,40 @@ export default function Customers({
 }) {
   const [inputSearch, setInputSearch] = useState("")
   const location = useLocation()
+
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const token = Cookies.get("token")
+        if (token) {
+          const headers = {
+            Authorization: `${token}`,
+          }
+
+          let response
+          let data
+
+          response = await fetch(
+            `${import.meta.env.VITE_APP_API_URL}/customers`,
+            {
+              headers,
+            }
+          )
+
+          if (!response.ok) {
+            throw new Error("Erreur lors de la récupération des données")
+          }
+
+          data = await response.json()
+          setListCustomer(data)
+          setTotalPage(Math.ceil(data.length / 10))
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchCustomers()
+  }, [])
 
   useEffect(() => {
     setPage(1)
