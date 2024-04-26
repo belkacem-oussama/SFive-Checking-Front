@@ -1,4 +1,5 @@
 import React from "react"
+import Bills from "./Bills.jsx"
 
 export default function Popup({
   handleCancel,
@@ -9,7 +10,7 @@ export default function Popup({
 }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-      <div className="bg-white p-8 rounded-lg shadow-md">
+      <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
         <h2 className="text-lg font-semibold mb-4">
           {checkButton
             ? `Clôturer la réservation #${bookingId} ?`
@@ -20,10 +21,10 @@ export default function Popup({
             ? "Êtes-vous sûr de vouloir clôturer cette réservation ?"
             : "Êtes-vous sûr de vouloir annuler cette réservation ?"}
         </p>
-        <div className="flex justify-end">
+        <div className="flex justify-end space-x-4">
           <button
             onClick={handleCancel}
-            className="font-bold px-4 py-2 bg-gray-200 text-gray-800 rounded-md mr-4 hover:bg-gray-300"
+            className="font-bold px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
           >
             Annuler
           </button>
@@ -36,6 +37,11 @@ export default function Popup({
             Confirmer
           </button>
         </div>
+        {checkButton && (
+          <div className="flex justify-end mt-4">
+            <Bills />
+          </div>
+        )}
       </div>
     </div>
   )
