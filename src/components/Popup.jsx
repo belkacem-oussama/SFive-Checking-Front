@@ -4,6 +4,7 @@ import Bills from "./Bills.jsx"
 export default function Popup({
   handleCancel,
   bookingId,
+  listBooking,
   checkButton,
   handleConfirmCancellation,
   handleUpdateBooking,
@@ -39,7 +40,7 @@ export default function Popup({
         </div>
         {checkButton && (
           <div className="flex justify-end mt-4">
-            <Bills />
+            <Bills listBooking={listBooking} />
           </div>
         )}
       </div>

@@ -1,12 +1,14 @@
 import React from "react"
 import jsPDF from "jspdf"
 import "jspdf-autotable"
+import moment from "moment"
+import "moment/dist/locale/fr"
 import SFiveLogo from "../assets/images/sfive_icone.png"
 
-export default function Bills() {
+export default function Bills({ listBooking }) {
   const generatePDF = () => {
     const doc = new jsPDF()
-
+    console.log(listBooking)
     // Logo SFive
     const logoWidth = 40
     const logoHeight = 30
@@ -16,12 +18,15 @@ export default function Bills() {
 
     // Informations de l'entreprise
     const companyName = "S-FIVE5"
-    const companyAddress = "6 Rue des Frères Péraux"
+    const companyAddress = "6 Rue des Frères Peraux"
     const companyCity = "60180 Nogent-sur-Oise"
     const companyPhone = "03 65 09 03 90"
     const companyEmail = "infosfives@gmail.com"
 
-    const customerName = "Apprentis d’auteuil"
+    const customerName =
+      listBooking[0].customer.customer_surname +
+      " " +
+      listBooking[0].customer.customer_firstname
     const billsLocation = "À Nogent-Sur-Oise"
 
     // Entreprise ------------------------------------
@@ -38,8 +43,8 @@ export default function Bills() {
     doc.text(`${companyEmail}`, logoX, companyInfoY + 20)
 
     // Informations sur la facture
-    const invoiceDate = "Le 18 Février 2023"
-    const invoiceNumber = "180223"
+    const invoiceDate = moment().locale("fr").format("LL")
+    const invoiceNumber = listBooking[0].id
 
     // Client ------------------------------------
     const clientInfoX = 150
@@ -48,7 +53,7 @@ export default function Bills() {
 
     // Date et lieu de facturation ----------------------
     const billingInfoY = clientInfoY + 10
-    doc.text(`${invoiceDate}`, clientInfoX, billingInfoY)
+    doc.text(`Le ${invoiceDate}`, clientInfoX, billingInfoY)
     doc.text(`${billsLocation}`, clientInfoX, billingInfoY + 5)
 
     // Objet de la facture -----------------------------
@@ -61,10 +66,21 @@ export default function Bills() {
     // Tableau des articles -----------------------------
     const items = [
       {
-        description: "2 heures",
-        totalPriceHT: "100€",
-        totalPriceTTC: "120€",
-        totalPay: "120€",
+        description: `${moment(listBooking[0].checking_end).diff(
+          listBooking[0].checking_start,
+          "hours"
+        )} ${
+          moment(listBooking[0].checking_end).diff(
+            listBooking[0].checking_start,
+            "hours"
+          ) > 1
+            ? "heures"
+            : "heure"
+        }`,
+
+        totalPriceHT: `${listBooking[0].checking_price * 0.8} €`,
+        totalPriceTTC: `${listBooking[0].checking_price} €`,
+        totalPay: `${listBooking[0].checking_price} €`,
       },
     ]
 

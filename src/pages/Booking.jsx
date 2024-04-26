@@ -162,6 +162,7 @@ export default function Booking({
       <SearchBar inputSearch={inputSearch} onChange={handleOnChange} />
       {showPopUp && (
         <Popup
+          listBooking={listBooking}
           checkButton={checkButton}
           bookingId={bookingId}
           handleConfirmCancellation={handleConfirmCancellation}
