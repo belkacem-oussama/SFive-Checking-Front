@@ -74,14 +74,16 @@ export default function Bills({ listBooking }) {
       {
         description: `${moment(listBooking[0].checking_end).diff(
           listBooking[0].checking_start,
-          "hours"
-        )} ${
+          "hours",
+          true
+        )} heure${
           moment(listBooking[0].checking_end).diff(
             listBooking[0].checking_start,
-            "hours"
-          ) > 1
-            ? "heures"
-            : "heure"
+            "hours",
+            true
+          ) !== 1
+            ? "s"
+            : ""
         }`,
 
         totalPriceHT: `${listBooking[0].checking_price * 0.8} €`,
