@@ -132,7 +132,7 @@ export default function Bills({ listBooking }) {
     doc.setFont("helvetica", "bold")
     doc.text(
       "N° SIRET : 84937789000017 / N° TVA : FR 39849377890",
-      35,
+      45,
       companyInfoBottomY
     )
 
