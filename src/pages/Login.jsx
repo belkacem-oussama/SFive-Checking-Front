@@ -22,7 +22,6 @@ export default function LoginPage({
           <form
             className="space-y-6"
             onSubmit={(e) => {
-              console.log(inputLogin + " " + inputPassword)
               e.preventDefault()
               setInputLogin("")
               setInputPassword("")
