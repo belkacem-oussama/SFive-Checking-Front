@@ -1,12 +1,15 @@
-import React from "react"
+import React, { useState } from "react"
 import jsPDF from "jspdf"
 import "jspdf-autotable"
 import moment from "moment"
 import "moment/dist/locale/fr"
 import SFiveLogo from "../assets/images/sfive_icone.png"
 import Cookies from "js-cookie"
+import Alert from "../components/Alert.jsx"
 
 export default function Bills({ listBooking }) {
+  const [showAlert, setShowAlert] = useState(false)
+
   const invoiceNumber = moment(listBooking[0].checking_end).format("DDMMYY")
   const customerFirstname = listBooking[0].customer.customer_firstname
   const customerSurname = listBooking[0].customer.customer_surname
@@ -164,7 +167,12 @@ export default function Bills({ listBooking }) {
       )
 
       if (response.ok) {
-        alert("Facture générée.")
+        setShowAlert(true)
+
+        setTimeout(() => {
+          setShowAlert(false)
+        }, 2000)
+
         window.scrollTo(0, 0)
         const jsonData = await response.json()
       }
@@ -175,6 +183,7 @@ export default function Bills({ listBooking }) {
 
   return (
     <>
+      {showAlert && <Alert alertMessage="Facture générée." />}
       <button
         className=" px-4 py-2 flex items-center space-x-2 rounded-md bg-gray-800 text-white hover:bg-gray-900 "
         onClick={generatePDF}
