@@ -137,7 +137,7 @@ export default function Bills({ listBooking }) {
     )
 
     // Sauvegarder le PDF avec un nom spécifique
-    doc.save("facture_SFIVE5.pdf")
+    doc.save(`facture_${invoiceNumber}`)
   }
 
   return (
