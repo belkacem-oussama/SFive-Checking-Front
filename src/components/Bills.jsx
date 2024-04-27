@@ -4,8 +4,15 @@ import "jspdf-autotable"
 import moment from "moment"
 import "moment/dist/locale/fr"
 import SFiveLogo from "../assets/images/sfive_icone.png"
+import Cookies from "js-cookie"
 
 export default function Bills({ listBooking }) {
+  const invoiceNumber = moment(listBooking[0].checking_end).format("DDMMYY")
+  const customerFirstname = listBooking[0].customer.customer_firstname
+  const customerSurname = listBooking[0].customer.customer_surname
+  const customerId = listBooking[0].customer.id
+  const checkingId = listBooking[0].id
+
   const generatePDF = () => {
     const doc = new jsPDF()
 
@@ -23,10 +30,7 @@ export default function Bills({ listBooking }) {
     const companyPhone = "03 65 09 03 90"
     const companyEmail = "infosfives@gmail.com"
 
-    const customerName =
-      listBooking[0].customer.customer_firstname +
-      " " +
-      listBooking[0].customer.customer_surname
+    const customerName = customerFirstname + " " + customerSurname
     const billsLocation = "À Nogent-Sur-Oise"
 
     // Entreprise ------------------------------------
@@ -44,7 +48,6 @@ export default function Bills({ listBooking }) {
 
     // Informations sur la facture
     const invoiceDate = moment().locale("fr").format("LL")
-    const invoiceNumber = moment(listBooking[0].checking_end).format("DDMMYY")
 
     // Client ------------------------------------
     const clientInfoX = 150
@@ -138,6 +141,36 @@ export default function Bills({ listBooking }) {
 
     // Sauvegarder le PDF avec un nom spécifique
     doc.save(`facture_${invoiceNumber}`)
+    handleSendBills()
+  }
+
+  const handleSendBills = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/bills`,
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            Authorization: `${Cookies.get("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            bills_ref: `${invoiceNumber}.pdf`,
+            customer_id: customerId,
+            checking_id: checkingId,
+          }),
+        }
+      )
+
+      if (response.ok) {
+        alert("Facture générée.")
+        window.scrollTo(0, 0)
+        const jsonData = await response.json()
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
