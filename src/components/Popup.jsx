@@ -40,7 +40,7 @@ export default function Popup({
         </div>
         {checkButton && (
           <div className="flex justify-end mt-4">
-            <Bills listBooking={listBooking} />
+            <Bills listBooking={listBooking} bookingId={bookingId} />
           </div>
         )}
       </div>

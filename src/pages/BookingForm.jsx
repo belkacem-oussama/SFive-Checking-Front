@@ -159,6 +159,7 @@ export default function BookingForm({
   }, [selectedField, selectedDate, apiDate])
 
   const handleSendData = async () => {
+    let checkingPrice
     try {
       const token = Cookies.get("token")
       if (token) {
@@ -170,6 +171,34 @@ export default function BookingForm({
           return
         }
       }
+
+      if (selectedHours.length !== 0) {
+        const durationHours =
+          moment(
+            `${apiDate}T${
+              selectedHours.sort()[selectedHours.sort().length - 1][1]
+            }:00.000Z`
+          ).diff(
+            `${apiDate}T${selectedHours.sort()[0][0]}:00.000Z`,
+            "minutes"
+          ) / 60
+
+        switch (durationHours) {
+          case 1:
+            checkingPrice = 80
+            break
+          case 1.5:
+            checkingPrice = 120
+            break
+          case 2:
+            checkingPrice = 150
+            break
+
+          default:
+            break
+        }
+      }
+
       const response = await fetch(
         `${import.meta.env.VITE_APP_API_URL}/checkings`,
         {
@@ -184,7 +213,7 @@ export default function BookingForm({
             field_id: bookingData[1],
             checking_status: 1,
             checking_type: bookingData[2],
-            checking_price: 120,
+            checking_price: checkingPrice,
             checking_notes: textValue,
             checking_start: `${apiDate}T${selectedHours.sort()[0][0]}:00.000Z`,
             checking_end: `${apiDate}T${

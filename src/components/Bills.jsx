@@ -7,14 +7,16 @@ import SFiveLogo from "../assets/images/sfive_icone.png"
 import Cookies from "js-cookie"
 import Alert from "../components/Alert.jsx"
 
-export default function Bills({ listBooking }) {
+export default function Bills({ listBooking, bookingId }) {
   const [showAlert, setShowAlert] = useState(false)
 
-  const invoiceNumber = moment(listBooking[0].checking_end).format("DDMMYY")
-  const customerFirstname = listBooking[0].customer.customer_firstname
-  const customerSurname = listBooking[0].customer.customer_surname
-  const customerId = listBooking[0].customer.id
-  const checkingId = listBooking[0].id
+  const booking = listBooking.find((booking) => booking.id === bookingId)
+
+  const invoiceNumber = moment(booking.checking_end).format("DDMMYY")
+  const customerFirstname = booking.customer.customer_firstname
+  const customerSurname = booking.customer.customer_surname
+  const customerId = booking.customer.id
+  const checkingId = booking.id
 
   const generatePDF = () => {
     const doc = new jsPDF()
@@ -72,21 +74,23 @@ export default function Bills({ listBooking }) {
     // Tableau des articles -----------------------------
     const items = [
       {
-        description: `${moment(listBooking[0].checking_end).diff(
-          listBooking[0].checking_start,
-          "hours"
-        )} ${
-          moment(listBooking[0].checking_end).diff(
-            listBooking[0].checking_start,
-            "hours"
-          ) > 1
-            ? "heures"
-            : "heure"
+        description: `${moment(booking.checking_end).diff(
+          booking.checking_start,
+          "hours",
+          true
+        )} heure${
+          moment(booking.checking_end).diff(
+            booking.checking_start,
+            "hours",
+            true
+          ) !== 1
+            ? "s"
+            : ""
         }`,
 
-        totalPriceHT: `${listBooking[0].checking_price * 0.8} €`,
-        totalPriceTTC: `${listBooking[0].checking_price} €`,
-        totalPay: `${listBooking[0].checking_price} €`,
+        totalPriceHT: `${booking.checking_price * 0.8} €`,
+        totalPriceTTC: `${booking.checking_price} €`,
+        totalPay: `${booking.checking_price} €`,
       },
     ]
 
