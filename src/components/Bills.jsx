@@ -24,9 +24,9 @@ export default function Bills({ listBooking }) {
     const companyEmail = "infosfives@gmail.com"
 
     const customerName =
-      listBooking[0].customer.customer_surname +
+      listBooking[0].customer.customer_firstname +
       " " +
-      listBooking[0].customer.customer_firstname
+      listBooking[0].customer.customer_surname
     const billsLocation = "À Nogent-Sur-Oise"
 
     // Entreprise ------------------------------------
@@ -44,7 +44,7 @@ export default function Bills({ listBooking }) {
 
     // Informations sur la facture
     const invoiceDate = moment().locale("fr").format("LL")
-    const invoiceNumber = listBooking[0].id
+    const invoiceNumber = moment(listBooking[0].checking_end).format("DDMMYY")
 
     // Client ------------------------------------
     const clientInfoX = 150
