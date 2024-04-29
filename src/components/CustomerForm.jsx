@@ -6,6 +6,7 @@ import Alert from "../components/Alert.jsx"
 import { bgcolor } from "@mui/system"
 
 export default function CustomerForm({ showAlert, setShowAlert }) {
+  const validatorMessage = "Mauvaises valeurs indiquées."
   const navigate = useNavigate()
   async function handleSubmit() {
     const newCustomer = {
@@ -27,6 +28,7 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
       // Affichage d'une alerte si des champs sont vides
       window.scrollTo(0, 0)
       setShowAlert(true)
+      setShowValidatorMessage(false)
       setTimeout(() => {
         setShowAlert(false)
       }, 2000)
@@ -57,6 +59,12 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
         navigate("/customers")
       } else {
         console.error("Erreur lors de la requête:", response.status)
+        window.scrollTo(0, 0)
+        setShowValidatorMessage(true)
+        setShowAlert(true)
+        setTimeout(() => {
+          setShowAlert(false), setShowValidatorMessage(false)
+        }, 2000)
       }
     } catch (error) {
       console.error("Erreur inattendue:", error)
@@ -75,11 +83,17 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
   const [inputEmail, setInputEmail] = useState("")
   const [inputAddress, setInputAddress] = useState("")
   const [inputPhone, setInputPhone] = useState("")
+  const [showValidatorMessage, setShowValidatorMessage] = useState("")
 
   return (
     <>
       {showAlert && (
-        <Alert alertMessage="Remplir les champs." bgColor={bgcolor} />
+        <Alert
+          alertMessage={
+            !showValidatorMessage ? "Remplir les champs." : validatorMessage
+          }
+          bgColor={bgcolor}
+        />
       )}
       <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10q pb-3 mb-8">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:ml-2">
