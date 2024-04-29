@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import Cookies from "js-cookie"
 import { useNavigate } from "react-router-dom"
 import Alert from "../components/Alert.jsx"
+import { bgcolor } from "@mui/system"
 
 export default function CustomerForm({ showAlert, setShowAlert }) {
   const navigate = useNavigate()
@@ -77,7 +78,9 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
 
   return (
     <>
-      {showAlert && <Alert alertMessage="Remplir les champs." />}
+      {showAlert && (
+        <Alert alertMessage="Remplir les champs." bgColor={bgcolor} />
+      )}
       <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10q pb-3 mb-8">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:ml-2">
           Clients
