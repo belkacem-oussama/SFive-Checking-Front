@@ -194,9 +194,7 @@ export default function Bills({ listBooking, bookingId }) {
               }),
             }
           )
-          if (updateResponse.ok) {
-            console.log("Maj réussie.")
-          } else {
+          if (!updateResponse.ok) {
             console.log("error")
           }
         }
