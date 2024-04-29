@@ -179,6 +179,27 @@ export default function Bills({ listBooking, bookingId }) {
 
         window.scrollTo(0, 0)
         const jsonData = await response.json()
+
+        if (jsonData && jsonData.id) {
+          const updateResponse = await fetch(
+            `${import.meta.env.VITE_APP_API_URL}/checkings/${checkingId}`,
+            {
+              method: "PUT",
+              headers: {
+                Authorization: `${Cookies.get("token")}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                bills_id: jsonData.id,
+              }),
+            }
+          )
+          if (updateResponse.ok) {
+            console.log("Maj réussie.")
+          } else {
+            console.log("error")
+          }
+        }
       }
     } catch (error) {
       console.log(error)
