@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import Cookies from "js-cookie"
 import { useNavigate } from "react-router-dom"
+import Alert from "../components/Alert.jsx"
 
 export default function CustomerForm({ showAlert, setShowAlert }) {
   const navigate = useNavigate()
@@ -12,6 +13,23 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
       customer_mail: inputEmail.trim(),
       customer_address: inputAddress.trim(),
       customer_phone: inputPhone.trim(),
+    }
+
+    // Vérification des champs d'entrée
+    if (
+      !inputName.trim() ||
+      !inputSurname.trim() ||
+      !inputEmail.trim() ||
+      !inputAddress.trim() ||
+      !inputPhone.trim()
+    ) {
+      // Affichage d'une alerte si des champs sont vides
+      window.scrollTo(0, 0)
+      setShowAlert(true)
+      setTimeout(() => {
+        setShowAlert(false)
+      }, 2000)
+      return // Arrêter la soumission du formulaire
     }
 
     try {
@@ -35,7 +53,6 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
         setTimeout(() => {
           setShowAlert(false)
         }, 3000)
-        window.scrollTo(0, 0)
         navigate("/customers")
       } else {
         console.error("Erreur lors de la requête:", response.status)
@@ -44,6 +61,7 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
       console.error("Erreur inattendue:", error)
     }
 
+    // Réinitialiser les valeurs des champs d'entrée après soumission
     setInputName("")
     setInputSurname("")
     setInputEmail("")
@@ -59,6 +77,7 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
 
   return (
     <>
+      {showAlert && <Alert alertMessage="Remplir les champs." />}
       <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10q pb-3 mb-8">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:ml-2">
           Clients
