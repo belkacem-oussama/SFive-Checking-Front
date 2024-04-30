@@ -67,7 +67,12 @@ export default function SearchInput({
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none"
             />
-            <Link to="/customers/add">
+            <Link
+              to="/customers/add"
+              onClick={() => {
+                window.scrollTo(0, 0)
+              }}
+            >
               <span>
                 <button className="right-0 px-3 py-3 bg-white hover:bg-gray-300 text-gray-700 focus:outline-none border border-gray-300 rounded-md ml-2 ">
                   <svg
