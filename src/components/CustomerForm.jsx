@@ -6,7 +6,6 @@ import Alert from "../components/Alert.jsx"
 import { bgcolor } from "@mui/system"
 
 export default function CustomerForm({ showAlert, setShowAlert }) {
-  const validatorMessage = "Mauvaises valeurs indiquées."
   const navigate = useNavigate()
   async function handleSubmit() {
     const newCustomer = {
@@ -25,14 +24,13 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
       !inputAddress.trim() ||
       !inputPhone.trim()
     ) {
-      // Affichage d'une alerte si des champs sont vides
       window.scrollTo(0, 0)
       setShowAlert(true)
-      setShowValidatorMessage(false)
+      setAlertContent("Remplir les champs du formulaire.")
       setTimeout(() => {
         setShowAlert(false)
       }, 2000)
-      return // Arrêter la soumission du formulaire
+      return
     }
 
     try {
@@ -50,6 +48,7 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
       )
 
       if (response.ok) {
+        setAlertContent("Client ajouté.")
         setTimeout(() => {
           setShowAlert(true)
         }, 200)
@@ -57,13 +56,22 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
           setShowAlert(false)
         }, 3000)
         navigate("/customers")
+        window.scrollTo(0, 0)
+      } else if (response.status === 409) {
+        console.error("Email existant", response.status)
+        window.scrollTo(0, 0)
+        setAlertContent("Email déjà existant.")
+        setShowAlert(true)
+        setTimeout(() => {
+          setShowAlert(false)
+        }, 2000)
       } else {
         console.error("Erreur lors de la requête:", response.status)
         window.scrollTo(0, 0)
-        setShowValidatorMessage(true)
+
         setShowAlert(true)
         setTimeout(() => {
-          setShowAlert(false), setShowValidatorMessage(false)
+          setShowAlert(false)
         }, 2000)
       }
     } catch (error) {
@@ -83,18 +91,11 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
   const [inputEmail, setInputEmail] = useState("")
   const [inputAddress, setInputAddress] = useState("")
   const [inputPhone, setInputPhone] = useState("")
-  const [showValidatorMessage, setShowValidatorMessage] = useState("")
+  const [alertContent, setAlertContent] = useState("")
 
   return (
     <>
-      {showAlert && (
-        <Alert
-          alertMessage={
-            !showValidatorMessage ? "Remplir les champs." : validatorMessage
-          }
-          bgColor={bgcolor}
-        />
-      )}
+      {showAlert && <Alert alertMessage={alertContent} bgColor={bgcolor} />}
       <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10q pb-3 mb-8">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:ml-2">
           Clients
