@@ -22,7 +22,6 @@ import LoginPage from "./pages/Login.jsx"
 import Cookies from "js-cookie"
 import { jwtDecode } from "jwt-decode"
 import CustomerForm from "./components/CustomerForm.jsx"
-import Bills from "./components/Bills.jsx"
 
 export default function App() {
   const [inputLogin, setInputLogin] = useState("")
@@ -197,100 +196,89 @@ export default function App() {
 
   return (
     <React.Fragment>
-      {isLogged ? (
-        <>
-          <Header handeLogOut={handeLogOut} />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route
-              path="/booking"
-              element={
-                <Booking
-                  isLogged={isLogged}
-                  setIsLogged={setIsLogged}
-                  listBooking={listBooking}
-                  setListBooking={setListBooking}
-                />
-              }
+      <Header handeLogOut={handeLogOut} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/booking"
+          element={
+            <Booking
+              listBooking={listBooking}
+              setListBooking={setListBooking}
             />
-            <Route
-              path="/customers"
-              element={
-                <Customers
-                  listCustomer={listCustomer}
-                  setListCustomer={setListCustomer}
-                  page={page}
-                  setPage={setPage}
-                  totalPage={totalPage}
-                  setTotalPage={setTotalPage}
-                  showAlert={showAlert}
-                  setShowAlert={setShowAlert}
-                />
-              }
+          }
+        />
+        <Route
+          path="/customers"
+          element={
+            <Customers
+              listCustomer={listCustomer}
+              setListCustomer={setListCustomer}
+              page={page}
+              setPage={setPage}
+              totalPage={totalPage}
+              setTotalPage={setTotalPage}
+              showAlert={showAlert}
+              setShowAlert={setShowAlert}
             />
-            <Route
-              path="/customers/add"
-              element={
-                <CustomerForm
-                  showAlert={showAlert}
-                  setShowAlert={setShowAlert}
-                />
-              }
+          }
+        />
+        <Route
+          path="/customers/add"
+          element={
+            <CustomerForm showAlert={showAlert} setShowAlert={setShowAlert} />
+          }
+        />
+        <Route
+          path="/customers/:id"
+          element={
+            <ItemsDetails
+              listCustomer={listCustomer}
+              setListCustomer={setListCustomer}
             />
-            <Route
-              path="/customers/:id"
-              element={
-                <ItemsDetails
-                  listCustomer={listCustomer}
-                  setListCustomer={setListCustomer}
-                />
-              }
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <Profile
+              tokenCookie={tokenCookie}
+              setTokenCookie={setTokenCookie}
+              inputLogin={inputLogin}
             />
-            <Route
-              path="/profile"
-              element={
-                <Profile
-                  tokenCookie={tokenCookie}
-                  setTokenCookie={setTokenCookie}
-                  inputLogin={inputLogin}
-                />
-              }
+          }
+        />
+        <Route
+          path="/book"
+          element={
+            <BookingForm
+              listCustomer={listCustomer}
+              setListCustomer={setListCustomer}
+              listFields={listFields}
+              setListFields={setListFields}
             />
-            <Route
-              path="/book"
-              element={
-                <BookingForm
-                  listCustomer={listCustomer}
-                  setListCustomer={setListCustomer}
-                  listFields={listFields}
-                  setListFields={setListFields}
-                />
-              }
+          }
+        />
+        <Route path="/fields" element={<Fields />} />
+
+        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route
+          path="/login"
+          element={
+            <LoginPage
+              tokenCookie={tokenCookie}
+              inputPassword={inputPassword}
+              setInputLogin={setInputLogin}
+              setInputPassword={setInputPassword}
+              handleAuth={handleAuth}
+              showLoader={showLoader}
+              setShowLoader={setShowLoader}
+              showMessage={showMessage}
+              setShowMessage={setShowMessage}
             />
-            <Route path="/fields" element={<Fields />} />
-          </Routes>
-        </>
-      ) : (
-        <Routes>
-          <Route path="*" element={<Navigate to="/login" replace />} />
-          <Route
-            path="/login"
-            element={
-              <LoginPage
-                tokenCookie={tokenCookie}
-                inputPassword={inputPassword}
-                setInputLogin={setInputLogin}
-                setInputPassword={setInputPassword}
-                handleAuth={handleAuth}
-                showLoader={showLoader}
-                setShowLoader={setShowLoader}
-                showMessage={showMessage}
-                setShowMessage={setShowMessage}
-              />
-            }
-          />
-        </Routes>
-      )}
+          }
+        />
+      </Routes>
     </React.Fragment>
   )
 }
