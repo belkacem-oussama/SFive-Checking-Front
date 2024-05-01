@@ -66,8 +66,6 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
           customer_mail: foundCustomer.customer_mail,
           customer_phone: foundCustomer.customer_phone,
         })
-      } else {
-        navigate("/customers")
       }
     }
   }, [id, listCustomer])
