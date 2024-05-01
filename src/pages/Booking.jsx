@@ -6,12 +6,7 @@ import { jwtDecode } from "jwt-decode"
 import Popup from "../components/Popup.jsx"
 import Alert from "../components/Alert.jsx"
 
-export default function Booking({
-  listBooking,
-  setListBooking,
-  isLogged,
-  setIsLogged,
-}) {
+export default function Booking({ listBooking, setListBooking }) {
   const [showPopUp, setShowPopUp] = useState(false)
   const [bookingId, setBookingId] = useState(null)
   const [checkButton, setCheckButton] = useState(true)
@@ -22,17 +17,6 @@ export default function Booking({
   const updateMessage = `Réservation ${bookingId} terminée.`
 
   const token = Cookies.get("token")
-
-  if (token) {
-    const decodedToken = jwtDecode(token)
-    if (decodedToken.exp < Date.now() / 1000) {
-      // Si le token est expiré, déconnecter l'utilisateur
-      setIsLogged(false)
-      Cookies.remove("token")
-      navigate("/login")
-      return
-    }
-  }
 
   const handleDropBooking = (id) => {
     setShowPopUp(true)
