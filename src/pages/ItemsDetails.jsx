@@ -50,15 +50,16 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
   }
 
   useEffect(() => {
-    const customer = listCustomer.find(
-      (customer) => parseInt(customer.id) === parseInt(id)
-    )
+    if (!customerId) {
+      navigate("/customers")
+    }
+
     setInputValues({
-      customer_surname: customer.customer_surname,
-      customer_firstname: customer.customer_firstname,
-      customer_address: customer.customer_address,
-      customer_mail: customer.customer_mail,
-      customer_phone: customer.customer_phone,
+      customer_surname: customerId.customer_surname,
+      customer_firstname: customerId.customer_firstname,
+      customer_address: customerId.customer_address,
+      customer_mail: customerId.customer_mail,
+      customer_phone: customerId.customer_phone,
     })
   }, [id, listCustomer])
 
