@@ -1,19 +1,61 @@
 import LoaderComponent from "../components/Loader.jsx"
 import SFive from "../assets/images/sfive_icone.png"
+import { AuthContext } from "../context/AuthContext.jsx"
+import { useContext, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
-export default function LoginPage({
-  inputLogin,
-  inputPassword,
-  setInputLogin,
-  setInputPassword,
-  handleAuth,
-  showLoader,
-  setShowLoader,
-  showMessage,
-  setShowMessage,
-  errorMessage,
-  setErrorMessage,
-}) {
+export default function LoginPage() {
+  const { handleLogin, setTokenCookie } = useContext(AuthContext)
+
+  const [inputPassword, setInputPassword] = useState("")
+  const [inputLogin, setInputLogin] = useState("")
+  const [showMessage, setShowMessage] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
+  const [showLoader, setShowLoader] = useState(false)
+  const navigate = useNavigate()
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setShowLoader(true)
+    setShowMessage(false)
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_email: inputLogin,
+            user_password: inputPassword,
+          }),
+        }
+      )
+
+      if (response.ok) {
+        const jsonData = await response.json()
+        const token = jsonData.token
+        handleLogin(token)
+        setInputLogin("")
+        setInputPassword("")
+        setTokenCookie(token)
+        setShowLoader(false)
+        navigate("/")
+      } else {
+        console.error("Erreur lors de la requête:", response.status)
+        const failedMessage = await response.json()
+        setErrorMessage(failedMessage.message)
+        setShowLoader(false)
+        setShowMessage(true)
+      }
+    } catch (error) {
+      console.error("Erreur inattendue:", error)
+      setShowLoader(false)
+      setShowMessage(true)
+    }
+  }
+
   return (
     <>
       <div className="flex flex-col items-center justify-center min-h-screen">
@@ -79,7 +121,7 @@ export default function LoginPage({
             <div>
               <button
                 className="flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                onClick={handleAuth}
+                onClick={handleSubmit}
               >
                 {showLoader ? <LoaderComponent /> : "Se connecter"}
               </button>

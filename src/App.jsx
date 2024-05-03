@@ -24,14 +24,8 @@ import { jwtDecode } from "jwt-decode"
 import CustomerForm from "./components/CustomerForm.jsx"
 
 export default function App() {
-  const [inputLogin, setInputLogin] = useState("")
-  const [inputPassword, setInputPassword] = useState("")
-  const [tokenCookie, setTokenCookie] = useState(Cookies.get("token") || "")
-  const [showLoader, setShowLoader] = useState(false)
+  //States
   const [showAlert, setShowAlert] = useState(false)
-  const [showMessage, setShowMessage] = useState(false)
-  const [errorMessage, setErrorMessage] = useState("")
-  const [isLogged, setIsLogged] = useState(false)
   const [listCustomer, setListCustomer] = useState([])
   const [listBooking, setListBooking] = useState([])
   const [listFields, setListFields] = useState([])
@@ -41,72 +35,6 @@ export default function App() {
   let currentUrl = useLocation().pathname
   const navigate = useNavigate()
 
-  const handleAuth = async (e) => {
-    e.preventDefault()
-    setShowLoader(true)
-    setShowMessage(false)
-
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_APP_API_URL}/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user_email: inputLogin,
-            user_password: inputPassword,
-          }),
-        }
-      )
-
-      if (response.ok) {
-        const jsonData = await response.json()
-        const token = jsonData.token
-        setTokenCookie(token)
-        Cookies.set("token", token, { expires: 7, secure: true })
-        setShowLoader(false)
-        setIsLogged(true)
-        navigate("/")
-      } else {
-        console.error("Erreur lors de la requête:", response.status)
-        const failedMessage = await response.json()
-        setErrorMessage(failedMessage.message)
-        setShowLoader(false)
-        setShowMessage(true)
-      }
-    } catch (error) {
-      console.error("Erreur inattendue:", error)
-      setShowLoader(false)
-      setShowMessage(true)
-    }
-  }
-
-  const handeLogOut = () => {
-    setIsLogged(false)
-    setInputLogin("")
-    setInputPassword("")
-    Cookies.remove("token")
-  }
-
-  useEffect(() => {
-    if (tokenCookie) {
-      const decodedToken = jwtDecode(tokenCookie)
-      if (decodedToken.exp < Date.now() / 1000) {
-        setIsLogged(false)
-        Cookies.remove("token")
-        navigate("/login")
-      } else {
-        setIsLogged(true)
-        navigate("/")
-      }
-    } else {
-      setIsLogged(false)
-      navigate("/login")
-    }
-  }, [tokenCookie])
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -115,7 +43,6 @@ export default function App() {
           const decodedToken = jwtDecode(token)
           if (decodedToken.exp < Date.now() / 1000) {
             // Si le token est expiré, déconnecter l'utilisateur
-            setIsLogged(false)
             Cookies.remove("token")
             navigate("/login")
             return
@@ -199,7 +126,7 @@ export default function App() {
 
   return (
     <React.Fragment>
-      <Header handeLogOut={handeLogOut} />
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
@@ -241,16 +168,7 @@ export default function App() {
             />
           }
         />
-        <Route
-          path="/profile"
-          element={
-            <Profile
-              tokenCookie={tokenCookie}
-              setTokenCookie={setTokenCookie}
-              inputLogin={inputLogin}
-            />
-          }
-        />
+        <Route path="/profile" element={<Profile />} />
         <Route
           path="/book"
           element={
@@ -265,24 +183,7 @@ export default function App() {
         <Route path="/fields" element={<Fields />} />
 
         <Route path="*" element={<Navigate to="/login" replace />} />
-        <Route
-          path="/login"
-          element={
-            <LoginPage
-              tokenCookie={tokenCookie}
-              inputPassword={inputPassword}
-              setInputLogin={setInputLogin}
-              setInputPassword={setInputPassword}
-              errorMessage={errorMessage}
-              setErrorMessage={setErrorMessage}
-              handleAuth={handleAuth}
-              showLoader={showLoader}
-              setShowLoader={setShowLoader}
-              showMessage={showMessage}
-              setShowMessage={setShowMessage}
-            />
-          }
-        />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </React.Fragment>
   )

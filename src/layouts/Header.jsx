@@ -1,7 +1,8 @@
 import { Fragment } from "react"
+import { useContext } from "react"
+import { AuthContext } from "../context/AuthContext.jsx"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
 import { Link, useLocation } from "react-router-dom"
-
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 
 import SFiveIMG from "../assets/images/sfive_icone.png"
@@ -11,8 +12,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ")
 }
 
-export default function Header({ handeLogOut }) {
+export default function Header() {
   const location = useLocation()
+
+  const { handleLogout } = useContext(AuthContext)
 
   const navigation = [
     { id: 1, name: "Accueil", href: "/", current: location.pathname === "/" },
@@ -155,7 +158,7 @@ export default function Header({ handeLogOut }) {
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
-                                onClick={handeLogOut}
+                                onClick={handleLogout}
                               >
                                 Deconnexion
                               </p>

@@ -1,10 +1,15 @@
 import Forms from "../components/Form.jsx"
 import { jwtDecode } from "jwt-decode"
+import { AuthContext } from "../context/AuthContext.jsx"
+import { useContext } from "react"
+import Cookies from "js-cookie"
 
-export default function Profile({ tokenCookie, setTokenCookie }) {
+export default function Profile() {
   let userDataRole
   let userDataName
   let userDataEmail
+
+  const { tokenCookie } = useContext(AuthContext)
 
   if (tokenCookie) {
     userDataRole = jwtDecode(tokenCookie).user_roles
