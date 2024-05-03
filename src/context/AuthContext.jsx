@@ -38,7 +38,30 @@ export const AuthProvider = ({ children }) => {
     checkToken()
   }, [tokenCookie])
 
+  const handleLogin = (token) => {
+    Cookies.set("token", token)
+    setTokenCookie(token)
+    setIsLogged(true)
+    navigate("/")
+  }
+
+  const handleLogout = () => {
+    setIsLogged(false)
+    Cookies.remove("token")
+    navigate("/login")
+  }
+
   return (
-    <AuthContext.Provider value={{ isLogged }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider
+      value={{
+        isLogged,
+        handleLogin,
+        handleLogout,
+        tokenCookie,
+        setTokenCookie,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
   )
 }
