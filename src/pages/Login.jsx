@@ -11,6 +11,8 @@ export default function LoginPage({
   setShowLoader,
   showMessage,
   setShowMessage,
+  errorMessage,
+  setErrorMessage,
 }) {
   return (
     <>
@@ -81,14 +83,12 @@ export default function LoginPage({
               >
                 {showLoader ? <LoaderComponent /> : "Se connecter"}
               </button>
-              {showMessage && (
-                <p className="text-red-500 text-xs mt-2">
-                  Erreur de connexion.
-                </p>
-              )}
             </div>
           </form>
         </div>
+        {showMessage && (
+          <p className="text-red-500 text-xs mt-2 ">{errorMessage}</p>
+        )}
       </div>
     </>
   )

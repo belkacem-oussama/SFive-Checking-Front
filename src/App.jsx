@@ -30,6 +30,7 @@ export default function App() {
   const [showLoader, setShowLoader] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
   const [showMessage, setShowMessage] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
   const [isLogged, setIsLogged] = useState(false)
   const [listCustomer, setListCustomer] = useState([])
   const [listBooking, setListBooking] = useState([])
@@ -70,6 +71,8 @@ export default function App() {
         navigate("/")
       } else {
         console.error("Erreur lors de la requête:", response.status)
+        const failedMessage = await response.json()
+        setErrorMessage(failedMessage.message)
         setShowLoader(false)
         setShowMessage(true)
       }
@@ -270,6 +273,8 @@ export default function App() {
               inputPassword={inputPassword}
               setInputLogin={setInputLogin}
               setInputPassword={setInputPassword}
+              errorMessage={errorMessage}
+              setErrorMessage={setErrorMessage}
               handleAuth={handleAuth}
               showLoader={showLoader}
               setShowLoader={setShowLoader}
