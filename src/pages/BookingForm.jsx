@@ -302,7 +302,17 @@ export default function BookingForm({
 
               // Vérifier si le créneau actuel chevauche le créneau réservé
               // En tenant compte que 00:00 est dans la même journée que 23:00
-              if (currentSlotEnd.isBefore(currentSlotStart)) {
+              if (
+                currentSlotStart.isSame(moment("23:30", "HH:mm")) &&
+                currentSlotEnd.isSame(moment("00:00", "HH:mm"))
+              ) {
+                // Cas spécial pour le créneau "23:30 - 00:00"
+                return bookedSlots.some(
+                  (slot) =>
+                    slot.start.isBefore(moment("00:00", "HH:mm")) &&
+                    slot.end.isAfter(moment("23:30", "HH:mm"))
+                )
+              } else if (currentSlotEnd.isBefore(currentSlotStart)) {
                 // Si le créneau actuel passe à minuit, vérifions s'il chevauche avant minuit
                 return (
                   currentSlotStart.isAfter(bookedSlotStart) ||
