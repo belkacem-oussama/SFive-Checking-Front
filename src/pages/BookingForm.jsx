@@ -173,24 +173,14 @@ export default function BookingForm({
       }
 
       if (selectedHours.length !== 0) {
-        const durationHours =
-          moment(
-            `${apiDate}T${
-              selectedHours.sort()[selectedHours.sort().length - 1][1]
-            }:00.000Z`
-          ).diff(
-            `${apiDate}T${selectedHours.sort()[0][0]}:00.000Z`,
-            "minutes"
-          ) / 60
-
-        switch (durationHours) {
-          case 1:
+        switch (selectedHours.length) {
+          case 2:
             checkingPrice = 80
             break
-          case 1.5:
+          case 3:
             checkingPrice = 120
             break
-          case 2:
+          case 4:
             checkingPrice = 150
             break
 
