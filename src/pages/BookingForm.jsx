@@ -158,8 +158,70 @@ export default function BookingForm({
     handleFieldHours()
   }, [selectedField, selectedDate, apiDate])
 
+  let startedHours
+  let endedHours
+
+  const sortSelectedHours = (selectedHours) => {
+    if (!selectedHours || selectedHours.length === 0) {
+      return
+    }
+    const hasSlotStartingAt00 = selectedHours.some(([start]) =>
+      start.startsWith("00")
+    )
+
+    if (hasSlotStartingAt00) {
+      if (
+        selectedHours.length === 4 &&
+        selectedHours.sort()[2][0] === "23:00"
+      ) {
+        startedHours = selectedHours.sort()[2][0]
+        endedHours = selectedHours.sort()[1][1]
+      } else if (
+        selectedHours.length === 4 &&
+        selectedHours.sort()[0][0] === "00:00"
+      ) {
+        startedHours = selectedHours.sort()[0][0]
+        endedHours = selectedHours.sort()[3][1]
+      } else if (
+        selectedHours.length === 3 &&
+        selectedHours.sort()[1][0] === "23:00"
+      ) {
+        startedHours = selectedHours.sort()[1][0]
+        endedHours = selectedHours.sort()[0][1]
+      } else if (
+        selectedHours.length === 3 &&
+        selectedHours.sort()[2][0] === "23:30"
+      ) {
+        startedHours = selectedHours.sort()[2][0]
+        endedHours = selectedHours.sort()[1][1]
+      } else if (
+        selectedHours.length === 3 &&
+        selectedHours.sort()[0][0] === "00:30"
+      ) {
+        startedHours = selectedHours.sort()[0][0]
+        endedHours = selectedHours.sort()[2][1]
+      } else if (
+        selectedHours.length === 3 &&
+        selectedHours.sort()[0][0] === "00:00"
+      ) {
+        startedHours = selectedHours.sort()[0][0]
+        endedHours = selectedHours.sort()[2][1]
+      } else if (
+        selectedHours.length === 2 &&
+        selectedHours.sort()[0][0] === "00:00"
+      ) {
+        startedHours = selectedHours.sort()[1][0]
+        endedHours = selectedHours.sort()[0][1]
+      }
+    } else {
+      startedHours = selectedHours.sort()[0][0]
+      endedHours = selectedHours.sort()[selectedHours.sort().length - 1][1]
+    }
+  }
+
   const handleSendData = async () => {
     let checkingPrice
+    sortSelectedHours(selectedHours)
     try {
       const token = Cookies.get("token")
       if (token) {
@@ -205,10 +267,8 @@ export default function BookingForm({
             checking_type: bookingData[2],
             checking_price: checkingPrice,
             checking_notes: textValue,
-            checking_start: `${apiDate}T${selectedHours.sort()[0][0]}:00.000Z`,
-            checking_end: `${apiDate}T${
-              selectedHours.sort()[selectedHours.sort().length - 1][1]
-            }:00.000Z`,
+            checking_start: `${apiDate}T${startedHours}:00.000Z`,
+            checking_end: `${apiDate}T${endedHours}:00.000Z`,
           }),
         }
       )
