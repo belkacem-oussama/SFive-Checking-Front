@@ -212,6 +212,12 @@ export default function BookingForm({
       ) {
         startedHours = selectedHours.sort()[1][0]
         endedHours = selectedHours.sort()[0][1]
+      } else if (
+        selectedHours.length === 2 &&
+        selectedHours.sort()[0][0] === "00:30"
+      ) {
+        startedHours = selectedHours.sort()[0][0]
+        endedHours = selectedHours.sort()[1][1]
       }
     } else {
       startedHours = selectedHours.sort()[0][0]
