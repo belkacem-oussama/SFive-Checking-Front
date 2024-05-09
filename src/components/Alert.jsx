@@ -1,8 +1,17 @@
-import React from "react"
+import React, { useState } from "react"
 
 export default function Alert({ alertMessage, bgColor }) {
+  const [isVisible, setIsVisible] = useState(true)
+
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center">
+    <div
+      className={`fixed top-0 left-0 right-0 z-50 flex justify-center ${
+        !isVisible && "hidden"
+      } `}
+      onClick={() => {
+        setIsVisible(false)
+      }}
+    >
       <div
         className={`rounded-lg p-4 flex items-center justify-center shadow-lg mt-16 ${
           !bgColor ? "bg-green-600 text-white" : "bg-red-600 text-white"
