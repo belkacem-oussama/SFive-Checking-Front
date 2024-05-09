@@ -210,8 +210,8 @@ export default function BookingForm({
         selectedHours.length === 2 &&
         selectedHours.sort()[0][0] === "00:00"
       ) {
-        startedHours = selectedHours.sort()[1][0]
-        endedHours = selectedHours.sort()[0][1]
+        startedHours = selectedHours.sort()[0][0]
+        endedHours = selectedHours.sort()[1][1]
       } else if (
         selectedHours.length === 2 &&
         selectedHours.sort()[0][0] === "00:30"
@@ -333,6 +333,8 @@ export default function BookingForm({
         <h1 className="ml-2 font-semibold">Disponibilité</h1>
         <span className="p-2 grid grid-cols-2 md:grid-cols-4 gap-4 ">
           {fieldAvailability.map((slot, index) => {
+            const currentSlotStart = moment(slot.start, "HH:mm")
+            const currentSlotEnd = moment(slot.end, "HH:mm")
             const isBookedStart = bookingDayArray.some(
               (bookingSlot) => bookingSlot.start === slot.start
             )
@@ -348,49 +350,48 @@ export default function BookingForm({
 
             // Vérifier si le créneau actuel est partiellement réservé
             const isPartiallyBooked = bookedSlots.some((bookedSlot) => {
-              // Convertir les heures de début et de fin du créneau réservé en objets moment
-              const bookedSlotStart = moment(bookedSlot.start, "HH:mm")
-              const bookedSlotEnd = moment(bookedSlot.end, "HH:mm")
+              const bookedSlotStart = bookedSlot.start
+              const bookedSlotEnd = bookedSlot.end
 
               // Convertir les heures de début et de fin du créneau actuel en objets moment
-              const currentSlotStart = moment(slot.start, "HH:mm")
-              const currentSlotEnd = moment(slot.end, "HH:mm")
 
               // Vérifier si le créneau actuel chevauche le créneau réservé
               // En tenant compte que 00:00 est dans la même journée que 23:00
+
+              // Cas spécial pour le créneau de "23:00 à 01:00"
               if (
-                currentSlotStart.isSame(moment("23:30", "HH:mm")) &&
-                currentSlotEnd.isSame(moment("00:00", "HH:mm"))
+                bookedSlotStart.format("HH:mm") === "23:00" &&
+                bookedSlotEnd.format("HH:mm") === "01:00"
               ) {
-                // Cas spécial pour le créneau "23:30 - 00:00"
-                return bookedSlots.some(
-                  (slot) =>
-                    slot.start.isBefore(moment("00:00", "HH:mm")) &&
-                    slot.end.isAfter(moment("23:30", "HH:mm"))
-                )
-              } else if (currentSlotEnd.isBefore(currentSlotStart)) {
-                // Si le créneau actuel passe à minuit, vérifions s'il chevauche avant minuit
+                if (
+                  currentSlotStart.format("HH:mm") === "23:30" &&
+                  currentSlotEnd.format("HH:mm") === "00:00"
+                ) {
+                  // Directement réservé car il est exactement chevauché par "23:00 à 01:00"
+                  return true
+                }
+              }
+
+              // Vérification générale du chevauchement
+              if (bookedSlotEnd.isBefore(bookedSlotStart)) {
+                // Si le créneau réservé passe à minuit, vérifions pour chaque cas
                 return (
-                  currentSlotStart.isAfter(bookedSlotStart) ||
-                  currentSlotStart.isSame(bookedSlotStart) ||
-                  currentSlotEnd.isBefore(bookedSlotEnd) ||
-                  currentSlotEnd.isSame(bookedSlotEnd)
-                )
-              } else if (bookedSlotStart.isAfter(bookedSlotEnd)) {
-                // Si le créneau réservé passe à minuit, vérifions s'il chevauche après minuit
-                return (
-                  (currentSlotStart.isAfter(bookedSlotStart) ||
-                    currentSlotStart.isSame(bookedSlotStart)) &&
-                  (currentSlotEnd.isBefore(bookedSlotEnd) ||
-                    currentSlotEnd.isSame(bookedSlotEnd))
+                  currentSlotStart.isBetween(
+                    bookedSlotStart,
+                    moment("23:59", "HH:mm"),
+                    null,
+                    "[]"
+                  ) ||
+                  currentSlotEnd.isBetween(
+                    moment("00:00", "HH:mm"),
+                    bookedSlotEnd,
+                    "[]"
+                  )
                 )
               } else {
-                // Sinon, vérifions normalement
                 return (
-                  (currentSlotStart.isAfter(bookedSlotStart) ||
-                    currentSlotStart.isSame(bookedSlotStart)) &&
-                  (currentSlotEnd.isBefore(bookedSlotEnd) ||
-                    currentSlotEnd.isSame(bookedSlotEnd))
+                  currentSlotStart.isBefore(bookedSlotEnd) &&
+                  currentSlotEnd.isAfter(bookedSlotStart)
                 )
               }
             })
