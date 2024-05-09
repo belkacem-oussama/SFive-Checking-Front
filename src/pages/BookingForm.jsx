@@ -7,6 +7,8 @@ import SmallCalendar from "../components/SmallCalendar.jsx"
 import Cookies from "js-cookie"
 import { jwtDecode } from "jwt-decode"
 import moment from "moment/moment.js"
+import Alert from "../components/Alert.jsx"
+import { bgcolor } from "@mui/system"
 
 export default function BookingForm({
   listCustomer,
@@ -80,6 +82,8 @@ export default function BookingForm({
   const [textValue, setTextValue] = useState("")
   const [selectedHours, setSelectedHours] = useState([])
   const [bookingDayArray, setBookingDayArray] = useState([])
+  const [showAlert, setShowAlert] = useState(false)
+  const [messageAlert, setMessageAlert] = useState("")
 
   let bookingData = [
     selectedUser,
@@ -227,6 +231,7 @@ export default function BookingForm({
 
   const handleSendData = async () => {
     let checkingPrice
+    let messageAlert
     sortSelectedHours(selectedHours)
     try {
       const token = Cookies.get("token")
@@ -257,32 +262,50 @@ export default function BookingForm({
         }
       }
 
-      const response = await fetch(
-        `${import.meta.env.VITE_APP_API_URL}/checkings`,
-        {
-          method: "POST",
-          mode: "cors",
-          headers: {
-            Authorization: `${Cookies.get("token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            customer_id: bookingData[0],
-            field_id: bookingData[1],
-            checking_status: 1,
-            checking_type: bookingData[2],
-            checking_price: checkingPrice,
-            checking_notes: textValue,
-            checking_start: `${apiDate}T${startedHours}:00.000Z`,
-            checking_end: `${apiDate}T${endedHours}:00.000Z`,
-          }),
-        }
-      )
-
-      if (response.ok) {
-        navigate("/")
+      if (!bookingData[0] || bookingData[5].length === 0) {
         window.scrollTo(0, 0)
-        const jsonData = await response.json()
+        setShowAlert(true)
+        setTimeout(() => {
+          setShowAlert(false)
+        }, 2000)
+
+        if (!bookingData[0] && bookingData[5].length === 0) {
+          setMessageAlert("Remplir le formulaire.")
+        } else if (bookingData[5].length === 0) {
+          setMessageAlert("Choisir un créneau.")
+        } else if (!bookingData[0]) {
+          setMessageAlert("Choisir un client.")
+        } else {
+          setMessageAlert("Erreur.")
+        }
+      } else {
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_API_URL}/checkings`,
+          {
+            method: "POST",
+            mode: "cors",
+            headers: {
+              Authorization: `${Cookies.get("token")}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              customer_id: bookingData[0],
+              field_id: bookingData[1],
+              checking_status: 1,
+              checking_type: bookingData[2],
+              checking_price: checkingPrice,
+              checking_notes: textValue,
+              checking_start: `${apiDate}T${startedHours}:00.000Z`,
+              checking_end: `${apiDate}T${endedHours}:00.000Z`,
+            }),
+          }
+        )
+
+        if (response.ok) {
+          navigate("/")
+          window.scrollTo(0, 0)
+          const jsonData = await response.json()
+        }
       }
     } catch (error) {
       console.log(error)
@@ -291,6 +314,7 @@ export default function BookingForm({
 
   return (
     <div className="space-y-12">
+      {showAlert && <Alert alertMessage={messageAlert} bgColor={bgcolor} />}
       <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10q pb-3">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:ml-2">
           Booking
