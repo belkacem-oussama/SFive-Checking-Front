@@ -293,7 +293,9 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
                     </div>
                     <div className="ml-4 flex-shrink-0">
                       <a
-                        href={bill.downloadUrl}
+                        href={`${import.meta.env.VITE_APP_API_URL}/download/${
+                          bill.id
+                        }`}
                         className="font-medium text-indigo-600 hover:text-indigo-500"
                         download
                       >
