@@ -26,6 +26,7 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
   })
 
   const [showAlert, setShowAlert] = useState(false)
+  const [listBills, setListBills] = useState([])
 
   const { id } = useParams()
   let customerId
@@ -77,6 +78,35 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
     })
   }
 
+  const getInvoices = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/bills/${customerId.id}`,
+
+        {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${Cookies.get("token")}`,
+          },
+        }
+      )
+
+      if (response.ok) {
+        const bills = await response.json()
+
+        if (bills || bills.length !== 0) {
+          setListBills(bills)
+        }
+      } else {
+        console.error("Erreur lors de la requête:", response.status)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const handleUpdateDetails = async () => {
     try {
       const response = await fetch(
@@ -120,6 +150,10 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
   }
 
   const successMessage = "Champs modifié."
+
+  useEffect(() => {
+    getInvoices()
+  }, [customerId])
 
   return (
     <>
@@ -239,54 +273,40 @@ export default function ItemsDetails({ listCustomer, setListCustomer }) {
             Factures
           </dt>
           <dd className="mt-2 text-sm text-gray-800 sm:col-span-2 sm:mt-0">
-            <ul
-              role="list"
-              className="divide-y divide-gray-100 rounded-md border border-gray-200"
-            >
-              <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                <div className="flex w-0 flex-1 items-center">
-                  <PaperClipIcon
-                    className="h-5 w-5 flex-shrink-0"
-                    aria-hidden="true"
-                  />
-                  <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                    <span className="truncate font-medium">
-                      resume_back_end_developer.pdf
-                    </span>
-                    <span className="flex-shrink-0">2.4mb</span>
-                  </div>
-                </div>
-                <div className="ml-4 flex-shrink-0">
-                  <a
-                    href="#"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
+            <ul>
+              {listBills.length !== 0 ? (
+                listBills.map((bill) => (
+                  <li
+                    key={bill.id}
+                    className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6"
                   >
-                    Download
-                  </a>
-                </div>
-              </li>
-              <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                <div className="flex w-0 flex-1 items-center">
-                  <PaperClipIcon
-                    className="h-5 w-5 flex-shrink-0"
-                    aria-hidden="true"
-                  />
-                  <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                    <span className="truncate font-medium">
-                      coverletter_back_end_developer.pdf
-                    </span>
-                    <span className="flex-shrink-0">4.5mb</span>
-                  </div>
-                </div>
-                <div className="ml-4 flex-shrink-0">
-                  <a
-                    href="#"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
-                  >
-                    Download
-                  </a>
-                </div>
-              </li>
+                    <div className="flex w-0 flex-1 items-center">
+                      <PaperClipIcon
+                        className="h-5 w-5 flex-shrink-0"
+                        aria-hidden="true"
+                      />
+                      <div className="ml-4 flex min-w-0 flex-1 gap-2">
+                        <span className="truncate font-medium">
+                          {bill.bills_ref}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="ml-4 flex-shrink-0">
+                      <a
+                        href={bill.downloadUrl}
+                        className="font-medium text-indigo-600 hover:text-indigo-500"
+                        download
+                      >
+                        Download
+                      </a>
+                    </div>
+                  </li>
+                ))
+              ) : (
+                <p className="flex items-center justify-center text-gray-500">
+                  Aucune facture pour le moment.
+                </p>
+              )}
             </ul>
           </dd>
         </div>
