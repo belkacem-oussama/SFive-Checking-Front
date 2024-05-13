@@ -1,7 +1,9 @@
 import React, { useState } from "react"
+import Cookies from "js-cookie"
+
 import moment from "moment"
 import "moment/dist/locale/fr"
-import Cookies from "js-cookie"
+
 import Alert from "../components/Alert.jsx"
 
 export default function Bills({ listBooking, bookingId }) {

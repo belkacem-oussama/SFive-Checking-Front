@@ -1,8 +1,8 @@
 import { useState } from "react"
-import SearchBar from "../components/Search.jsx"
-import Cookies from "js-cookie"
-import { jwtDecode } from "jwt-decode"
 
+import Cookies from "js-cookie"
+
+import SearchBar from "../components/Search.jsx"
 import Popup from "../components/Popup.jsx"
 import Alert from "../components/Alert.jsx"
 

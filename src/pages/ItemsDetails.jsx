@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
+
 import Cookies from "js-cookie"
-import Alert from "../components/Alert.jsx"
 
 import { PaperClipIcon } from "@heroicons/react/20/solid"
 
+import Alert from "../components/Alert.jsx"
 import Input from "../components/Input.jsx"
 
 export default function ItemsDetails({ listCustomer, setListCustomer }) {

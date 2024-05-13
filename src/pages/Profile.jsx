@@ -1,8 +1,8 @@
-import Forms from "../components/Form.jsx"
-import { jwtDecode } from "jwt-decode"
-import { AuthContext } from "../context/AuthContext.jsx"
 import { useContext } from "react"
-import Cookies from "js-cookie"
+import { jwtDecode } from "jwt-decode"
+
+import Forms from "../components/Form.jsx"
+import { AuthContext } from "../context/AuthContext.jsx"
 
 export default function Profile() {
   let userDataRole

@@ -16,12 +16,11 @@ import ItemsDetails from "./pages/ItemsDetails.jsx"
 import Customers from "./pages/Customers.jsx"
 import Profile from "./pages/Profile.jsx"
 import BookingForm from "./pages/BookingForm.jsx"
-import Fields from "./pages/Fields.jsx"
 import LoginPage from "./pages/Login.jsx"
+import CustomerForm from "./components/CustomerForm.jsx"
 
 import Cookies from "js-cookie"
 import { jwtDecode } from "jwt-decode"
-import CustomerForm from "./components/CustomerForm.jsx"
 
 export default function App() {
   //States
@@ -180,7 +179,6 @@ export default function App() {
             />
           }
         />
-        <Route path="/fields" element={<Fields />} />
 
         <Route path="*" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<LoginPage />} />

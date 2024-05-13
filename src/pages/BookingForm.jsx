@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
-import SearchInput from "../components/SearchInput.jsx"
-import Select from "../components/Select.jsx"
-import SmallCalendar from "../components/SmallCalendar.jsx"
 import Cookies from "js-cookie"
 import { jwtDecode } from "jwt-decode"
 import moment from "moment/moment.js"
-import Alert from "../components/Alert.jsx"
 import { bgcolor } from "@mui/system"
+
+import SearchInput from "../components/SearchInput.jsx"
+import Select from "../components/Select.jsx"
+import SmallCalendar from "../components/SmallCalendar.jsx"
+import Alert from "../components/Alert.jsx"
 
 export default function BookingForm({
   listCustomer,

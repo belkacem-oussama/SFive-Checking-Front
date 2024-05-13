@@ -1,9 +1,12 @@
 import { useState } from "react"
-import { jwtDecode } from "jwt-decode"
+import { Link } from "react-router-dom"
+
 import Cookies from "js-cookie"
+
+import { jwtDecode } from "jwt-decode"
+
 import Alert from "./Alert.jsx"
 import LoaderComponent from "./Loader.jsx"
-import { Link } from "react-router-dom"
 
 export default function Forms() {
   const [newPassword, setNewPassword] = useState("")

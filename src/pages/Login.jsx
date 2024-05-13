@@ -1,8 +1,10 @@
-import LoaderComponent from "../components/Loader.jsx"
-import SFive from "../assets/images/sfive_icone.png"
-import { AuthContext } from "../context/AuthContext.jsx"
 import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
+
+import LoaderComponent from "../components/Loader.jsx"
+import { AuthContext } from "../context/AuthContext.jsx"
+
+import SFive from "../assets/images/sfive_icone.png"
 
 export default function LoginPage() {
   const { handleLogin, setTokenCookie } = useContext(AuthContext)

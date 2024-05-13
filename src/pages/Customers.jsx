@@ -1,9 +1,10 @@
 import * as React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
+
 import { Avatar } from "@mui/material"
-import { useLocation } from "react-router-dom"
 import Cookies from "js-cookie"
+
 import SearchBar from "../components/Search.jsx"
 import PaginationComponent from "../components/Pagination.jsx"
 import Alert from "../components/Alert.jsx"
