@@ -73,7 +73,7 @@ export default function BookingForm({
 
   //States for booking
   const [selectedType, setSelectedType] = useState(1)
-  const [selectedField, setSelectedField] = useState(9)
+  const [selectedField, setSelectedField] = useState(1)
   const [selectedDate, setSelectedDate] = useState(currentDate)
   const [apiDate, setApiDate] = useState(
     moment(new Date()).format("YYYY-MM-DD")
