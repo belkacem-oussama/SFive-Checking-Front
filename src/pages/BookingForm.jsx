@@ -24,6 +24,11 @@ export default function BookingForm({
     { id: 2, name: "Anniversaire" },
   ]
 
+  const cakeFlavour = [
+    { id: 1, name: "Chocolat" },
+    { id: 2, name: "Fraise" },
+  ]
+
   const fieldAvailability = [
     { start: "09:00", end: "09:30" },
     { start: "09:30", end: "10:00" },
@@ -74,6 +79,7 @@ export default function BookingForm({
 
   //States for booking
   const [selectedType, setSelectedType] = useState(1)
+  const [selectedCake, setSelectedCake] = useState(1)
   const [selectedField, setSelectedField] = useState(1)
   const [selectedDate, setSelectedDate] = useState(currentDate)
   const [apiDate, setApiDate] = useState(
@@ -97,6 +103,7 @@ export default function BookingForm({
 
   const handleReset = () => {
     setSelectedType(1)
+    setSelectedCake(1)
     setSelectedField(9)
     setSelectedDate(currentDate)
     setSelectedUser(0)
@@ -353,32 +360,10 @@ export default function BookingForm({
               <h1 className="ml-2 font-semibold">Gâteau</h1>
               <span className="p-2">
                 <Select
-                  selectedField={selectedField}
-                  setSelectedField={setSelectedField}
-                  data={listFields}
-                  isField={true}
-                />
-              </span>
-            </span>
-            <span className="">
-              <h1 className="ml-2 font-semibold">Âge</h1>
-              <span className="p-2">
-                <Select
-                  selectedField={selectedField}
-                  setSelectedField={setSelectedField}
-                  data={listFields}
-                  isField={true}
-                />
-              </span>
-            </span>
-            <span className="">
-              <h1 className="ml-2 font-semibold">Nombre</h1>
-              <span className="p-2">
-                <Select
-                  selectedField={selectedField}
-                  setSelectedField={setSelectedField}
-                  data={listFields}
-                  isField={true}
+                  selectedCake={selectedCake}
+                  setSelectedCake={setSelectedCake}
+                  data={cakeFlavour}
+                  isCake={true}
                 />
               </span>
             </span>

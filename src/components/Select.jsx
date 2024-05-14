@@ -10,14 +10,19 @@ function classNames(...classes) {
 export default function Select({
   data,
   isField,
+  isCake,
   selectedType,
   setSelectedType,
+  selectedCake,
+  setSelectedCake,
   selectedField,
   setSelectedField,
 }) {
   const handleBookChanging = (e) => {
     if (isField) {
       setSelectedField(e.id)
+    } else if (isCake) {
+      setSelectedCake(e.id)
     } else {
       setSelectedType(e.id)
     }
@@ -34,6 +39,10 @@ export default function Select({
                   ? selectedField === 1
                     ? "Terrain 1"
                     : "Terrain 2"
+                  : isCake
+                  ? selectedCake === 1
+                    ? "Chocolat"
+                    : "Fraise"
                   : selectedType === 1
                   ? "Classique"
                   : "Anniversaire"}
