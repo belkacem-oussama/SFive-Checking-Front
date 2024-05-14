@@ -110,12 +110,17 @@ export default function Booking({ listBooking, setListBooking }) {
       year: "numeric",
       month: "long",
       day: "numeric",
+      timeZone: "UTC",
     }
     const date = new Date(dateString)
-    let formattedDate = date.toLocaleDateString("fr-FR", options)
-    // Mettre en majuscule la première lettre du jour et du mois
-    formattedDate = formattedDate.replace(/\b\w/g, (char) => char.toUpperCase())
-    return formattedDate
+
+    const formattedDate = new Intl.DateTimeFormat("fr-FR", options).format(date)
+
+    // Mise en majuscule de la première lettre du jour
+    const capitalizedDate =
+      formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1)
+
+    return capitalizedDate
   }
 
   function formatTimeFromString(dateString) {
