@@ -96,6 +96,7 @@ export default function BookingForm({
     selectedUser,
     selectedField,
     selectedType,
+    selectedCake,
     textValue,
     apiDate,
     selectedHours,
@@ -270,16 +271,16 @@ export default function BookingForm({
         }
       }
 
-      if (!bookingData[0] || bookingData[5].length === 0) {
+      if (!bookingData[0] || bookingData[6].length === 0) {
         window.scrollTo(0, 0)
         setShowAlert(true)
         setTimeout(() => {
           setShowAlert(false)
         }, 2000)
 
-        if (!bookingData[0] && bookingData[5].length === 0) {
+        if (!bookingData[0] && bookingData[6].length === 0) {
           setMessageAlert("Remplir le formulaire.")
-        } else if (bookingData[5].length === 0) {
+        } else if (bookingData[6].length === 0) {
           setMessageAlert("Choisir un créneau.")
         } else if (!bookingData[0]) {
           setMessageAlert("Choisir un client.")
@@ -301,6 +302,7 @@ export default function BookingForm({
               field_id: bookingData[1],
               checking_status: 1,
               checking_type: bookingData[2],
+              checking_cake: bookingData[3],
               checking_price: checkingPrice,
               checking_notes: textValue,
               checking_start: `${apiDate}T${startedHours}:00.000Z`,
