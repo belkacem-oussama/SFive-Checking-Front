@@ -163,8 +163,18 @@ export default function Customers({
                       />
                       <div className="grid grid-cols-1 md:grid-cols-4 md:gap-x-4 w-full">
                         <p className="text-sm truncate font-semibold leading-6 text-gray-900 col-span-1">
-                          {customer.customer_firstname}{" "}
-                          {customer.customer_surname}
+                          {`${customer.customer_firstname
+                            .charAt(0)
+                            .toUpperCase()}${customer.customer_firstname
+                            .slice(1)
+                            .toLowerCase()}`}{" "}
+                          {customer.customer_surname
+                            ? `${customer.customer_surname
+                                .charAt(0)
+                                .toUpperCase()}${customer.customer_surname
+                                .slice(1)
+                                .toLowerCase()}`
+                            : ""}
                         </p>
                         <p className="mt-1 truncate text-xs leading-5 text-gray-500 flex-grow col-span-1">
                           {customer.mail}
