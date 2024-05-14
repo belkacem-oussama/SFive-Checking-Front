@@ -100,6 +100,8 @@ export default function BookingForm({
     selectedField,
     selectedType,
     selectedCake,
+    kidsAge,
+    kidsNumber,
     textValue,
     apiDate,
     selectedHours,
@@ -108,6 +110,8 @@ export default function BookingForm({
   const handleReset = () => {
     setSelectedType(1)
     setSelectedCake(1)
+    setKidsAge(10)
+    setKidsNumber(0)
     setSelectedField(9)
     setSelectedDate(currentDate)
     setSelectedUser(0)
@@ -274,16 +278,16 @@ export default function BookingForm({
         }
       }
 
-      if (!bookingData[0] || bookingData[6].length === 0) {
+      if (!bookingData[0] || bookingData[bookingData.length - 1] === 0) {
         window.scrollTo(0, 0)
         setShowAlert(true)
         setTimeout(() => {
           setShowAlert(false)
         }, 2000)
 
-        if (!bookingData[0] && bookingData[6].length === 0) {
+        if (!bookingData[0] && bookingData[bookingData.length - 1] === 0) {
           setMessageAlert("Remplir le formulaire.")
-        } else if (bookingData[6].length === 0) {
+        } else if (bookingData[bookingData.length - 1] === 0) {
           setMessageAlert("Choisir un créneau.")
         } else if (!bookingData[0]) {
           setMessageAlert("Choisir un client.")
@@ -291,6 +295,22 @@ export default function BookingForm({
           setMessageAlert("Erreur.")
         }
       } else {
+        const requestBody = {
+          customer_id: bookingData[0],
+          field_id: bookingData[1],
+          checking_status: 1,
+          checking_type: bookingData[2],
+          ...(bookingData[2] === 2 && {
+            checking_cake: bookingData[3],
+            checking_kid_age: bookingData[4],
+            checking_kid_number: bookingData[5],
+          }),
+          checking_price: checkingPrice,
+          checking_notes: textValue,
+          checking_start: `${apiDate}T${startedHours}:00.000Z`,
+          checking_end: `${apiDate}T${endedHours}:00.000Z`,
+        }
+
         const response = await fetch(
           `${import.meta.env.VITE_APP_API_URL}/checkings`,
           {
@@ -300,17 +320,7 @@ export default function BookingForm({
               Authorization: `${Cookies.get("token")}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-              customer_id: bookingData[0],
-              field_id: bookingData[1],
-              checking_status: 1,
-              checking_type: bookingData[2],
-              checking_cake: bookingData[3],
-              checking_price: checkingPrice,
-              checking_notes: textValue,
-              checking_start: `${apiDate}T${startedHours}:00.000Z`,
-              checking_end: `${apiDate}T${endedHours}:00.000Z`,
-            }),
+            body: JSON.stringify(requestBody),
           }
         )
 
@@ -372,26 +382,26 @@ export default function BookingForm({
                 />
               </span>
             </span>
-            <span className="">
-              <h1 className="ml-2 font-semibold">Âge</h1>
-              <span className="">
-                <NumberPicker
-                  isAge={true}
-                  kidsAge={kidsAge}
-                  setKidsAge={setKidsAge}
-                />
-              </span>
-            </span>
-            <span className="">
-              <h1 className="ml-2 font-semibold">Nombre</h1>
-              <span className="">
-                <NumberPicker
-                  isAge={false}
-                  kidsNumber={kidsNumber}
-                  setKidsNumber={setKidsNumber}
-                />
-              </span>
-            </span>
+            <div className="p-4">
+              <div className="flex flex-col lg:flex-row gap-4">
+                <div className="flex flex-col items-center lg:w-1/2">
+                  <h1 className="ml-2 font-semibold">Âge</h1>
+                  <NumberPicker
+                    isAge={true}
+                    kidsAge={kidsAge}
+                    setKidsAge={setKidsAge}
+                  />
+                </div>
+                <div className="flex flex-col items-center lg:w-1/2">
+                  <h1 className="ml-2 font-semibold">Nombre</h1>
+                  <NumberPicker
+                    isAge={false}
+                    kidsNumber={kidsNumber}
+                    setKidsNumber={setKidsNumber}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         )}
         <span>
