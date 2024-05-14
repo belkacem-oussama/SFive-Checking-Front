@@ -53,6 +53,12 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
         }, 3000)
         navigate("/customers")
         window.scrollTo(0, 0)
+
+        setInputName("")
+        setInputSurname("")
+        setInputEmail("")
+        setInputAddress("")
+        setInputPhone("")
       } else if (response.status === 409) {
         console.error("Numéro de téléphone déjà associé.", response.status)
         window.scrollTo(0, 0)
@@ -61,9 +67,19 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
         setTimeout(() => {
           setShowAlert(false)
         }, 2000)
+      } else if (response.status === 400) {
+        console.error("Mauvais format:", response.status)
+        window.scrollTo(0, 0)
+        setAlertContent("Mauvais format.")
+
+        setShowAlert(true)
+        setTimeout(() => {
+          setShowAlert(false)
+        }, 2000)
       } else {
         console.error("Erreur lors de la requête:", response.status)
         window.scrollTo(0, 0)
+        setAlertContent("Erreur formulaire.")
 
         setShowAlert(true)
         setTimeout(() => {
@@ -73,13 +89,6 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
     } catch (error) {
       console.error("Erreur inattendue:", error)
     }
-
-    // Réinitialiser les valeurs des champs d'entrée après soumission
-    setInputName("")
-    setInputSurname("")
-    setInputEmail("")
-    setInputAddress("")
-    setInputPhone("")
   }
 
   const [inputName, setInputName] = useState("")
