@@ -170,6 +170,7 @@ export default function Booking({ listBooking, setListBooking }) {
             key={checking.id}
             className="flex flex-col sm:flex-row justify-between gap-x-6 px-4 py-5 border-solid border-b-2 hover:bg-gray-100"
           >
+            {console.log(checking)}
             <div className="flex flex-col sm:flex-row gap-x-4 items-start sm:items-center w-full">
               <div className="min-w-0 flex-auto">
                 <p className="text-sm font-semibold leading-6 text-gray-800">
@@ -181,12 +182,34 @@ export default function Booking({ listBooking, setListBooking }) {
                   {checking.customer.customer_phone}
                 </p>
                 <br />
-                {checking.checking_type && (
+                {checking.checking_type && checking.checking_type === 2 ? (
+                  <div>
+                    <p className="mt-1 text-xs leading-5 text-gray-500">
+                      <span className="font-bold">Type : </span>
+                      {checking.checking_type === 2
+                        ? " Anniversaire"
+                        : " Classique"}
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-gray-500">
+                      <span className="font-bold">Gâteau : </span>
+                      {checking.checking_cake == 1 ? " Chocolat" : " Fraise"}
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-gray-500">
+                      <span className="font-bold">Âge : </span>
+                      {checking.checking_kid_age &&
+                        checking.checking_kid_age}{" "}
+                      ans
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-gray-500">
+                      <span className="font-bold">Nombre : </span>
+                      {checking.checking_kid_number &&
+                        checking.checking_kid_number}
+                    </p>
+                  </div>
+                ) : (
                   <p className="mt-1 text-xs leading-5 text-gray-500">
                     <span className="font-bold">Type : </span>
-                    {checking.checking_type === 2
-                      ? " Anniversaire"
-                      : " Classique"}
+                    Classique
                   </p>
                 )}
                 {checking.checking_start && (
