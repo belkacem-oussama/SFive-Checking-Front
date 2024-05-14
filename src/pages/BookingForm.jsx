@@ -325,14 +325,16 @@ export default function BookingForm({
         </p>
       </div>
       <div className="mt-6">
-        <h1 className="ml-2 font-semibold">Type de réservation</h1>
-        <span className="p-2">
-          <Select
-            selectedType={selectedType}
-            setSelectedType={setSelectedType}
-            data={bookingType}
-            isField={false}
-          />
+        <span>
+          <h1 className="ml-2 font-semibold">Type de réservation</h1>
+          <span className="p-2">
+            <Select
+              selectedType={selectedType}
+              setSelectedType={setSelectedType}
+              data={bookingType}
+              isField={false}
+            />
+          </span>
         </span>
         <span className="p-2">
           <h1 className="ml-2 font-semibold">Emplacement</h1>
@@ -345,7 +347,44 @@ export default function BookingForm({
             />
           </span>
         </span>
-        <span className="">
+        {selectedType === 2 && (
+          <div>
+            <span className="">
+              <h1 className="ml-2 font-semibold">Gâteau</h1>
+              <span className="p-2">
+                <Select
+                  selectedField={selectedField}
+                  setSelectedField={setSelectedField}
+                  data={listFields}
+                  isField={true}
+                />
+              </span>
+            </span>
+            <span className="">
+              <h1 className="ml-2 font-semibold">Âge</h1>
+              <span className="p-2">
+                <Select
+                  selectedField={selectedField}
+                  setSelectedField={setSelectedField}
+                  data={listFields}
+                  isField={true}
+                />
+              </span>
+            </span>
+            <span className="">
+              <h1 className="ml-2 font-semibold">Nombre</h1>
+              <span className="p-2">
+                <Select
+                  selectedField={selectedField}
+                  setSelectedField={setSelectedField}
+                  data={listFields}
+                  isField={true}
+                />
+              </span>
+            </span>
+          </div>
+        )}
+        <span>
           <h1 className="ml-2 font-semibold">Jour</h1>
           <span className="p-2">
             <SmallCalendar
