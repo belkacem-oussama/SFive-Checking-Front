@@ -227,8 +227,16 @@ export default function FieldCalendar({
                               <div>
                                 {b.startTime} - {b.endTime}
                               </div>
-                              <div>{b.checking_kid_age} ans</div>
-                              <div>{b.checking_kid_number} personnes</div>
+                              <div>
+                                {b.type == 2
+                                  ? `${b.checking_kid_age} ans`
+                                  : null}
+                              </div>
+                              <div>
+                                {b.type == 2
+                                  ? `${b.checking_kid_number} personnes`
+                                  : null}
+                              </div>
                             </div>
                           ))}
                     </div>
