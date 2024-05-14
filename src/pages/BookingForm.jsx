@@ -10,6 +10,7 @@ import SearchInput from "../components/SearchInput.jsx"
 import Select from "../components/Select.jsx"
 import SmallCalendar from "../components/SmallCalendar.jsx"
 import Alert from "../components/Alert.jsx"
+import NumberPicker from "../components/NumberPicker.jsx"
 
 export default function BookingForm({
   listCustomer,
@@ -80,6 +81,8 @@ export default function BookingForm({
   //States for booking
   const [selectedType, setSelectedType] = useState(1)
   const [selectedCake, setSelectedCake] = useState(1)
+  const [kidsAge, setKidsAge] = useState(0)
+  const [kidsNumber, setKidsNumber] = useState(10)
   const [selectedField, setSelectedField] = useState(1)
   const [selectedDate, setSelectedDate] = useState(currentDate)
   const [apiDate, setApiDate] = useState(
@@ -366,6 +369,26 @@ export default function BookingForm({
                   setSelectedCake={setSelectedCake}
                   data={cakeFlavour}
                   isCake={true}
+                />
+              </span>
+            </span>
+            <span className="">
+              <h1 className="ml-2 font-semibold">Âge</h1>
+              <span className="">
+                <NumberPicker
+                  isAge={true}
+                  kidsAge={kidsAge}
+                  setKidsAge={setKidsAge}
+                />
+              </span>
+            </span>
+            <span className="">
+              <h1 className="ml-2 font-semibold">Nombre</h1>
+              <span className="">
+                <NumberPicker
+                  isAge={false}
+                  kidsNumber={kidsNumber}
+                  setKidsNumber={setKidsNumber}
                 />
               </span>
             </span>
