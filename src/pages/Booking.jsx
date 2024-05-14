@@ -16,8 +16,6 @@ export default function Booking({ listBooking, setListBooking }) {
   const deleteMessage = `Réservation ${bookingId} annulée.`
   const updateMessage = `Réservation ${bookingId} terminée.`
 
-  const token = Cookies.get("token")
-
   const handleDropBooking = (id) => {
     setShowPopUp(true)
     setBookingId(id)
