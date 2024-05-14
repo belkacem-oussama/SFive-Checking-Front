@@ -58,7 +58,6 @@ export default function FieldCalendar({
         //Décalage horaire ici !!!
 
         const startDateTime = moment(booking.checking_start)
-
         const endDateTime = moment(booking.checking_end)
 
         let startHour = startDateTime.utc().hour()
@@ -79,6 +78,12 @@ export default function FieldCalendar({
           endDateTime.minutes()
         ).padStart(2, "0")}`
 
+        const checking_cake = booking.checking_cake == 1 ? "Chocolat" : "Fraise"
+
+        const checking_kid_age = booking.checking_kid_age
+
+        const checking_kid_number = booking.checking_kid_number
+
         if (!acc[fieldId]) {
           acc[fieldId] = {
             field: fieldName,
@@ -92,6 +97,9 @@ export default function FieldCalendar({
           customer: `${booking.customer.customer_firstname} ${booking.customer.customer_surname}`,
           price: booking.checking_price,
           type: booking.checking_type,
+          checking_cake: checking_cake,
+          checking_kid_age: checking_kid_age,
+          checking_kid_number: checking_kid_number,
         })
 
         return acc
@@ -177,7 +185,24 @@ export default function FieldCalendar({
                           .map((b, bIndex) => (
                             <div key={`${b.startTime}-${b.endTime}-${bIndex}`}>
                               {b.type === 2 && (
-                                <div className="justify-end flex ">
+                                <div className="justify-end flex items-center">
+                                  {b.checking_cake === "Fraise" ? (
+                                    <span
+                                      role="img"
+                                      aria-label="Fraise"
+                                      className="mr-2"
+                                    >
+                                      🍓
+                                    </span>
+                                  ) : b.checking_cake === "Chocolat" ? (
+                                    <span
+                                      role="img"
+                                      aria-label="Chocolat"
+                                      className="mr-2"
+                                    >
+                                      🍫
+                                    </span>
+                                  ) : null}
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -194,6 +219,7 @@ export default function FieldCalendar({
                                   </svg>
                                 </div>
                               )}
+
                               <div>
                                 {b.customer}{" "}
                                 <span className="font-bold"> {b.price}€</span>
@@ -201,6 +227,8 @@ export default function FieldCalendar({
                               <div>
                                 {b.startTime} - {b.endTime}
                               </div>
+                              <div>{b.checking_kid_age} ans</div>
+                              <div>{b.checking_kid_number} personnes</div>
                             </div>
                           ))}
                     </div>
@@ -224,7 +252,24 @@ export default function FieldCalendar({
                           .map((b, bIndex) => (
                             <div key={`${b.startTime}-${b.endTime}-${bIndex}`}>
                               {b.type === 2 && (
-                                <div className="justify-end flex ">
+                                <div className="justify-end flex items-center">
+                                  {b.checking_cake === "Fraise" ? (
+                                    <span
+                                      role="img"
+                                      aria-label="Fraise"
+                                      className="mr-2"
+                                    >
+                                      🍓
+                                    </span>
+                                  ) : b.checking_cake === "Chocolat" ? (
+                                    <span
+                                      role="img"
+                                      aria-label="Chocolat"
+                                      className="mr-2"
+                                    >
+                                      🍫
+                                    </span>
+                                  ) : null}
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -241,6 +286,7 @@ export default function FieldCalendar({
                                   </svg>
                                 </div>
                               )}
+
                               <div>
                                 {b.customer}{" "}
                                 <span className="font-bold"> {b.price}€</span>
@@ -248,6 +294,8 @@ export default function FieldCalendar({
                               <div>
                                 {b.startTime} - {b.endTime}
                               </div>
+                              <div>{b.checking_kid_age} ans</div>
+                              <div>{b.checking_kid_number} personnes</div>
                             </div>
                           ))}
                     </div>
