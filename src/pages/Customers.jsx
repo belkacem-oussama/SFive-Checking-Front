@@ -33,9 +33,15 @@ function stringToColor(string) {
 }
 
 function stringAvatar(name) {
+  const nameParts = name.split(" ")
+
+  const firstInitial = nameParts[0] ? nameParts[0][0].toUpperCase() : ""
+
+  const secondInitial = nameParts[1] ? nameParts[1][0].toUpperCase() : ""
+
   return {
     sx: { bgcolor: stringToColor(name) },
-    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    children: `${firstInitial}${secondInitial}`,
   }
 }
 
