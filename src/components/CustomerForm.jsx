@@ -19,13 +19,7 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
     }
 
     // Vérification des champs d'entrée
-    if (
-      !inputName.trim() ||
-      !inputSurname.trim() ||
-      !inputEmail.trim() ||
-      !inputAddress.trim() ||
-      !inputPhone.trim()
-    ) {
+    if (!inputName.trim() || !inputSurname.trim() || !inputPhone.trim()) {
       window.scrollTo(0, 0)
       setShowAlert(true)
       setAlertContent("Remplir les champs du formulaire.")
@@ -60,9 +54,9 @@ export default function CustomerForm({ showAlert, setShowAlert }) {
         navigate("/customers")
         window.scrollTo(0, 0)
       } else if (response.status === 409) {
-        console.error("Email existant", response.status)
+        console.error("Numéro de téléphone déjà associé.", response.status)
         window.scrollTo(0, 0)
-        setAlertContent("Email déjà existant.")
+        setAlertContent("Numéro de téléphone déjà associé.")
         setShowAlert(true)
         setTimeout(() => {
           setShowAlert(false)
