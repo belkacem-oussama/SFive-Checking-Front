@@ -5,10 +5,10 @@ import Cookies from "js-cookie"
 
 export default function Price() {
   const [prices, setPrices] = useState({
-    oneHour: "",
-    oneAndHalfHour: "",
-    twoHours: "",
-    birthday: "",
+    field_price_1: "",
+    field_price_2: "",
+    field_price_3: "",
+    field_price_4: "",
   })
 
   const handleChange = (e) => {
@@ -38,12 +38,13 @@ export default function Price() {
           const fields = await response.json()
 
           if (fields && fields.length > 0) {
-            const field = fields[0] // Assumons que vous voulez utiliser les prix du premier champ
+            const field = fields[0]
+
             setPrices({
-              oneHour: field.field_price_1,
-              oneAndHalfHour: field.field_price_2,
-              twoHours: field.field_price_3,
-              birthday: field.field_price_4,
+              field_price_1: field.field_price_1,
+              field_price_2: field.field_price_2,
+              field_price_3: field.field_price_3,
+              field_price_4: field.field_price_4,
             })
           }
         } else {
@@ -58,7 +59,6 @@ export default function Price() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Here you would typically make an API call to save the prices
     console.log("Prices saved:", prices)
   }
 
@@ -76,56 +76,56 @@ export default function Price() {
             <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
               <div className="flex items-center space-x-4 p-2">
                 <label
-                  htmlFor="oneHour"
+                  htmlFor="field_price_1"
                   className="block text-sm font-medium text-gray-700 w-1/3"
                 >
                   1 Heure
                 </label>
                 <Input
-                  name="oneHour"
-                  inputValue={prices.oneHour}
+                  name="field_price_1"
+                  inputValue={prices.field_price_1}
                   onChange={handleChange}
                   className="w-2/3"
                 />
               </div>
               <div className="flex items-center space-x-4 p-2">
                 <label
-                  htmlFor="oneAndHalfHour"
+                  htmlFor="field_price_2"
                   className="block text-sm font-medium text-gray-700 w-1/3"
                 >
                   1 Heure 30
                 </label>
                 <Input
-                  name="oneAndHalfHour"
-                  inputValue={prices.oneAndHalfHour}
+                  name="field_price_2"
+                  inputValue={prices.field_price_2}
                   onChange={handleChange}
                   className="w-2/3"
                 />
               </div>
               <div className="flex items-center space-x-4 p-2">
                 <label
-                  htmlFor="twoHours"
+                  htmlFor="field_price_3"
                   className="block text-sm font-medium text-gray-700 w-1/3"
                 >
                   2 Heures
                 </label>
                 <Input
-                  name="twoHours"
-                  inputValue={prices.twoHours}
+                  name="field_price_3"
+                  inputValue={prices.field_price_3}
                   onChange={handleChange}
                   className="w-2/3"
                 />
               </div>
               <div className="flex items-center space-x-4 p-2">
                 <label
-                  htmlFor="birthday"
+                  htmlFor="field_price_4"
                   className="block text-sm font-medium text-gray-700 w-1/3"
                 >
                   Anniversaire
                 </label>
                 <Input
-                  name="birthday"
-                  inputValue={prices.birthday}
+                  name="field_price_4"
+                  inputValue={prices.field_price_4}
                   onChange={handleChange}
                   className="w-2/3"
                 />
