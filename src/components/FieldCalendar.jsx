@@ -169,8 +169,7 @@ export default function FieldCalendar({
               </td>
               <td
                 className={`text-sm border border-gray-300 font-light ${
-                  isBookedTime(item, "Terrain 1") &&
-                  "bg-gray-800 text-white border-none"
+                  isBookedTime(item, "Terrain 1") && "bg-gray-800 text-white"
                 }`}
               >
                 {isBooked
@@ -244,8 +243,7 @@ export default function FieldCalendar({
               </td>
               <td
                 className={`text-sm border border-gray-300 font-light ${
-                  isBookedTime(item, "Terrain 2") &&
-                  "bg-gray-800 text-white border-none"
+                  isBookedTime(item, "Terrain 2") && "bg-gray-800 text-white "
                 }`}
               >
                 {isBooked
