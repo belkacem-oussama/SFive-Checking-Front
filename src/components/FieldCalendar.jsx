@@ -169,7 +169,35 @@ export default function FieldCalendar({
               </td>
               <td
                 className={`text-xs md:text-sm border border-gray-300 font-light ${
-                  isBookedTime(item, "Terrain 1") && "bg-gray-800 text-white"
+                  isBookedTime(item, "Terrain 1")
+                    ? isBooked
+                        .find((field) => field.field === "Terrain 1")
+                        ?.bookings.some(
+                          (booking) =>
+                            moment(item, "HH:mm").isSameOrAfter(
+                              moment(booking.startTime, "HH:mm")
+                            ) &&
+                            moment(item, "HH:mm").isBefore(
+                              moment(booking.endTime, "HH:mm")
+                            ) &&
+                            booking.type === 1
+                        )
+                      ? "bg-gray-800 text-white "
+                      : isBooked
+                          .find((field) => field.field === "Terrain 1")
+                          ?.bookings.some(
+                            (booking) =>
+                              moment(item, "HH:mm").isSameOrAfter(
+                                moment(booking.startTime, "HH:mm")
+                              ) &&
+                              moment(item, "HH:mm").isBefore(
+                                moment(booking.endTime, "HH:mm")
+                              ) &&
+                              booking.type === 2
+                          )
+                      ? "bg-green-600 text-white"
+                      : ""
+                    : ""
                 }`}
               >
                 {isBooked
@@ -246,7 +274,35 @@ export default function FieldCalendar({
               </td>
               <td
                 className={`text-xs md:text-sm border border-gray-300 font-light ${
-                  isBookedTime(item, "Terrain 2") && "bg-gray-800 text-white"
+                  isBookedTime(item, "Terrain 2")
+                    ? isBooked
+                        .find((field) => field.field === "Terrain 2")
+                        ?.bookings.some(
+                          (booking) =>
+                            moment(item, "HH:mm").isSameOrAfter(
+                              moment(booking.startTime, "HH:mm")
+                            ) &&
+                            moment(item, "HH:mm").isBefore(
+                              moment(booking.endTime, "HH:mm")
+                            ) &&
+                            booking.type === 1
+                        )
+                      ? "bg-gray-800 text-white "
+                      : isBooked
+                          .find((field) => field.field === "Terrain 2")
+                          ?.bookings.some(
+                            (booking) =>
+                              moment(item, "HH:mm").isSameOrAfter(
+                                moment(booking.startTime, "HH:mm")
+                              ) &&
+                              moment(item, "HH:mm").isBefore(
+                                moment(booking.endTime, "HH:mm")
+                              ) &&
+                              booking.type === 2
+                          )
+                      ? "bg-green-600 text-white"
+                      : ""
+                    : ""
                 }`}
               >
                 {isBooked
