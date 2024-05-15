@@ -215,7 +215,7 @@ export default function FieldCalendar({
                               className="mb-1 pb-1  border-gray-300"
                             >
                               {b.type === 2 && (
-                                <div className="justify-end flex items-center">
+                                <div className="justify-start flex items-center">
                                   {b.checking_cake === "Fraise" ? (
                                     <span
                                       role="img"
@@ -320,7 +320,7 @@ export default function FieldCalendar({
                               className="mb-1 pb-1  border-gray-300"
                             >
                               {b.type === 2 && (
-                                <div className="justify-end flex items-center">
+                                <div className="justify-start flex items-center">
                                   {b.checking_cake === "Fraise" ? (
                                     <span
                                       role="img"
