@@ -1,13 +1,14 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Input from "../components/Input.jsx"
 import { Link } from "react-router-dom"
+import Cookies from "js-cookie"
 
 export default function Price() {
   const [prices, setPrices] = useState({
-    oneHour: "80",
-    oneAndHalfHour: "120",
-    twoHours: "150",
-    birthday: "189",
+    oneHour: "",
+    oneAndHalfHour: "",
+    twoHours: "",
+    birthday: "",
   })
 
   const handleChange = (e) => {
@@ -17,6 +18,43 @@ export default function Price() {
       [name]: value,
     }))
   }
+
+  useEffect(() => {
+    const getPrice = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_API_URL}/fields`,
+          {
+            method: "GET",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `${Cookies.get("token")}`,
+            },
+          }
+        )
+
+        if (response.ok) {
+          const fields = await response.json()
+
+          if (fields && fields.length > 0) {
+            const field = fields[0] // Assumons que vous voulez utiliser les prix du premier champ
+            setPrices({
+              oneHour: field.field_price_1,
+              oneAndHalfHour: field.field_price_2,
+              twoHours: field.field_price_3,
+              birthday: field.field_price_4,
+            })
+          }
+        } else {
+          console.log(response.status)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getPrice()
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
