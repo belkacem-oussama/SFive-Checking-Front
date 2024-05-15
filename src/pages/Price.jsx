@@ -57,9 +57,32 @@ export default function Price() {
     getPrice()
   }, [])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log("Prices saved:", prices)
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/fields`,
+
+        {
+          method: "PUT",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${Cookies.get("token")}`,
+          },
+
+          body: JSON.stringify(prices),
+        }
+      )
+
+      if (response.ok) {
+        console.log(response)
+      } else {
+        console.error("Erreur lors de la requête:", response.status)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
