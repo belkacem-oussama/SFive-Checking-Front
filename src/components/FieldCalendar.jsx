@@ -196,7 +196,7 @@ export default function FieldCalendar({
                     if (!booking) return ""
                     return booking.type === 1
                       ? "bg-gray-800 text-white"
-                      : "bg-red-400 text-white"
+                      : "bg-green-600 text-white"
                   })()
                 }`}
               >
@@ -301,7 +301,7 @@ export default function FieldCalendar({
                     if (!booking) return ""
                     return booking.type === 1
                       ? "bg-gray-800 text-white"
-                      : "bg-red-400 text-white"
+                      : "bg-green-600 text-white"
                   })()
                 }`}
               >
