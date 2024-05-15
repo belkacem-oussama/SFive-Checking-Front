@@ -170,7 +170,6 @@ export default function Booking({ listBooking, setListBooking }) {
             key={checking.id}
             className="flex flex-col sm:flex-row justify-between gap-x-6 px-4 py-5 border-solid border-b-2 hover:bg-gray-100"
           >
-            {console.log(checking)}
             <div className="flex flex-col sm:flex-row gap-x-4 items-start sm:items-center w-full">
               <div className="min-w-0 flex-auto">
                 <p className="text-sm font-semibold leading-6 text-gray-800">

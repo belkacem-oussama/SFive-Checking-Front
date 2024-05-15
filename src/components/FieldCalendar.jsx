@@ -149,14 +149,14 @@ export default function FieldCalendar({
           <LoaderComponent />
         </div>
       )}
-      <table cellPadding="6" className="w-full">
+      <table className="w-full text-xs md:text-sm ">
         <thead>
           <tr>
             <th></th>
-            <th className="bg-gray-200 border border-gray-300 text-gray-500 font-medium text-sm px-2 py-2 w-1/2">
+            <th className="bg-gray-200 border border-gray-300 text-gray-500 font-medium px-1 py-1 md:px-2 md:py-2 w-1/2">
               Terrain 1
             </th>
-            <th className="bg-gray-200 border border-gray-300 text-gray-500 font-medium text-sm px-2 py-2 w-1/2">
+            <th className="bg-gray-200 border border-gray-300 text-gray-500 font-medium px-1 py-1 md:px-2 md:py-2 w-1/2">
               Terrain 2
             </th>
           </tr>
@@ -164,11 +164,11 @@ export default function FieldCalendar({
         <tbody>
           {hoursData.slice(0, -1).map((item, index) => (
             <tr key={`${index}-${item}`}>
-              <td className="font-light px-2 text-sm text-gray-500">
+              <td className="font-light px-1 py-1 md:px-2 md:py-2 text-gray-500">
                 {item} {hoursData[index + 1]}
               </td>
               <td
-                className={`text-sm border border-gray-300 font-light ${
+                className={`text-xs md:text-sm border border-gray-300 font-light ${
                   isBookedTime(item, "Terrain 1") && "bg-gray-800 text-white"
                 }`}
               >
@@ -182,14 +182,17 @@ export default function FieldCalendar({
                         booking.bookings
                           .filter((b) => b.startTime === item)
                           .map((b, bIndex) => (
-                            <div key={`${b.startTime}-${b.endTime}-${bIndex}`}>
+                            <div
+                              key={`${b.startTime}-${b.endTime}-${bIndex}`}
+                              className="mb-1 pb-1  border-gray-300"
+                            >
                               {b.type === 2 && (
                                 <div className="justify-end flex items-center">
                                   {b.checking_cake === "Fraise" ? (
                                     <span
                                       role="img"
                                       aria-label="Fraise"
-                                      className="mr-2"
+                                      className="mr-1"
                                     >
                                       🍓
                                     </span>
@@ -197,7 +200,7 @@ export default function FieldCalendar({
                                     <span
                                       role="img"
                                       aria-label="Chocolat"
-                                      className="mr-2"
+                                      className="mr-1"
                                     >
                                       🍫
                                     </span>
@@ -242,8 +245,8 @@ export default function FieldCalendar({
                   ))}
               </td>
               <td
-                className={`text-sm border border-gray-300 font-light ${
-                  isBookedTime(item, "Terrain 2") && "bg-gray-800 text-white "
+                className={`text-xs md:text-sm border border-gray-300 font-light ${
+                  isBookedTime(item, "Terrain 2") && "bg-gray-800 text-white"
                 }`}
               >
                 {isBooked
@@ -256,14 +259,17 @@ export default function FieldCalendar({
                         booking.bookings
                           .filter((b) => b.startTime === item)
                           .map((b, bIndex) => (
-                            <div key={`${b.startTime}-${b.endTime}-${bIndex}`}>
+                            <div
+                              key={`${b.startTime}-${b.endTime}-${bIndex}`}
+                              className="mb-1 pb-1  border-gray-300"
+                            >
                               {b.type === 2 && (
                                 <div className="justify-end flex items-center">
                                   {b.checking_cake === "Fraise" ? (
                                     <span
                                       role="img"
                                       aria-label="Fraise"
-                                      className="mr-2"
+                                      className="mr-1"
                                     >
                                       🍓
                                     </span>
@@ -271,7 +277,7 @@ export default function FieldCalendar({
                                     <span
                                       role="img"
                                       aria-label="Chocolat"
-                                      className="mr-2"
+                                      className="mr-1"
                                     >
                                       🍫
                                     </span>
@@ -300,7 +306,11 @@ export default function FieldCalendar({
                               <div>
                                 {b.startTime} - {b.endTime}
                               </div>
-                              <div>{b.checking_kid_age} ans</div>
+                              <div>
+                                {b.type == 2
+                                  ? `${b.checking_kid_age} ans`
+                                  : null}
+                              </div>
                               <div>{b.checking_kid_number} personnes</div>
                             </div>
                           ))}
