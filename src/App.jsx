@@ -29,6 +29,12 @@ export default function App() {
   const [listCustomer, setListCustomer] = useState([])
   const [listBooking, setListBooking] = useState([])
   const [listFields, setListFields] = useState([])
+  const [prices, setPrices] = useState({
+    field_price_1: "",
+    field_price_2: "",
+    field_price_3: "",
+    field_price_4: "",
+  })
   const [page, setPage] = useState(1)
   const [totalPage, setTotalPage] = useState(0)
 
@@ -112,6 +118,27 @@ export default function App() {
               setListFields(fieldsData)
               break
 
+            case "/":
+              response = await fetch(
+                `${import.meta.env.VITE_APP_API_URL}/fields`,
+                { headers }
+              )
+
+              if (response.ok) {
+                const fields = await response.json()
+
+                if (fields && fields.length > 0) {
+                  const field = fields[0]
+
+                  setPrices({
+                    field_price_1: field.field_price_1,
+                    field_price_2: field.field_price_2,
+                    field_price_3: field.field_price_3,
+                    field_price_4: field.field_price_4,
+                  })
+                }
+              }
+
             default:
               break
           }
@@ -169,7 +196,10 @@ export default function App() {
           }
         />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/price" element={<Price />} />
+        <Route
+          path="/price"
+          element={<Price prices={prices} setPrices={setPrices} />}
+        />
         <Route
           path="/book"
           element={
@@ -178,6 +208,8 @@ export default function App() {
               setListCustomer={setListCustomer}
               listFields={listFields}
               setListFields={setListFields}
+              prices={prices}
+              setPrices={setPrices}
             />
           }
         />

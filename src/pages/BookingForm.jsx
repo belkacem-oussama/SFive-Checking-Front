@@ -17,6 +17,8 @@ export default function BookingForm({
   setListCustomer,
   listFields,
   setListFields,
+  prices,
+  setPrices,
 }) {
   const navigate = useNavigate()
 
@@ -261,20 +263,24 @@ export default function BookingForm({
         }
       }
 
-      if (selectedHours.length !== 0) {
-        switch (selectedHours.length) {
-          case 2:
-            checkingPrice = 80
-            break
-          case 3:
-            checkingPrice = 120
-            break
-          case 4:
-            checkingPrice = 150
-            break
+      if (selectedType === 2) {
+        checkingPrice = prices.field_price_4
+      } else {
+        if (selectedHours.length !== 0) {
+          switch (selectedHours.length) {
+            case 2:
+              checkingPrice = prices.field_price_1
+              break
+            case 3:
+              checkingPrice = prices.field_price_2
+              break
+            case 4:
+              checkingPrice = prices.field_price_3
+              break
 
-          default:
-            break
+            default:
+              break
+          }
         }
       }
 

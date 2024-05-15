@@ -1,16 +1,10 @@
-import React, { useEffect, useState } from "react"
-import Input from "../components/Input.jsx"
+import React from "react"
 import { Link } from "react-router-dom"
 import Cookies from "js-cookie"
 
-export default function Price() {
-  const [prices, setPrices] = useState({
-    field_price_1: "",
-    field_price_2: "",
-    field_price_3: "",
-    field_price_4: "",
-  })
+import Input from "../components/Input.jsx"
 
+export default function Price({ prices, setPrices }) {
   const handleChange = (e) => {
     const { name, value } = e.target
     setPrices((prevPrices) => ({
@@ -18,44 +12,6 @@ export default function Price() {
       [name]: value,
     }))
   }
-
-  useEffect(() => {
-    const getPrice = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_APP_API_URL}/fields`,
-          {
-            method: "GET",
-            mode: "cors",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `${Cookies.get("token")}`,
-            },
-          }
-        )
-
-        if (response.ok) {
-          const fields = await response.json()
-
-          if (fields && fields.length > 0) {
-            const field = fields[0]
-
-            setPrices({
-              field_price_1: field.field_price_1,
-              field_price_2: field.field_price_2,
-              field_price_3: field.field_price_3,
-              field_price_4: field.field_price_4,
-            })
-          }
-        } else {
-          console.log(response.status)
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getPrice()
-  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
