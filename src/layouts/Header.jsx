@@ -32,6 +32,12 @@ export default function Header() {
       href: "/customers",
       current: location.pathname === "/customers",
     },
+    {
+      id: 5,
+      name: "Tarifs",
+      href: "/price",
+      current: location.pathname === "/price",
+    },
   ]
 
   return (

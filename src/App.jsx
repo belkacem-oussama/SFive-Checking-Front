@@ -18,6 +18,7 @@ import Profile from "./pages/Profile.jsx"
 import BookingForm from "./pages/BookingForm.jsx"
 import LoginPage from "./pages/Login.jsx"
 import CustomerForm from "./components/CustomerForm.jsx"
+import Price from "./pages/Price.jsx"
 
 import Cookies from "js-cookie"
 import { jwtDecode } from "jwt-decode"
@@ -168,6 +169,7 @@ export default function App() {
           }
         />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/price" element={<Price />} />
         <Route
           path="/book"
           element={
