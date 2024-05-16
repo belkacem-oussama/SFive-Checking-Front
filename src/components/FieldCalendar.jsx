@@ -143,10 +143,17 @@ export default function FieldCalendar({
   }
 
   const handleCellClick = (e) => {
+    let targetElement = e.target
+
+    while (targetElement && targetElement.tagName !== "TD") {
+      targetElement = targetElement.parentElement
+    }
+
+    if (!targetElement) return
+
     if (
-      e.target.classList.contains("bg-gray-800") ||
-      e.target.classList.contains("bg-green-600") ||
-      e.target.tagName === "DIV"
+      targetElement.classList.contains("bg-gray-800") ||
+      targetElement.classList.contains("bg-green-600")
     ) {
       console.log("réservé")
     } else {
@@ -287,6 +294,7 @@ export default function FieldCalendar({
               </td>
               {/* Terrain 2 */}
               <td
+                onClick={handleCellClick}
                 className={`text-xs md:text-sm border border-gray-300 font-light ${
                   isBookedTime(item, "Terrain 2") &&
                   (() => {
