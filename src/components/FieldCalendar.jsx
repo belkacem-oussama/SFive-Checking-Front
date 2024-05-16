@@ -142,6 +142,18 @@ export default function FieldCalendar({
     })
   }
 
+  const handleCellClick = (e) => {
+    if (
+      e.target.classList.contains("bg-gray-800") ||
+      e.target.classList.contains("bg-green-600") ||
+      e.target.tagName === "DIV"
+    ) {
+      console.log("réservé")
+    } else {
+      console.log("non réservé")
+    }
+  }
+
   return (
     <div className="pt-2 relative ">
       {showLoader && (
@@ -169,6 +181,7 @@ export default function FieldCalendar({
               </td>
               {/* Terrain 1 */}
               <td
+                onClick={handleCellClick}
                 className={`text-xs md:text-sm border border-gray-300 font-light ${
                   isBookedTime(item, "Terrain 1") &&
                   (() => {
