@@ -119,7 +119,7 @@ export default function BookingForm({
   const [showAlert, setShowAlert] = useState(false)
   const [messageAlert, setMessageAlert] = useState("")
   const [showModal, setShowModal] = useState(false)
-  console.log(selectedHours)
+
   let bookingData = [
     selectedUser,
     selectedField,
@@ -142,6 +142,7 @@ export default function BookingForm({
     setSelectedUser(0)
     setTextValue("")
     setSelectedHours([])
+    setClickHours("")
   }
 
   useEffect(() => {
@@ -624,6 +625,7 @@ export default function BookingForm({
               to="/"
               onClick={() => {
                 window.scrollTo(0, 0)
+                setClickHours("")
               }}
             >
               <button
