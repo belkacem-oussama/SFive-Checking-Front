@@ -142,7 +142,7 @@ export default function FieldCalendar({
     })
   }
 
-  const handleCellClick = (e) => {
+  const handleCellClick = (e, time) => {
     let targetElement = e.target
 
     while (targetElement && targetElement.tagName !== "TD") {
@@ -157,7 +157,7 @@ export default function FieldCalendar({
     ) {
       console.log("réservé")
     } else {
-      console.log("non réservé")
+      console.log("non réservé", time)
     }
   }
 
@@ -188,7 +188,7 @@ export default function FieldCalendar({
               </td>
               {/* Terrain 1 */}
               <td
-                onClick={handleCellClick}
+                onClick={(e) => handleCellClick(e, item)}
                 className={`text-xs md:text-sm border border-gray-300 font-light ${
                   isBookedTime(item, "Terrain 1") &&
                   (() => {
