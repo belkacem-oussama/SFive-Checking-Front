@@ -78,6 +78,7 @@ export default function FieldCalendar({
           endDateTime.minutes()
         ).padStart(2, "0")}`
 
+        const checking_id = booking.id
         const checking_cake = booking.checking_cake == 1 ? "Chocolat" : "Fraise"
 
         const checking_kid_age = booking.checking_kid_age
@@ -92,6 +93,7 @@ export default function FieldCalendar({
         }
 
         acc[fieldId].bookings.push({
+          id: checking_id,
           startTime: startTime,
           endTime: endTime,
           customer: `${booking.customer.customer_firstname} ${booking.customer.customer_surname}`,
@@ -142,7 +144,7 @@ export default function FieldCalendar({
     })
   }
 
-  const handleCellClick = (e, time) => {
+  const handleCellClick = (e, time, fieldName) => {
     let targetElement = e.target
 
     while (targetElement && targetElement.tagName !== "TD") {
@@ -155,9 +157,30 @@ export default function FieldCalendar({
       targetElement.classList.contains("bg-gray-800") ||
       targetElement.classList.contains("bg-green-600")
     ) {
-      console.log("réservé")
+      const field = isBooked.find((field) => field.field === fieldName)
+      if (!field) return
+      const booking = field.bookings.find((booking) => {
+        const startTime = moment(booking.startTime, "HH:mm")
+        const endTime = moment(booking.endTime, "HH:mm")
+
+        // If booking goes over midnight
+        if (endTime.isBefore(startTime)) {
+          return (
+            moment(time, "HH:mm").isSameOrAfter(startTime) ||
+            moment(time, "HH:mm").isBefore(endTime)
+          )
+        } else {
+          return (
+            moment(time, "HH:mm").isSameOrAfter(startTime) &&
+            moment(time, "HH:mm").isBefore(endTime)
+          )
+        }
+      })
+      if (booking) {
+        console.log("Réservé", booking)
+      }
     } else {
-      console.log("non réservé", time)
+      console.log("Non réservé", time)
     }
   }
 
@@ -188,7 +211,7 @@ export default function FieldCalendar({
               </td>
               {/* Terrain 1 */}
               <td
-                onClick={(e) => handleCellClick(e, item)}
+                onClick={(e) => handleCellClick(e, item, "Terrain 1")}
                 className={`text-xs px-1 py-1 md:text-sm border border-gray-300 font-light ${
                   isBookedTime(item, "Terrain 1") &&
                   (() => {
@@ -294,7 +317,7 @@ export default function FieldCalendar({
               </td>
               {/* Terrain 2 */}
               <td
-                onClick={(e) => handleCellClick(e, item)}
+                onClick={(e) => handleCellClick(e, item, "Terrain 2")}
                 className={`text-x px-1 py-2 md:text-sm border border-gray-300 font-light ${
                   isBookedTime(item, "Terrain 2") &&
                   (() => {
