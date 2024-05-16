@@ -71,7 +71,7 @@ export default function Home() {
           handleDatePickerChange={handleDatePickerChange}
         />
         {todaysBooking && (
-          <div className="mt-2 text-gray-700 p-2 text-center ">
+          <div className="mt-1 text-gray-500 p-1 text-center ">
             {todaysBooking.length === 0 ? (
               <p>Aucune réservation.</p>
             ) : (
