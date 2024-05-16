@@ -154,6 +154,7 @@ export default function BookingForm({
     setTextValue("")
     setSelectedHours([])
     setClickHours("")
+    setClickField(1)
   }
 
   useEffect(() => {
@@ -367,6 +368,7 @@ export default function BookingForm({
 
         if (response.ok) {
           navigate("/")
+          handleReset()
           window.scrollTo(0, 0)
           const jsonData = await response.json()
         }
@@ -636,7 +638,7 @@ export default function BookingForm({
               to="/"
               onClick={() => {
                 window.scrollTo(0, 0)
-                setClickHours("")
+                handleReset()
               }}
             >
               <button
