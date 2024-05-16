@@ -189,7 +189,7 @@ export default function FieldCalendar({
               {/* Terrain 1 */}
               <td
                 onClick={(e) => handleCellClick(e, item)}
-                className={`text-xs md:text-sm border border-gray-300 font-light ${
+                className={`text-xs px-1 py-1 md:text-sm border border-gray-300 font-light ${
                   isBookedTime(item, "Terrain 1") &&
                   (() => {
                     const field = isBooked.find(
@@ -295,7 +295,7 @@ export default function FieldCalendar({
               {/* Terrain 2 */}
               <td
                 onClick={(e) => handleCellClick(e, item)}
-                className={`text-xs md:text-sm border border-gray-300 font-light ${
+                className={`text-x px-1 py-2 md:text-sm border border-gray-300 font-light ${
                   isBookedTime(item, "Terrain 2") &&
                   (() => {
                     const field = isBooked.find(
