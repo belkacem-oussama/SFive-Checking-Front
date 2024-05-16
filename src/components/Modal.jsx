@@ -26,7 +26,7 @@ export default function Modal({
 
     // Vérification des champs d'entrée
     if (!inputName.trim() || !inputSurname.trim() || !inputPhone.trim()) {
-      alert("Remplir")
+      alert("Remplir les champs obligatoires")
       return
     }
 
@@ -58,19 +58,18 @@ export default function Modal({
         setInputPhone("")
       } else if (response.status === 409) {
         console.error("Numéro de téléphone déjà associé.", response.status)
-        alert("Opopop")
+        alert("Numéro de téléphone déjà attribué.")
       } else if (response.status === 400) {
         console.error("Mauvais format:", response.status)
         window.scrollTo(0, 0)
-        alert("OULAAA")
       } else {
         console.error("Erreur lors de la requête:", response.status)
         window.scrollTo(0, 0)
-        alert("OULALAALAAAA")
+        alert("Erreur lors de la requête.")
       }
     } catch (error) {
       console.error("Erreur inattendue:", error)
-      alert("Dead.")
+      alert("Erreur lors de la requête.")
     }
   }
 
@@ -127,7 +126,7 @@ export default function Modal({
                     htmlFor="lastname"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Nom
+                    Nom*
                   </label>
                   <input
                     type="text"
@@ -146,7 +145,7 @@ export default function Modal({
                     htmlFor="firstname"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Prénom
+                    Prénom*
                   </label>
                   <input
                     type="text"
@@ -166,7 +165,7 @@ export default function Modal({
                     htmlFor="firstname"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Téléphone
+                    Téléphone*
                   </label>
                   <input
                     type="number"
