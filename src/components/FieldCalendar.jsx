@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import LoaderComponent from "../components/Loader.jsx"
 
@@ -47,8 +48,11 @@ export default function FieldCalendar({
   setTodaysBooking,
   showLoader,
   setShowLoader,
+  clickHours,
+  setClickHours,
 }) {
   const [isBooked, setIsBooked] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (todaysBooking && Array.isArray(todaysBooking)) {
@@ -180,10 +184,11 @@ export default function FieldCalendar({
         console.log("Réservé", booking)
       }
     } else {
-      console.log("Non réservé", time)
+      setClickHours(time)
+      navigate("/book")
     }
   }
-
+  console.log(clickHours)
   return (
     <div className="pt-2 relative ">
       {showLoader && (

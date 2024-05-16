@@ -36,6 +36,7 @@ export default function App() {
     field_price_4: "",
   })
   const [page, setPage] = useState(1)
+  const [clickHours, setClickHours] = useState("")
   const [totalPage, setTotalPage] = useState(0)
 
   let currentUrl = useLocation().pathname
@@ -155,7 +156,12 @@ export default function App() {
     <React.Fragment>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <Home clickHours={clickHours} setClickHours={setClickHours} />
+          }
+        />
         <Route
           path="/booking"
           element={
@@ -210,6 +216,8 @@ export default function App() {
               setListFields={setListFields}
               prices={prices}
               setPrices={setPrices}
+              clickHours={clickHours}
+              setClickHours={setClickHours}
             />
           }
         />

@@ -20,6 +20,8 @@ export default function BookingForm({
   setListFields,
   prices,
   setPrices,
+  clickHours,
+  setClickHours,
 }) {
   const navigate = useNavigate()
 
@@ -81,6 +83,18 @@ export default function BookingForm({
     setApiDate(backDate)
   }
 
+  function add30Minutes(time) {
+    const [hours, minutes] = time.split(":").map(Number)
+    const date = new Date()
+    date.setHours(hours)
+    date.setMinutes(minutes + 30)
+
+    const newHours = date.getHours().toString().padStart(2, "0")
+    const newMinutes = date.getMinutes().toString().padStart(2, "0")
+
+    return `${newHours}:${newMinutes}`
+  }
+
   //States for booking
   const [selectedType, setSelectedType] = useState(1)
   const [selectedCake, setSelectedCake] = useState(1)
@@ -93,7 +107,9 @@ export default function BookingForm({
   )
   const [selectedUser, setSelectedUser] = useState(null)
   const [textValue, setTextValue] = useState("")
-  const [selectedHours, setSelectedHours] = useState([])
+  const [selectedHours, setSelectedHours] = useState(
+    clickHours ? [[clickHours, add30Minutes(clickHours)]] : []
+  )
   const [bookingDayArray, setBookingDayArray] = useState([])
   const [showAlert, setShowAlert] = useState(false)
   const [messageAlert, setMessageAlert] = useState("")
@@ -110,7 +126,7 @@ export default function BookingForm({
     apiDate,
     selectedHours,
   ]
-
+  console.log(selectedHours)
   const handleReset = () => {
     setSelectedType(1)
     setSelectedCake(1)
