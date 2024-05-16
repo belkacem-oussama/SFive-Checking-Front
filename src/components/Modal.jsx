@@ -1,7 +1,14 @@
 import React, { useState } from "react"
 import Cookies from "js-cookie"
 
-export default function Modal({ showModal, setShowModal }) {
+export default function Modal({
+  showModal,
+  setShowModal,
+  listCustomer,
+  setListCustomer,
+  selectedUser,
+  setSelectedUser,
+}) {
   const handleShowModal = () => {
     setShowModal(false)
   }
@@ -39,9 +46,11 @@ export default function Modal({ showModal, setShowModal }) {
 
       if (response.ok) {
         setShowModal(false)
-        alert("ok")
-        console.log(await response.json())
 
+        const addedCustomer = await response.json()
+        setListCustomer((prev) => [...prev, addedCustomer])
+
+        setSelectedUser(addedCustomer.id)
         setInputName("")
         setInputSurname("")
         setInputEmail("")

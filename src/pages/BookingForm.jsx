@@ -345,7 +345,16 @@ export default function BookingForm({
 
   return (
     <>
-      {showModal && <Modal showModal={showModal} setShowModal={setShowModal} />}
+      {showModal && (
+        <Modal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          listCustomer={listCustomer}
+          setListCustomer={setListCustomer}
+          selectedUser={selectedUser}
+          setSelectedUser={setSelectedUser}
+        />
+      )}
       <div className="space-y-12">
         {showAlert && <Alert alertMessage={messageAlert} bgColor={bgcolor} />}
         <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10q pb-3">
