@@ -294,7 +294,7 @@ export default function FieldCalendar({
               </td>
               {/* Terrain 2 */}
               <td
-                onClick={handleCellClick}
+                onClick={(e) => handleCellClick(e, item)}
                 className={`text-xs md:text-sm border border-gray-300 font-light ${
                   isBookedTime(item, "Terrain 2") &&
                   (() => {
