@@ -188,7 +188,7 @@ export default function FieldCalendar({
       navigate("/book")
     }
   }
-  console.log(clickHours)
+
   return (
     <div className="pt-2 relative ">
       {showLoader && (
