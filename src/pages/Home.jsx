@@ -73,7 +73,7 @@ export default function Home() {
         {todaysBooking && (
           <div className="mt-2 text-gray-700 p-2 text-center ">
             {todaysBooking.length === 0 ? (
-              <p>Aucune réservations.</p>
+              <p>Aucune réservation.</p>
             ) : (
               <p>
                 Vous avez {todaysBooking.length}{" "}
