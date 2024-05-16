@@ -22,6 +22,8 @@ export default function BookingForm({
   setPrices,
   clickHours,
   setClickHours,
+  clickField,
+  setClickField,
 }) {
   const navigate = useNavigate()
 
@@ -100,7 +102,16 @@ export default function BookingForm({
   const [selectedCake, setSelectedCake] = useState(1)
   const [kidsAge, setKidsAge] = useState(0)
   const [kidsNumber, setKidsNumber] = useState(10)
-  const [selectedField, setSelectedField] = useState(1)
+  const [selectedField, setSelectedField] = useState(
+    clickField
+      ? clickField === "Terrain 1"
+        ? 1
+        : clickField === "Terrain 2"
+        ? 2
+        : 1
+      : 1
+  )
+
   const [selectedDate, setSelectedDate] = useState(currentDate)
   const [apiDate, setApiDate] = useState(
     moment(new Date()).format("YYYY-MM-DD")

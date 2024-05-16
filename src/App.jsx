@@ -36,6 +36,7 @@ export default function App() {
     field_price_4: "",
   })
   const [page, setPage] = useState(1)
+  const [clickField, setClickField] = useState("")
   const [clickHours, setClickHours] = useState("")
   const [totalPage, setTotalPage] = useState(0)
 
@@ -159,7 +160,12 @@ export default function App() {
         <Route
           path="/"
           element={
-            <Home clickHours={clickHours} setClickHours={setClickHours} />
+            <Home
+              clickHours={clickHours}
+              setClickHours={setClickHours}
+              clickField={clickField}
+              setClickField={setClickField}
+            />
           }
         />
         <Route
@@ -218,6 +224,8 @@ export default function App() {
               setPrices={setPrices}
               clickHours={clickHours}
               setClickHours={setClickHours}
+              clickField={clickField}
+              setClickField={setClickField}
             />
           }
         />

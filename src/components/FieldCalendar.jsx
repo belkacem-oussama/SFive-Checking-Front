@@ -50,6 +50,8 @@ export default function FieldCalendar({
   setShowLoader,
   clickHours,
   setClickHours,
+  clickField,
+  setClickField,
 }) {
   const [isBooked, setIsBooked] = useState([])
   const navigate = useNavigate()
@@ -185,6 +187,7 @@ export default function FieldCalendar({
       }
     } else {
       setClickHours(time)
+      setClickField(fieldName)
       navigate("/book")
     }
   }

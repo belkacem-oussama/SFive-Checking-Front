@@ -6,7 +6,12 @@ import SmallCalendar from "../components/SmallCalendar.jsx"
 import Cookies from "js-cookie"
 import moment from "moment/moment.js"
 
-export default function Home({ clickHours, setClickHours }) {
+export default function Home({
+  clickHours,
+  setClickHours,
+  clickField,
+  setClickField,
+}) {
   //Date for HomePage
   const options = {
     weekday: "long",
@@ -92,6 +97,8 @@ export default function Home({ clickHours, setClickHours }) {
           setTodaysBookings={setTodaysBookings}
           showLoader={showLoader}
           setShowLoader={setShowLoader}
+          clickField={clickField}
+          setClickField={setClickField}
         />
       </div>
     </div>
