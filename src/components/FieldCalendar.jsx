@@ -183,7 +183,7 @@ export default function FieldCalendar({
         }
       })
       if (booking) {
-        console.log("Réservé", booking)
+        navigate(`/booking/${booking.id}`)
       }
     } else {
       setClickHours(time)

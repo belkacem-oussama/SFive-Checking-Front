@@ -22,6 +22,7 @@ import Price from "./pages/Price.jsx"
 
 import Cookies from "js-cookie"
 import { jwtDecode } from "jwt-decode"
+import UpdateChecking from "./pages/UpdateChecking.jsx"
 
 export default function App() {
   //States
@@ -177,6 +178,7 @@ export default function App() {
             />
           }
         />
+        <Route path="/booking/:id" element={<UpdateChecking />} />
         <Route
           path="/customers"
           element={
