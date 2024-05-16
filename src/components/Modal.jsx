@@ -1,9 +1,75 @@
-import React from "react"
+import React, { useState } from "react"
+import Cookies from "js-cookie"
 
 export default function Modal({ showModal, setShowModal }) {
   const handleShowModal = () => {
     setShowModal(false)
   }
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+
+    const newCustomer = {
+      customer_surname: inputName.trim(),
+      customer_firstname: inputSurname.trim(),
+      customer_mail: inputEmail.trim(),
+      customer_address: inputAddress.trim(),
+      customer_phone: inputPhone.trim(),
+    }
+
+    // Vérification des champs d'entrée
+    if (!inputName.trim() || !inputSurname.trim() || !inputPhone.trim()) {
+      alert("Remplir")
+      return
+    }
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/customers`,
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${Cookies.get("token")}`,
+          },
+          body: JSON.stringify(newCustomer),
+        }
+      )
+
+      if (response.ok) {
+        setShowModal(false)
+        alert("ok")
+        console.log(await response.json())
+
+        setInputName("")
+        setInputSurname("")
+        setInputEmail("")
+        setInputAddress("")
+        setInputPhone("")
+      } else if (response.status === 409) {
+        console.error("Numéro de téléphone déjà associé.", response.status)
+        alert("Opopop")
+      } else if (response.status === 400) {
+        console.error("Mauvais format:", response.status)
+        window.scrollTo(0, 0)
+        alert("OULAAA")
+      } else {
+        console.error("Erreur lors de la requête:", response.status)
+        window.scrollTo(0, 0)
+        alert("OULALAALAAAA")
+      }
+    } catch (error) {
+      console.error("Erreur inattendue:", error)
+      alert("Dead.")
+    }
+  }
+
+  const [inputName, setInputName] = useState("")
+  const [inputSurname, setInputSurname] = useState("")
+  const [inputEmail, setInputEmail] = useState("")
+  const [inputAddress, setInputAddress] = useState("")
+  const [inputPhone, setInputPhone] = useState("")
 
   return (
     <div>
@@ -60,7 +126,10 @@ export default function Modal({ showModal, setShowModal }) {
                     id="name"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Zidane, Benzema, ..."
-                    required=""
+                    value={inputName}
+                    onChange={(e) => {
+                      setInputName(e.target.value)
+                    }}
                   />
                 </div>
                 <div className="col-span-2 sm:col-span-1">
@@ -71,12 +140,16 @@ export default function Modal({ showModal, setShowModal }) {
                     Prénom
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     name="price"
                     id="price"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Zinedine, Karim, ..."
                     required=""
+                    value={inputSurname}
+                    onChange={(e) => {
+                      setInputSurname(e.target.value)
+                    }}
                   />
                 </div>
                 <div className="col-span-2 sm:col-span-1">
@@ -93,6 +166,10 @@ export default function Modal({ showModal, setShowModal }) {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="..."
                     required=""
+                    value={inputPhone}
+                    onChange={(e) => {
+                      setInputPhone(e.target.value)
+                    }}
                   />
                 </div>
                 <div className="col-span-2 sm:col-span-1">
@@ -108,6 +185,10 @@ export default function Modal({ showModal, setShowModal }) {
                     id="mail"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Entre le mail ..."
+                    value={inputEmail}
+                    onChange={(e) => {
+                      setInputEmail(e.target.value)
+                    }}
                   />
                 </div>
                 <div className="col-span-2 sm:col-span-1">
@@ -118,16 +199,20 @@ export default function Modal({ showModal, setShowModal }) {
                     Adresse
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     name="mail"
                     id="mail"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="6 Rue des Frères Pereaux, 60180 Nogent-Sur-Oise ..."
+                    value={inputAddress}
+                    onChange={(e) => {
+                      setInputAddress(e.target.value)
+                    }}
                   />
                 </div>
               </div>
               <button
-                type="submit"
+                onClick={handleSubmit}
                 className="text-white inline-flex items-center bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
               >
                 Valider
