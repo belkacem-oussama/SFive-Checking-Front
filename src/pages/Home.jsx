@@ -70,6 +70,19 @@ export default function Home() {
           selectedDateHome={selectedDateHome}
           handleDatePickerChange={handleDatePickerChange}
         />
+        {todaysBooking && (
+          <div className="mt-2 text-gray-700 p-2 text-center ">
+            {todaysBooking.length === 0 ? (
+              <p>Aucune réservations.</p>
+            ) : (
+              <p>
+                Vous avez {todaysBooking.length}{" "}
+                {todaysBooking.length > 1 ? "réservations" : "réservation"}{" "}
+                aujourd'hui.
+              </p>
+            )}
+          </div>
+        )}
       </div>
       <div>
         <FieldCalendar
