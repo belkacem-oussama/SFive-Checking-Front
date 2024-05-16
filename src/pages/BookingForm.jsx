@@ -11,6 +11,7 @@ import Select from "../components/Select.jsx"
 import SmallCalendar from "../components/SmallCalendar.jsx"
 import Alert from "../components/Alert.jsx"
 import NumberPicker from "../components/NumberPicker.jsx"
+import Modal from "../components/Modal.jsx"
 
 export default function BookingForm({
   listCustomer,
@@ -96,6 +97,7 @@ export default function BookingForm({
   const [bookingDayArray, setBookingDayArray] = useState([])
   const [showAlert, setShowAlert] = useState(false)
   const [messageAlert, setMessageAlert] = useState("")
+  const [showModal, setShowModal] = useState(false)
 
   let bookingData = [
     selectedUser,
@@ -342,271 +344,277 @@ export default function BookingForm({
   }
 
   return (
-    <div className="space-y-12">
-      {showAlert && <Alert alertMessage={messageAlert} bgColor={bgcolor} />}
-      <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10q pb-3">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:ml-2">
-          Booking
-        </h2>
-        <p className="mt-2 md:ml-4 text-lg leading-8 text-gray-600">
-          Nouvelle réservation.
-        </p>
-      </div>
-      <div className="mt-6">
-        <span>
-          <h1 className="ml-2 font-semibold">Type de réservation</h1>
-          <span className="p-2">
-            <Select
-              selectedType={selectedType}
-              setSelectedType={setSelectedType}
-              data={bookingType}
-              isField={false}
-            />
-          </span>
-        </span>
-        <span className="p-2">
-          <h1 className="ml-2 font-semibold">Emplacement</h1>
-          <span className="p-2">
-            <Select
-              selectedField={selectedField}
-              setSelectedField={setSelectedField}
-              data={listFields}
-              isField={true}
-            />
-          </span>
-        </span>
-        {selectedType === 2 && (
-          <div>
-            <span className="">
-              <h1 className="ml-2 font-semibold">Gâteau</h1>
-              <span className="p-2">
-                <Select
-                  selectedCake={selectedCake}
-                  setSelectedCake={setSelectedCake}
-                  data={cakeFlavour}
-                  isCake={true}
-                />
-              </span>
+    <>
+      {showModal && <Modal showModal={showModal} setShowModal={setShowModal} />}
+      <div className="space-y-12">
+        {showAlert && <Alert alertMessage={messageAlert} bgColor={bgcolor} />}
+        <div className="mx-2 mt-2 lg:mx-0 border-b border-gray-900/10q pb-3">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:ml-2">
+            Booking
+          </h2>
+          <p className="mt-2 md:ml-4 text-lg leading-8 text-gray-600">
+            Nouvelle réservation.
+          </p>
+        </div>
+        <div className="mt-6">
+          <span>
+            <h1 className="ml-2 font-semibold">Type de réservation</h1>
+            <span className="p-2">
+              <Select
+                selectedType={selectedType}
+                setSelectedType={setSelectedType}
+                data={bookingType}
+                isField={false}
+              />
             </span>
-            <div className="p-4">
-              <div className="flex flex-col lg:flex-row gap-4">
-                <div className="flex flex-col items-center lg:w-1/2">
-                  <h1 className="ml-2 font-semibold">Âge</h1>
-                  <NumberPicker
-                    isAge={true}
-                    kidsAge={kidsAge}
-                    setKidsAge={setKidsAge}
+          </span>
+          <span className="p-2">
+            <h1 className="ml-2 font-semibold">Emplacement</h1>
+            <span className="p-2">
+              <Select
+                selectedField={selectedField}
+                setSelectedField={setSelectedField}
+                data={listFields}
+                isField={true}
+              />
+            </span>
+          </span>
+          {selectedType === 2 && (
+            <div>
+              <span className="">
+                <h1 className="ml-2 font-semibold">Gâteau</h1>
+                <span className="p-2">
+                  <Select
+                    selectedCake={selectedCake}
+                    setSelectedCake={setSelectedCake}
+                    data={cakeFlavour}
+                    isCake={true}
                   />
-                </div>
-                <div className="flex flex-col items-center lg:w-1/2">
-                  <h1 className="ml-2 font-semibold">Nombre</h1>
-                  <NumberPicker
-                    isAge={false}
-                    kidsNumber={kidsNumber}
-                    setKidsNumber={setKidsNumber}
-                  />
+                </span>
+              </span>
+              <div className="p-4">
+                <div className="flex flex-col lg:flex-row gap-4">
+                  <div className="flex flex-col items-center lg:w-1/2">
+                    <h1 className="ml-2 font-semibold">Âge</h1>
+                    <NumberPicker
+                      isAge={true}
+                      kidsAge={kidsAge}
+                      setKidsAge={setKidsAge}
+                    />
+                  </div>
+                  <div className="flex flex-col items-center lg:w-1/2">
+                    <h1 className="ml-2 font-semibold">Nombre</h1>
+                    <NumberPicker
+                      isAge={false}
+                      kidsNumber={kidsNumber}
+                      setKidsNumber={setKidsNumber}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
-        <span>
-          <h1 className="ml-2 font-semibold">Jour</h1>
-          <span className="p-2">
-            <SmallCalendar
-              selectedDate={selectedDate}
-              setSelectedDate={selectedDate}
-              handleDatePickerChange={handleDatePickerChange}
-            />
+          )}
+          <span>
+            <h1 className="ml-2 font-semibold">Jour</h1>
+            <span className="p-2">
+              <SmallCalendar
+                selectedDate={selectedDate}
+                setSelectedDate={selectedDate}
+                handleDatePickerChange={handleDatePickerChange}
+              />
+            </span>
           </span>
-        </span>
-        <h1 className="ml-2 font-semibold">Disponibilité</h1>
-        <span className="p-2 grid grid-cols-2 md:grid-cols-4 gap-4 ">
-          {fieldAvailability.map((slot, index) => {
-            const currentSlotStart = moment(slot.start, "HH:mm")
-            const currentSlotEnd = moment(slot.end, "HH:mm")
-            const isBookedStart = bookingDayArray.some(
-              (bookingSlot) => bookingSlot.start === slot.start
-            )
-            const isBookedEnd = bookingDayArray.some(
-              (bookingSlot) => bookingSlot.end === slot.end
-            )
+          <h1 className="ml-2 font-semibold">Disponibilité</h1>
+          <span className="p-2 grid grid-cols-2 md:grid-cols-4 gap-4 ">
+            {fieldAvailability.map((slot, index) => {
+              const currentSlotStart = moment(slot.start, "HH:mm")
+              const currentSlotEnd = moment(slot.end, "HH:mm")
+              const isBookedStart = bookingDayArray.some(
+                (bookingSlot) => bookingSlot.start === slot.start
+              )
+              const isBookedEnd = bookingDayArray.some(
+                (bookingSlot) => bookingSlot.end === slot.end
+              )
 
-            // Créer un tableau de créneaux réservés pour le créneau actuel
-            const bookedSlots = bookingDayArray.map((bookingSlot) => ({
-              start: moment(bookingSlot.start, "HH:mm"),
-              end: moment(bookingSlot.end, "HH:mm"),
-            }))
+              // Créer un tableau de créneaux réservés pour le créneau actuel
+              const bookedSlots = bookingDayArray.map((bookingSlot) => ({
+                start: moment(bookingSlot.start, "HH:mm"),
+                end: moment(bookingSlot.end, "HH:mm"),
+              }))
 
-            // Vérifier si le créneau actuel est partiellement réservé
-            const isPartiallyBooked = bookedSlots.some((bookedSlot) => {
-              const bookedSlotStart = bookedSlot.start
-              const bookedSlotEnd = bookedSlot.end
+              // Vérifier si le créneau actuel est partiellement réservé
+              const isPartiallyBooked = bookedSlots.some((bookedSlot) => {
+                const bookedSlotStart = bookedSlot.start
+                const bookedSlotEnd = bookedSlot.end
 
-              // Convertir les heures de début et de fin du créneau actuel en objets moment
+                // Convertir les heures de début et de fin du créneau actuel en objets moment
 
-              // Vérifier si le créneau actuel chevauche le créneau réservé
-              // En tenant compte que 00:00 est dans la même journée que 23:00
+                // Vérifier si le créneau actuel chevauche le créneau réservé
+                // En tenant compte que 00:00 est dans la même journée que 23:00
 
-              // Cas spécial pour le créneau de "23:00 à 01:00"
-              if (
-                bookedSlotStart.format("HH:mm") === "23:00" &&
-                bookedSlotEnd.format("HH:mm") === "01:00"
-              ) {
+                // Cas spécial pour le créneau de "23:00 à 01:00"
                 if (
-                  currentSlotStart.format("HH:mm") === "23:30" &&
-                  currentSlotEnd.format("HH:mm") === "00:00"
+                  bookedSlotStart.format("HH:mm") === "23:00" &&
+                  bookedSlotEnd.format("HH:mm") === "01:00"
                 ) {
-                  // Directement réservé car il est exactement chevauché par "23:00 à 01:00"
-                  return true
+                  if (
+                    currentSlotStart.format("HH:mm") === "23:30" &&
+                    currentSlotEnd.format("HH:mm") === "00:00"
+                  ) {
+                    // Directement réservé car il est exactement chevauché par "23:00 à 01:00"
+                    return true
+                  }
                 }
-              }
 
-              // Vérification générale du chevauchement
-              if (bookedSlotEnd.isBefore(bookedSlotStart)) {
-                // Si le créneau réservé passe à minuit, vérifions pour chaque cas
-                return (
-                  currentSlotStart.isBetween(
-                    bookedSlotStart,
-                    moment("23:59", "HH:mm"),
-                    null,
-                    "[]"
-                  ) ||
-                  currentSlotEnd.isBetween(
-                    moment("00:00", "HH:mm"),
-                    bookedSlotEnd,
-                    "[]"
+                // Vérification générale du chevauchement
+                if (bookedSlotEnd.isBefore(bookedSlotStart)) {
+                  // Si le créneau réservé passe à minuit, vérifions pour chaque cas
+                  return (
+                    currentSlotStart.isBetween(
+                      bookedSlotStart,
+                      moment("23:59", "HH:mm"),
+                      null,
+                      "[]"
+                    ) ||
+                    currentSlotEnd.isBetween(
+                      moment("00:00", "HH:mm"),
+                      bookedSlotEnd,
+                      "[]"
+                    )
                   )
-                )
-              } else {
-                return (
-                  currentSlotStart.isBefore(bookedSlotEnd) &&
-                  currentSlotEnd.isAfter(bookedSlotStart)
-                )
-              }
-            })
+                } else {
+                  return (
+                    currentSlotStart.isBefore(bookedSlotEnd) &&
+                    currentSlotEnd.isAfter(bookedSlotStart)
+                  )
+                }
+              })
 
-            return (
-              <span
-                key={index}
-                className={`rounded-md p-2 border-2 text-center flex items-center justify-center focus-visible:outline-gray-900 ${
-                  isPartiallyBooked
-                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                    : isBookedStart || isBookedEnd
-                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                    : selectedHours.some(
+              return (
+                <span
+                  key={index}
+                  className={`rounded-md p-2 border-2 text-center flex items-center justify-center focus-visible:outline-gray-900 ${
+                    isPartiallyBooked
+                      ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                      : isBookedStart || isBookedEnd
+                      ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                      : selectedHours.some(
+                          ([start, end]) =>
+                            start === slot.start && end === slot.end
+                        )
+                      ? "bg-gray-900 text-white border-none "
+                      : "hover:bg-gray-900 hover:text-white hover:border-none "
+                  }`}
+                  onClick={() => {
+                    const isBooked = bookingDayArray.some(
+                      (bookingSlot) => bookingSlot.start === slot.start
+                    )
+                    const isSlotEnd = bookingDayArray.some(
+                      (bookingSlot) => bookingSlot.end === slot.end
+                    )
+
+                    const isAlreadySelected = selectedHours.some(
+                      ([start, end]) => start === slot.start && end === slot.end
+                    )
+
+                    if (
+                      !isBooked &&
+                      !isSlotEnd &&
+                      !isPartiallyBooked &&
+                      !selectedHours.some(
                         ([start, end]) =>
                           start === slot.start && end === slot.end
                       )
-                    ? "bg-gray-900 text-white border-none "
-                    : "hover:bg-gray-900 hover:text-white hover:border-none "
-                }`}
-                onClick={() => {
-                  const isBooked = bookingDayArray.some(
-                    (bookingSlot) => bookingSlot.start === slot.start
-                  )
-                  const isSlotEnd = bookingDayArray.some(
-                    (bookingSlot) => bookingSlot.end === slot.end
-                  )
-
-                  const isAlreadySelected = selectedHours.some(
-                    ([start, end]) => start === slot.start && end === slot.end
-                  )
-
-                  if (
-                    !isBooked &&
-                    !isSlotEnd &&
-                    !isPartiallyBooked &&
-                    !selectedHours.some(
-                      ([start, end]) => start === slot.start && end === slot.end
-                    )
-                  ) {
-                    if (!isAlreadySelected) {
-                      setSelectedHours((selectedHours) => [
-                        ...selectedHours,
-                        [slot.start, slot.end],
-                      ])
-                    }
-                  } else {
-                    setSelectedHours((prevSelectedHours) =>
-                      prevSelectedHours.filter(
-                        ([start, end]) =>
-                          !(start === slot.start && end === slot.end)
+                    ) {
+                      if (!isAlreadySelected) {
+                        setSelectedHours((selectedHours) => [
+                          ...selectedHours,
+                          [slot.start, slot.end],
+                        ])
+                      }
+                    } else {
+                      setSelectedHours((prevSelectedHours) =>
+                        prevSelectedHours.filter(
+                          ([start, end]) =>
+                            !(start === slot.start && end === slot.end)
+                        )
                       )
-                    )
-                  }
-                }}
-              >
-                {slot.start}
-                <span className="flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                    stroke="currentColor"
-                    className="w-4 h-4 mx-2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-                    />
-                  </svg>
+                    }
+                  }}
+                >
+                  {slot.start}
+                  <span className="flex items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                      stroke="currentColor"
+                      className="w-4 h-4 mx-2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                      />
+                    </svg>
+                  </span>
+                  {slot.end}
                 </span>
-                {slot.end}
-              </span>
-            )
-          })}
-        </span>
+              )
+            })}
+          </span>
 
-        <h1 className="ml-2 font-semibold mt-4">Organisateur</h1>
-        <span className="p-2">
-          <SearchInput
-            selectedUser={selectedUser}
-            setSelectedUser={setSelectedUser}
-            listCustomer={listCustomer}
-          />
-        </span>
-        <div className="mt-4">
-          <h1 className="ml-2 font-semibold">Notes</h1>
-          <span className="flex">
-            <textarea
-              className="mt-6 p-2 block w-full rounded-md border border-gray-300 sm:text-sm focus:outline-none mx-2 resize-none"
-              placeholder="Ajoutez des informations supplémentaires..."
-              rows={3}
-              value={textValue}
-              onChange={(e) => {
-                setTextValue(e.target.value)
-              }}
+          <h1 className="ml-2 font-semibold mt-4">Organisateur</h1>
+          <span className="p-2">
+            <SearchInput
+              selectedUser={selectedUser}
+              setSelectedUser={setSelectedUser}
+              listCustomer={listCustomer}
+              showModal={showModal}
+              setShowModal={setShowModal}
             />
           </span>
-        </div>
-        <div className="mt-6 mb-4 flex items-center justify-end gap-x-6 mr-2 sm:col-span-6">
-          <Link
-            to="/"
-            onClick={() => {
-              window.scrollTo(0, 0)
-            }}
-          >
-            <button
-              type="button"
-              className="text-sm font-semibold leading-6 text-gray-900"
+          <div className="mt-4">
+            <h1 className="ml-2 font-semibold">Notes</h1>
+            <span className="flex">
+              <textarea
+                className="mt-6 p-2 block w-full rounded-md border border-gray-300 sm:text-sm focus:outline-none mx-2 resize-none"
+                placeholder="Ajoutez des informations supplémentaires..."
+                rows={3}
+                value={textValue}
+                onChange={(e) => {
+                  setTextValue(e.target.value)
+                }}
+              />
+            </span>
+          </div>
+          <div className="mt-6 mb-4 flex items-center justify-end gap-x-6 mr-2 sm:col-span-6">
+            <Link
+              to="/"
+              onClick={() => {
+                window.scrollTo(0, 0)
+              }}
             >
-              Annuler
-            </button>
-          </Link>
+              <button
+                type="button"
+                className="text-sm font-semibold leading-6 text-gray-900"
+              >
+                Annuler
+              </button>
+            </Link>
 
-          <button
-            onClick={() => {
-              handleSendData()
-            }}
-            className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-          >
-            Valider
-          </button>
+            <button
+              onClick={() => {
+                handleSendData()
+              }}
+              className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+            >
+              Valider
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

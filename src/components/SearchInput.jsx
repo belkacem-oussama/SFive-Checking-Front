@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
 
 import SelectedUser from "./SelectedUser.jsx"
 
@@ -7,6 +6,8 @@ export default function SearchInput({
   selectedUser,
   setSelectedUser,
   listCustomer,
+  showModal,
+  setShowModal,
 }) {
   const [searchTerm, setSearchTerm] = useState("")
   const [displayResults, setDisplayResults] = useState(false)
@@ -67,31 +68,29 @@ export default function SearchInput({
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none"
             />
-            <Link
-              to="/customers/add"
-              onClick={() => {
-                window.scrollTo(0, 0)
-              }}
-            >
-              <span>
-                <button className="right-0 px-3 py-3 bg-white hover:bg-gray-300 text-gray-700 focus:outline-none border border-gray-300 rounded-md ml-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2.5"
-                    stroke="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4.5v15m7.5-7.5h-15"
-                    />
-                  </svg>
-                </button>
-              </span>
-            </Link>
+            <span>
+              <button
+                onClick={() => {
+                  setShowModal(true)
+                }}
+                className="right-0 px-3 py-3 bg-white hover:bg-gray-300 text-gray-700 focus:outline-none border border-gray-300 rounded-md ml-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2.5"
+                  stroke="currentColor"
+                  className="w-4 h-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
+                </svg>
+              </button>
+            </span>
           </div>
           {displayResults && (
             <div
