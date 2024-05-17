@@ -65,21 +65,6 @@ export default function App() {
           let data
 
           switch (currentUrl) {
-            case "/customers":
-              response = await fetch(
-                `${import.meta.env.VITE_APP_API_URL}/customers`,
-                { headers }
-              )
-
-              if (!response.ok) {
-                throw new Error("Erreur lors de la récupération des données")
-              }
-
-              data = await response.json()
-              setListCustomer(data)
-              setTotalPage(Math.ceil(data.length / 10))
-              break
-
             case "/booking":
               response = await fetch(
                 `${import.meta.env.VITE_APP_API_URL}/checkings`,
