@@ -184,6 +184,7 @@ export default function FieldCalendar({
       })
       if (booking) {
         navigate(`/booking/${booking.id}`)
+        window.scrollTo(0, 0)
       }
     } else {
       setClickHours(time)
