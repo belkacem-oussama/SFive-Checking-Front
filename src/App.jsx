@@ -28,7 +28,6 @@ export default function App() {
   //States
   const [showAlert, setShowAlert] = useState(false)
   const [listCustomer, setListCustomer] = useState([])
-  const [listBooking, setListBooking] = useState([])
   const [listFields, setListFields] = useState([])
   const [prices, setPrices] = useState({
     field_price_1: "",
@@ -65,19 +64,6 @@ export default function App() {
           let data
 
           switch (currentUrl) {
-            case "/booking":
-              response = await fetch(
-                `${import.meta.env.VITE_APP_API_URL}/checkings`,
-                { headers }
-              )
-              if (!response.ok) {
-                throw new Error("Erreur lors de la récupération des données")
-              }
-
-              data = await response.json()
-              setListBooking(data)
-              break
-
             case "/book":
               response = await fetch(
                 `${import.meta.env.VITE_APP_API_URL}/customers`,
@@ -160,15 +146,7 @@ export default function App() {
             />
           }
         />
-        <Route
-          path="/booking"
-          element={
-            <Booking
-              listBooking={listBooking}
-              setListBooking={setListBooking}
-            />
-          }
-        />
+        <Route path="/booking" element={<Booking />} />
         <Route path="/booking/:id" element={<UpdateChecking />} />
         <Route
           path="/customers"

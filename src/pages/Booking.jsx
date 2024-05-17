@@ -1,17 +1,20 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import Cookies from "js-cookie"
 
 import SearchBar from "../components/Search.jsx"
 import Popup from "../components/Popup.jsx"
 import Alert from "../components/Alert.jsx"
+import LoaderComponent from "../components/Loader.jsx"
 
-export default function Booking({ listBooking, setListBooking }) {
+export default function Booking() {
   const [showPopUp, setShowPopUp] = useState(false)
+  const [listBooking, setListBooking] = useState([])
   const [bookingId, setBookingId] = useState(null)
   const [checkButton, setCheckButton] = useState(true)
   const [inputSearch, setInputSearch] = useState("")
   const [showAlert, setShowAlert] = useState(false)
+  const [showLoader, setShowLoader] = useState(false)
 
   const deleteMessage = `Réservation ${bookingId} annulée.`
   const updateMessage = `Réservation ${bookingId} terminée.`
@@ -27,6 +30,33 @@ export default function Booking({ listBooking, setListBooking }) {
     setBookingId(id)
     setCheckButton(true)
   }
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        setShowLoader(true)
+        const token = Cookies.get("token")
+        if (token) {
+          const headers = { Authorization: token }
+          const response = await fetch(
+            `${import.meta.env.VITE_APP_API_URL}/checkings`,
+            { headers }
+          )
+
+          if (!response.ok) {
+            throw new Error("Erreur lors de la récupération des données")
+          }
+
+          const data = await response.json()
+          setListBooking(data)
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setShowLoader(false)
+      }
+    }
+    fetchBookings()
+  }, [])
 
   const handleUpdateBooking = async () => {
     try {
@@ -157,109 +187,114 @@ export default function Booking({ listBooking, setListBooking }) {
           handleUpdateBooking={handleUpdateBooking}
         />
       )}
+      {showLoader ? (
+        <div className="flex justify-center items-center h-screen ">
+          <LoaderComponent />
+        </div>
+      ) : (
+        <ul role="list" className="divide-y divide-gray-100">
+          {filteredBookings.length === 0 && (
+            <p className="flex items-center justify-center h-screen text-gray-500">
+              Aucune réservation pour le moment.
+            </p>
+          )}
 
-      <ul role="list" className="divide-y divide-gray-100">
-        {filteredBookings.length === 0 && (
-          <p className="flex items-center justify-center h-screen text-gray-500">
-            Aucune réservation pour le moment.
-          </p>
-        )}
-
-        {filteredBookings.map((checking) => (
-          <li
-            key={checking.id}
-            className="flex flex-col sm:flex-row justify-between gap-x-6 px-4 py-5 border-solid border-b-2 hover:bg-gray-100"
-          >
-            <div className="flex flex-col sm:flex-row gap-x-4 items-start sm:items-center w-full">
-              <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-800">
-                  #{checking.id} - {checking.customer.customer_surname}{" "}
-                  {checking.customer.customer_firstname}
-                </p>
-                <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                  <span className="font-bold">Tél : </span>
-                  {checking.customer.customer_phone}
-                </p>
-                <br />
-                {checking.checking_type && checking.checking_type === 2 ? (
-                  <div>
+          {filteredBookings.map((checking) => (
+            <li
+              key={checking.id}
+              className="flex flex-col sm:flex-row justify-between gap-x-6 px-4 py-5 border-solid border-b-2 hover:bg-gray-100"
+            >
+              <div className="flex flex-col sm:flex-row gap-x-4 items-start sm:items-center w-full">
+                <div className="min-w-0 flex-auto">
+                  <p className="text-sm font-semibold leading-6 text-gray-800">
+                    #{checking.id} - {checking.customer.customer_surname}{" "}
+                    {checking.customer.customer_firstname}
+                  </p>
+                  <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                    <span className="font-bold">Tél : </span>
+                    {checking.customer.customer_phone}
+                  </p>
+                  <br />
+                  {checking.checking_type && checking.checking_type === 2 ? (
+                    <div>
+                      <p className="mt-1 text-xs leading-5 text-gray-500">
+                        <span className="font-bold">Type : </span>
+                        {checking.checking_type === 2
+                          ? " Anniversaire"
+                          : " Classique"}
+                      </p>
+                      <p className="mt-1 text-xs leading-5 text-gray-500">
+                        <span className="font-bold">Gâteau : </span>
+                        {checking.checking_cake == 1 ? " Chocolat" : " Fraise"}
+                      </p>
+                      <p className="mt-1 text-xs leading-5 text-gray-500">
+                        <span className="font-bold">Âge : </span>
+                        {checking.checking_kid_age &&
+                          checking.checking_kid_age}{" "}
+                        ans
+                      </p>
+                      <p className="mt-1 text-xs leading-5 text-gray-500">
+                        <span className="font-bold">Nombre : </span>
+                        {checking.checking_kid_number &&
+                          checking.checking_kid_number}
+                      </p>
+                    </div>
+                  ) : (
                     <p className="mt-1 text-xs leading-5 text-gray-500">
                       <span className="font-bold">Type : </span>
-                      {checking.checking_type === 2
-                        ? " Anniversaire"
-                        : " Classique"}
+                      Classique
                     </p>
+                  )}
+                  {checking.checking_start && (
                     <p className="mt-1 text-xs leading-5 text-gray-500">
-                      <span className="font-bold">Gâteau : </span>
-                      {checking.checking_cake == 1 ? " Chocolat" : " Fraise"}
+                      <span className="font-bold">Date : </span>
+                      {formatDateFromString(checking.checking_start)}
                     </p>
+                  )}
+                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <span className="font-bold">Créneau : </span>
+                    {formatTimeFromString(checking.checking_start)} -{" "}
+                    {formatTimeFromString(checking.checking_end)}
+                  </p>
+                  {checking.field && (
                     <p className="mt-1 text-xs leading-5 text-gray-500">
-                      <span className="font-bold">Âge : </span>
-                      {checking.checking_kid_age &&
-                        checking.checking_kid_age}{" "}
-                      ans
+                      <span className="font-bold">Terrain : </span>
+                      {checking.field.id}
                     </p>
+                  )}
+                  {checking.checking_price && (
                     <p className="mt-1 text-xs leading-5 text-gray-500">
-                      <span className="font-bold">Nombre : </span>
-                      {checking.checking_kid_number &&
-                        checking.checking_kid_number}
+                      <span className="font-bold">Prix : </span>
+                      {checking.checking_price} €
                     </p>
-                  </div>
-                ) : (
-                  <p className="mt-1 text-xs leading-5 text-gray-500">
-                    <span className="font-bold">Type : </span>
-                    Classique
-                  </p>
-                )}
-                {checking.checking_start && (
-                  <p className="mt-1 text-xs leading-5 text-gray-500">
-                    <span className="font-bold">Date : </span>
-                    {formatDateFromString(checking.checking_start)}
-                  </p>
-                )}
-                <p className="mt-1 text-xs leading-5 text-gray-500">
-                  <span className="font-bold">Créneau : </span>
-                  {formatTimeFromString(checking.checking_start)} -{" "}
-                  {formatTimeFromString(checking.checking_end)}
-                </p>
-                {checking.field && (
-                  <p className="mt-1 text-xs leading-5 text-gray-500">
-                    <span className="font-bold">Terrain : </span>
-                    {checking.field.id}
-                  </p>
-                )}
-                {checking.checking_price && (
-                  <p className="mt-1 text-xs leading-5 text-gray-500">
-                    <span className="font-bold">Prix : </span>
-                    {checking.checking_price} €
-                  </p>
-                )}
-                {checking.checking_notes && (
-                  <p className="mt-1 text-xs leading-5 text-gray-500">
-                    <span className="font-bold">Notes : </span>
-                    {checking.checking_notes}
-                  </p>
-                )}
+                  )}
+                  {checking.checking_notes && (
+                    <p className="mt-1 text-xs leading-5 text-gray-500">
+                      <span className="font-bold">Notes : </span>
+                      {checking.checking_notes}
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="flex justify-evenly w-auto md:items-center md:p-2 mt-6 md:flex-col md:w-26 ">
-              <button
-                value={checkButton}
-                onClick={() => handleCheckBooking(checking.id)}
-                className="font-bold px-4 py-2 bg-green-600 text-white rounded-md mr-4 hover:bg-green-800 md:mr-0 "
-              >
-                Terminer
-              </button>
-              <button
-                onClick={() => handleDropBooking(checking.id)}
-                className="font-bold px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900"
-              >
-                Annuler
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+              <div className="flex justify-evenly w-auto md:items-center md:p-2 mt-6 md:flex-col md:w-26 ">
+                <button
+                  value={checkButton}
+                  onClick={() => handleCheckBooking(checking.id)}
+                  className="font-bold px-4 py-2 bg-green-600 text-white rounded-md mr-4 hover:bg-green-800 md:mr-0 "
+                >
+                  Terminer
+                </button>
+                <button
+                  onClick={() => handleDropBooking(checking.id)}
+                  className="font-bold px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900"
+                >
+                  Annuler
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   )
 }
