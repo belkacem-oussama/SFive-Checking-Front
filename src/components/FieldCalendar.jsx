@@ -422,6 +422,9 @@ export default function FieldCalendar({
                                 {b.startTime} - {b.endTime}
                               </div>
                               <div>
+                                {b.checking_notes !== "" && b.checking_notes}
+                              </div>
+                              <div>
                                 {b.type == 2
                                   ? `${b.checking_kid_age} ans`
                                   : null}
