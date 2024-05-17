@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import Cookies from "js-cookie"
 
@@ -16,6 +17,7 @@ export default function Booking() {
   const [showAlert, setShowAlert] = useState(false)
   const [showLoader, setShowLoader] = useState(false)
 
+  const navigate = useNavigate()
   const deleteMessage = `Réservation ${bookingId} annulée.`
   const updateMessage = `Réservation ${bookingId} terminée.`
 
@@ -202,6 +204,9 @@ export default function Booking() {
           {filteredBookings.map((checking) => (
             <li
               key={checking.id}
+              onClick={() => {
+                navigate(`/booking/${checking.id}`)
+              }}
               className="flex flex-col sm:flex-row justify-between gap-x-6 px-4 py-5 border-solid border-b-2 hover:bg-gray-100"
             >
               <div className="flex flex-col sm:flex-row gap-x-4 items-start sm:items-center w-full">
