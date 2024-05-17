@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
 
 import Cookies from "js-cookie"
 
@@ -17,7 +16,6 @@ export default function Booking() {
   const [showAlert, setShowAlert] = useState(false)
   const [showLoader, setShowLoader] = useState(false)
 
-  const navigate = useNavigate()
   const deleteMessage = `Réservation ${bookingId} annulée.`
   const updateMessage = `Réservation ${bookingId} terminée.`
 
