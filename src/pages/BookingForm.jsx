@@ -223,59 +223,137 @@ export default function BookingForm({
     if (!selectedHours || selectedHours.length === 0) {
       return
     }
+
     const hasSlotStartingAt00 = selectedHours.some(([start]) =>
       start.startsWith("00")
     )
 
     if (hasSlotStartingAt00) {
-      if (
-        selectedHours.length === 4 &&
-        selectedHours.sort()[2][0] === "23:00"
-      ) {
-        startedHours = selectedHours.sort()[2][0]
-        endedHours = selectedHours.sort()[1][1]
-      } else if (
-        selectedHours.length === 4 &&
-        selectedHours.sort()[0][0] === "00:00"
-      ) {
-        startedHours = selectedHours.sort()[0][0]
-        endedHours = selectedHours.sort()[3][1]
-      } else if (
-        selectedHours.length === 3 &&
-        selectedHours.sort()[1][0] === "23:00"
-      ) {
-        startedHours = selectedHours.sort()[1][0]
-        endedHours = selectedHours.sort()[0][1]
-      } else if (
-        selectedHours.length === 3 &&
-        selectedHours.sort()[2][0] === "23:30"
-      ) {
-        startedHours = selectedHours.sort()[2][0]
-        endedHours = selectedHours.sort()[1][1]
-      } else if (
-        selectedHours.length === 3 &&
-        selectedHours.sort()[0][0] === "00:30"
-      ) {
-        startedHours = selectedHours.sort()[0][0]
-        endedHours = selectedHours.sort()[2][1]
-      } else if (
-        selectedHours.length === 3 &&
-        selectedHours.sort()[0][0] === "00:00"
-      ) {
-        startedHours = selectedHours.sort()[0][0]
-        endedHours = selectedHours.sort()[2][1]
-      } else if (
-        selectedHours.length === 2 &&
-        selectedHours.sort()[0][0] === "00:00"
-      ) {
-        startedHours = selectedHours.sort()[0][0]
-        endedHours = selectedHours.sort()[1][1]
-      } else if (
-        selectedHours.length === 2 &&
-        selectedHours.sort()[0][0] === "00:30"
-      ) {
-        startedHours = selectedHours.sort()[0][0]
-        endedHours = selectedHours.sort()[1][1]
+      // Créneaux de 2 heures
+      if (selectedHours.length === 4) {
+        if (
+          //De 22:00 à 00:00
+          selectedHours.sort()[0][0] === "22:00" &&
+          selectedHours.sort()[1][0] === "22:30" &&
+          selectedHours.sort()[2][0] === "23:00" &&
+          selectedHours.sort()[3][0] === "23:30"
+        ) {
+          startedHours = selectedHours.sort()[0][0]
+          endedHours = selectedHours.sort()[3][1]
+        } else if (
+          // De 22:30 à 00:30
+          selectedHours.sort()[0][0] === "00:00" &&
+          selectedHours.sort()[1][0] === "22:30" &&
+          selectedHours.sort()[2][0] === "23:00" &&
+          selectedHours.sort()[3][0] === "23:30"
+        ) {
+          startedHours = selectedHours.sort()[1][0]
+          endedHours = selectedHours.sort()[0][1]
+        } else if (
+          //De 23:00 à 01:00
+          selectedHours.sort()[0][0] == "00:00" &&
+          selectedHours.sort()[1][0] === "00:30" &&
+          selectedHours.sort()[2][0] === "23:00" &&
+          selectedHours.sort()[3][0] === "23:30"
+        ) {
+          startedHours = selectedHours.sort()[2][0]
+          endedHours = selectedHours.sort()[1][1]
+        } else if (
+          //De 23:30 à 01:30
+          selectedHours.sort()[0][0] == "00:00" &&
+          selectedHours.sort()[1][0] === "00:30" &&
+          selectedHours.sort()[2][0] === "01:00" &&
+          selectedHours.sort()[3][0] === "23:30"
+        ) {
+          startedHours = selectedHours.sort()[3][0]
+          endedHours = selectedHours.sort()[2][1]
+        } else if (
+          //De 00:00 à 02:00
+          selectedHours.sort()[0][0] == "00:00" &&
+          selectedHours.sort()[1][0] === "00:30" &&
+          selectedHours.sort()[2][0] === "01:00" &&
+          selectedHours.sort()[3][0] === "01:30"
+        ) {
+          startedHours = selectedHours.sort()[0][0]
+          endedHours = selectedHours.sort()[3][1]
+        }
+      }
+      // Créneaux de 1h30
+      if (selectedHours.length === 3) {
+        if (
+          selectedHours.sort()[0][0] === "22:30" &&
+          selectedHours.sort()[1][0] === "23:00" &&
+          selectedHours.sort()[2][0] === "23:30"
+        ) {
+          // De 22:30 à 00:00
+          startedHours = selectedHours.sort()[0][0]
+          endedHours = selectedHours.sort()[2][1]
+        } else if (
+          selectedHours.sort()[0][0] === "00:00" &&
+          selectedHours.sort()[1][0] === "23:00" &&
+          selectedHours.sort()[2][0] === "23:30"
+        ) {
+          // De 23:00 à 00:30
+          startedHours = selectedHours.sort()[1][0]
+          endedHours = selectedHours.sort()[0][1]
+        } else if (
+          selectedHours.sort()[0][0] === "00:00" &&
+          selectedHours.sort()[1][0] === "00:30" &&
+          selectedHours.sort()[2][0] === "23:30"
+        ) {
+          // De 23:30 à 01:00
+          startedHours = selectedHours.sort()[2][0]
+          endedHours = selectedHours.sort()[1][1]
+        } else if (
+          selectedHours.sort()[0][0] === "00:00" &&
+          selectedHours.sort()[1][0] === "00:30" &&
+          selectedHours.sort()[2][0] === "01:00"
+        ) {
+          //De 00:00 à 01:30
+          startedHours = selectedHours.sort()[0][0]
+          endedHours = selectedHours.sort()[2][1]
+        } else if (
+          selectedHours.length === 3 &&
+          selectedHours.sort()[0][0] === "00:30" &&
+          selectedHours.sort()[1][0] === "01:00" &&
+          selectedHours.sort()[2][0] === "01:30"
+        ) {
+          //De 00:30 à 02:00
+          startedHours = selectedHours.sort()[0][0]
+          endedHours = selectedHours.sort()[2][1]
+        }
+      }
+      // Créneaux de 1 heure
+      if (selectedHours.length === 2) {
+        if (
+          selectedHours.sort()[0][0] === "23:00" &&
+          selectedHours.sort()[1][0] === "23:30"
+        ) {
+          // De 23:00 à 00:00
+          startedHours = selectedHours.sort()[0][0]
+          endedHours = selectedHours.sort()[1][1]
+        } else if (
+          selectedHours.sort()[0][0] === "00:00" &&
+          selectedHours.sort()[1][0] === "23:30"
+        ) {
+          // De 23:30 à 00:30
+          startedHours = selectedHours.sort()[1][0]
+          endedHours = selectedHours.sort()[0][1]
+        } else if (
+          selectedHours.sort()[0][0] === "00:00" &&
+          selectedHours.sort()[1][0] === "00:30"
+        ) {
+          // De 00:00 à 01:00
+          startedHours = selectedHours.sort()[0][0]
+          endedHours = selectedHours.sort()[1][1]
+        } else if (
+          selectedHours.sort()[0][0] === "00:30" &&
+          selectedHours.sort()[1][0] === "01:00"
+        ) {
+          // De 00:30 à 01:30
+          startedHours = selectedHours.sort()[0][0]
+          endedHours = selectedHours.sort()[1][1]
+        }
       }
     } else {
       startedHours = selectedHours.sort()[0][0]
