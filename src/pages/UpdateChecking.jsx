@@ -110,7 +110,7 @@ export default function UpdateChecking() {
             "Content-Type": "application/json",
             Authorization: `${Cookies.get("token")}`,
           },
-          body: JSON.stringify({ checking_status: 0 }), // Assuming 0 marks the reservation as completed
+          body: JSON.stringify({ checking_status: 0 }),
         }
       )
 
