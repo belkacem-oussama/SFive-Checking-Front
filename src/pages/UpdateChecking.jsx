@@ -16,6 +16,7 @@ export default function UpdateChecking() {
     checking_price: 0,
     customer_firstname: "",
     customer_surname: "",
+    customer_phone: "",
     field_name: "",
     checking_start: "",
     checking_end: "",
@@ -38,6 +39,7 @@ export default function UpdateChecking() {
 
         if (response.ok) {
           const checking = await response.json()
+
           setCheckingData({
             checking_type: checking.checking_type,
             checking_notes: checking.checking_notes || "",
@@ -45,6 +47,7 @@ export default function UpdateChecking() {
             checking_price: checking.checking_price,
             customer_firstname: checking.customer.customer_firstname,
             customer_surname: checking.customer.customer_surname,
+            customer_phone: checking.customer.customer_phone,
             field_name: checking.field.field_name,
             checking_start: checking.checking_start,
             checking_end: checking.checking_end,
@@ -227,6 +230,17 @@ export default function UpdateChecking() {
                   </label>
                   <span className="w-32 text-center ">
                     {checkingData.customer_surname}
+                  </span>
+                </div>
+                <div className="flex items-center space-x-4 p-2">
+                  <label
+                    htmlFor="customer_surname"
+                    className="block text-sm font-medium text-gray-700 w-1/3"
+                  >
+                    Téléphone
+                  </label>
+                  <span className="w-32 text-center ">
+                    {checkingData.customer_phone}
                   </span>
                 </div>
                 <div className="flex items-center space-x-4 p-2">
