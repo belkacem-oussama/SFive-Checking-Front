@@ -154,6 +154,12 @@ export default function App() {
     fetchData()
   }, [currentUrl])
 
+  useEffect(() => {
+    if (currentUrl === "/") {
+      window.scrollTo(0, 0)
+    }
+  }, [currentUrl])
+
   return (
     <React.Fragment>
       <Header />

@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }) => {
             navigate("/login")
           } else {
             setIsLogged(true)
-            window.scrollTo(0, 0)
             navigate("/")
           }
         } catch (error) {

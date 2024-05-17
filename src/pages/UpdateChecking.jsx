@@ -320,12 +320,7 @@ export default function UpdateChecking() {
                 </div>
               </div>
               <div className="flex justify-end p-2 space-x-4">
-                <Link
-                  to="/"
-                  onClick={() => {
-                    window.scrollTo(0, 0)
-                  }}
-                >
+                <Link to="/">
                   <button
                     type="button"
                     className="inline-flex justify-center py-2 px-4 border-none text-sm font-medium rounded-md text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"

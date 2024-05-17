@@ -447,7 +447,6 @@ export default function BookingForm({
         if (response.ok) {
           navigate("/")
           handleReset()
-          window.scrollTo(0, 0)
           const jsonData = await response.json()
         }
       }
