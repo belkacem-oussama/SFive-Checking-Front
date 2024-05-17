@@ -98,6 +98,8 @@ export default function FieldCalendar({
           }
         }
 
+        const checking_notes = booking.checking_notes
+
         acc[fieldId].bookings.push({
           id: checking_id,
           startTime: startTime,
@@ -108,6 +110,7 @@ export default function FieldCalendar({
           checking_cake: checking_cake,
           checking_kid_age: checking_kid_age,
           checking_kid_number: checking_kid_number,
+          checking_notes: checking_notes,
         })
 
         return acc
@@ -308,6 +311,9 @@ export default function FieldCalendar({
                               </div>
                               <div>
                                 {b.startTime} - {b.endTime}
+                              </div>
+                              <div>
+                                {b.checking_notes !== "" && b.checking_notes}
                               </div>
                               <div>
                                 {b.type == 2
