@@ -239,10 +239,16 @@ export default function UpdateChecking() {
                   >
                     Téléphone
                   </label>
-                  <span className="w-32 text-center ">
-                    {checkingData.customer_phone}
+                  <span className="w-32 text-center">
+                    <a
+                      href={`tel:${checkingData.customer_phone}`}
+                      className="text-blue-600 hover:underline"
+                    >
+                      {checkingData.customer_phone}
+                    </a>
                   </span>
                 </div>
+
                 <div className="flex items-center space-x-4 p-2">
                   <label
                     htmlFor="field_name"
