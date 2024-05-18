@@ -201,7 +201,7 @@ export default function App() {
           }
         />
 
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </React.Fragment>
