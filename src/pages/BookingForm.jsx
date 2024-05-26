@@ -624,7 +624,7 @@ export default function BookingForm({
                             start === slot.start && end === slot.end
                         )
                       ? "bg-gray-900 text-white border-none "
-                      : "hover:bg-gray-900 hover:text-white hover:border-none "
+                      : "md:hover:bg-gray-900 md:hover:text-white md:hover:border-none "
                   }`}
                   onClick={() => {
                     const isBooked = bookingDayArray.some(
