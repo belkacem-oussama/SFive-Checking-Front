@@ -20,7 +20,17 @@ export default function Home({
     year: "numeric",
   }
 
-  const currentDate = new Date().toLocaleDateString("fr-FR", options)
+  const currentDate = new Date()
+
+  const nextDate = new Date(currentDate)
+  nextDate.setDate(currentDate.getDate() + 1)
+
+  // Formater la date au format français avec les options fournies
+  const formattedNextDate = nextDate.toLocaleDateString("fr-FR", options)
+
+  // Consigner la date du jour suivant dans la console
+  console.log(formattedNextDate)
+
   let backDate = moment().format("YYYY-MM-DD")
 
   const handleDatePickerChange = (date) => {
@@ -29,7 +39,9 @@ export default function Home({
     setSelectedDateHome(homePageDate)
   }
 
-  const [selectedDateHome, setSelectedDateHome] = useState(currentDate)
+  const [selectedDateHome, setSelectedDateHome] = useState(
+    currentDate.toLocaleDateString("fr-FR", options)
+  )
   const [apiDate, setApiDate] = useState(backDate)
   const [todaysBooking, setTodaysBookings] = useState()
   const [showLoader, setShowLoader] = useState(false)
