@@ -12,7 +12,7 @@ export default function Home({
   clickField,
   setClickField,
 }) {
-  //Date for HomePage
+  // Options pour formater la date
   const options = {
     weekday: "long",
     day: "2-digit",
@@ -22,14 +22,8 @@ export default function Home({
 
   const currentDate = new Date()
 
-  const nextDate = new Date(currentDate)
-  nextDate.setDate(currentDate.getDate() + 1)
-
   // Formater la date au format français avec les options fournies
-  const formattedNextDate = nextDate.toLocaleDateString("fr-FR", options)
-
-  // Consigner la date du jour suivant dans la console
-  console.log(formattedNextDate)
+  const formattedCurrentDate = currentDate.toLocaleDateString("fr-FR", options)
 
   let backDate = moment().format("YYYY-MM-DD")
 
@@ -39,9 +33,7 @@ export default function Home({
     setSelectedDateHome(homePageDate)
   }
 
-  const [selectedDateHome, setSelectedDateHome] = useState(
-    currentDate.toLocaleDateString("fr-FR", options)
-  )
+  const [selectedDateHome, setSelectedDateHome] = useState(formattedCurrentDate)
   const [apiDate, setApiDate] = useState(backDate)
   const [todaysBooking, setTodaysBookings] = useState()
   const [showLoader, setShowLoader] = useState(false)
@@ -79,6 +71,28 @@ export default function Home({
     fetchData()
   }, [selectedDateHome])
 
+  const handlePrevDate = () => {
+    const selectedDateObj = new Date(apiDate)
+    // Soustraire un jour
+    selectedDateObj.setDate(selectedDateObj.getDate() - 1)
+    // Formater la date précédente
+    const previousDate = selectedDateObj.toLocaleDateString("fr-FR", options)
+    // Mettre à jour les états
+    setSelectedDateHome(previousDate)
+    setApiDate(moment(selectedDateObj).format("YYYY-MM-DD"))
+  }
+
+  const handleNextDate = () => {
+    const selectedDateObj = new Date(apiDate)
+    // Ajouter un jour
+    selectedDateObj.setDate(selectedDateObj.getDate() + 1)
+    // Formater la date suivante
+    const nextDate = selectedDateObj.toLocaleDateString("fr-FR", options)
+    // Mettre à jour les états
+    setSelectedDateHome(nextDate)
+    setApiDate(moment(selectedDateObj).format("YYYY-MM-DD"))
+  }
+
   return (
     <div>
       <div className="text-center py-4 border-b mx-2 border-gray-900/10 pb-3 md:text-left">
@@ -89,7 +103,7 @@ export default function Home({
               handleDatePickerChange={handleDatePickerChange}
             />
           </span>
-          <span className="mr-2">
+          <span className="mr-2" onClick={handlePrevDate}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -105,7 +119,7 @@ export default function Home({
               />
             </svg>
           </span>
-          <span className="ml-2">
+          <span className="ml-2" onClick={handleNextDate}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
