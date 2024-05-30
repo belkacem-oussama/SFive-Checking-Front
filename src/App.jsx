@@ -38,6 +38,7 @@ export default function App() {
   const [page, setPage] = useState(1)
   const [clickField, setClickField] = useState("")
   const [clickHours, setClickHours] = useState("")
+  const [clickDate, setClickDate] = useState("")
   const [totalPage, setTotalPage] = useState(0)
 
   let currentUrl = useLocation().pathname
@@ -143,6 +144,8 @@ export default function App() {
               setClickHours={setClickHours}
               clickField={clickField}
               setClickField={setClickField}
+              clickDate={clickDate}
+              setClickDate={setClickDate}
             />
           }
         />
@@ -197,6 +200,8 @@ export default function App() {
               setClickHours={setClickHours}
               clickField={clickField}
               setClickField={setClickField}
+              clickDate={clickDate}
+              setClickDate={setClickDate}
             />
           }
         />

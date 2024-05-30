@@ -11,6 +11,8 @@ export default function Home({
   setClickHours,
   clickField,
   setClickField,
+  clickDate,
+  setClickDate,
 }) {
   // Options pour formater la date
   const options = {
@@ -161,6 +163,10 @@ export default function Home({
           setShowLoader={setShowLoader}
           clickField={clickField}
           setClickField={setClickField}
+          clickDate={clickDate}
+          setClickDate={setClickDate}
+          apiDate={apiDate}
+          setApiDate={setApiDate}
         />
       </div>
     </div>

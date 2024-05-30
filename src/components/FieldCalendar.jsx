@@ -52,6 +52,10 @@ export default function FieldCalendar({
   setClickHours,
   clickField,
   setClickField,
+  clickDate,
+  setClickDate,
+  apiDate,
+  setApiDate,
 }) {
   const [isBooked, setIsBooked] = useState([])
   const navigate = useNavigate()
@@ -192,6 +196,7 @@ export default function FieldCalendar({
     } else {
       setClickHours(time)
       setClickField(fieldName)
+      setClickDate(apiDate)
       navigate("/book")
     }
   }
