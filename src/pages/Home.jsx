@@ -70,11 +70,46 @@ export default function Home({
   return (
     <div>
       <div className="text-center py-4 border-b mx-2 border-gray-900/10 pb-3 md:text-left">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:ml-2"></h2>
-        <SmallCalendar
-          selectedDateHome={selectedDateHome}
-          handleDatePickerChange={handleDatePickerChange}
-        />
+        <div className="flex justify-center items-center ">
+          <span className="mr-4 flex-grow ">
+            <SmallCalendar
+              selectedDateHome={selectedDateHome}
+              handleDatePickerChange={handleDatePickerChange}
+            />
+          </span>
+          <span className="mr-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 19.5 8.25 12l7.5-7.5"
+              />
+            </svg>
+          </span>
+          <span className="ml-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m8.25 4.5 7.5 7.5-7.5 7.5"
+              />
+            </svg>
+          </span>
+        </div>
         {todaysBooking && (
           <div className="mt-1 text-gray-500 p-1 text-center ">
             {todaysBooking.length === 0 ? (
@@ -89,6 +124,7 @@ export default function Home({
           </div>
         )}
       </div>
+
       <div>
         <FieldCalendar
           clickHours={clickHours}
