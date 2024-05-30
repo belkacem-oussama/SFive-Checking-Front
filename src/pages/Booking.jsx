@@ -202,9 +202,6 @@ export default function Booking() {
           {filteredBookings.map((checking) => (
             <li
               key={checking.id}
-              onClick={() => {
-                navigate(`/booking/${checking.id}`)
-              }}
               className="flex flex-col sm:flex-row justify-between gap-x-6 px-4 py-5 border-solid border-b-2 hover:bg-gray-100"
             >
               <div className="flex flex-col sm:flex-row gap-x-4 items-start sm:items-center w-full">
