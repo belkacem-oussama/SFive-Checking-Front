@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import "moment/locale/fr"
 
 import Cookies from "js-cookie"
 import { jwtDecode } from "jwt-decode"
@@ -24,6 +25,8 @@ export default function BookingForm({
   setClickHours,
   clickField,
   setClickField,
+  clickDate,
+  setClickDate,
 }) {
   const navigate = useNavigate()
 
@@ -76,6 +79,7 @@ export default function BookingForm({
 
   // Obtention de la date du jour avec le même format que formattedDate
   const options = { weekday: "long", day: "2-digit", month: "long" }
+
   const currentDate = new Date().toLocaleDateString("fr-FR", options)
 
   const handleDatePickerChange = (date) => {
@@ -112,9 +116,13 @@ export default function BookingForm({
       : 1
   )
 
-  const [selectedDate, setSelectedDate] = useState(currentDate)
+  const [selectedDate, setSelectedDate] = useState(
+    clickDate !== ""
+      ? moment(clickDate).locale("fr").format("dddd D MMMM YYYY")
+      : currentDate
+  )
   const [apiDate, setApiDate] = useState(
-    moment(new Date()).format("YYYY-MM-DD")
+    clickDate !== "" ? clickDate : moment(new Date()).format("YYYY-MM-DD")
   )
   const [selectedUser, setSelectedUser] = useState(null)
   const [textValue, setTextValue] = useState("")
@@ -155,6 +163,7 @@ export default function BookingForm({
     setSelectedHours([])
     setClickHours("")
     setClickField(1)
+    setClickDate("")
   }
 
   useEffect(() => {
